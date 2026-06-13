@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Luxe Retailer - Tài khoản</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#1b0600",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#e16415",
+                        "primary-container": "#310065",
+                        "on-primary-fixed-variant": "#58328c",
+                        "surface-container-low": "#f3f3f3",
+                        "tertiary-fixed": "#ffdbcb",
+                        "on-primary-fixed": "#290056",
+                        "primary-fixed": "#eddcff",
+                        "on-primary-container": "#9d77d5",
+                        "surface-variant": "#e2e2e2",
+                        "surface-container-high": "#e8e8e8",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#97a1ff",
+                        "on-background": "#1a1c1c",
+                        "on-secondary-fixed": "#000865",
+                        "inverse-surface": "#2f3131",
+                        "secondary-fixed-dim": "#bdc2ff",
+                        "on-tertiary-fixed": "#341000",
+                        "on-surface": "#1a1c1c",
+                        "outline": "#7c7482",
+                        "inverse-primary": "#d7baff",
+                        "error-container": "#ffdad6",
+                        "surface": "#f9f9f9",
+                        "surface-tint": "#704ba6",
+                        "outline-variant": "#ccc3d2",
+                        "on-secondary-container": "#29338c",
+                        "primary-fixed-dim": "#d7baff",
+                        "on-surface-variant": "#4a4451",
+                        "tertiary-container": "#3f1500",
+                        "surface-white": "#ffffff",
+                        "on-error": "#ffffff",
+                        "secondary": "#4c56af",
+                        "surface-container": "#eeeeee",
+                        "on-tertiary-fixed-variant": "#7a3000",
+                        "surface-container-highest": "#e2e2e2",
+                        "inverse-on-surface": "#f1f1f1",
+                        "accent-amber": "#ffd600",
+                        "surface-bright": "#f9f9f9",
+                        "on-secondary-fixed-variant": "#333d95",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#14002f",
+                        "tertiary-fixed-dim": "#ffb693",
+                        "secondary-fixed": "#dfe0ff",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dadada",
+                        "background": "#f9f9f9",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-screen": "1.5rem",
+                        "spacing-between-elements": "0.5rem",
+                        "padding-card": "1rem",
+                        "gutter-list": "0.75rem",
+                        "unit": "0.5rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .ambient-glow {
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-24 md:pb-0 font-body-md flex justify-center">
+<div class="w-full max-w-[428px] relative bg-surface-bright min-h-screen flex flex-col shadow-2xl">
+<!-- Ambient Background Depth -->
+<div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+<div class="absolute top-[-10%] left-[-20%] w-96 h-96 bg-primary/5 rounded-full blur-[80px]"></div>
+<div class="absolute bottom-[20%] right-[-10%] w-64 h-64 bg-tertiary/5 rounded-full blur-[60px]"></div>
+</div>
+<!-- TopAppBar -->
+<header class="bg-surface/80 backdrop-blur-md shadow-sm flex justify-between items-center w-full px-margin-screen h-16 sticky top-0 z-40">
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200 rounded-full p-2 -ml-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm text-primary">Tài khoản</h1>
+<div class="w-10"></div> <!-- Placeholder for balance -->
+</header>
+<main class="flex-1 px-margin-screen relative z-10 space-y-8 pt-8">
+<!-- User Profile Header Section -->
+<section class="flex flex-col items-center justify-center space-y-4">
+<div class="relative group">
+<img alt="User Avatar" class="w-28 h-28 rounded-full object-cover shadow-lg border-4 border-surface-white ambient-glow transition-transform duration-300 group-hover:scale-105" data-alt="A close up portrait of a sophisticated person in a well lit modern, minimalist studio setting. Soft, natural lighting highlights the clear skin and confident expression. The background is a clean, neutral white, typical of a high-end fashion or lifestyle brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA75r4DyP3j_8dW3ZFzkubx1F8uWLt9U9EV3QJJdVGflGXxJQegUwPZGfDWlNxdOZsaxZzRNu0V7nTFG24Gvi8BYVmRlaMEc0BRwVgK6dZ91PJHIKIchSWv6v37zRWWpUupHua139-OOZDKfpQgih_hUVXRccits42gpZG8jRko8kJQ6jFRYN4ciLv9vprtrmSloy5oOSBZhg1XsqdgkR4xnjxmy1seF374yFn5XbFFhhhhgM2g4yTNBw"/>
+<button class="absolute bottom-0 right-0 bg-primary text-on-primary rounded-full p-2 shadow-md hover:bg-primary-container transition-colors duration-200 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">edit</span>
+</button>
+</div>
+<div class="text-center space-y-1">
+<h2 class="font-headline-md text-headline-md text-primary">Thành</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">user@gmail.com</p>
+</div>
+</section>
+<!-- Menu List Section -->
+<section class="bg-surface-white rounded-[24px] p-2 ambient-glow space-y-1">
+<!-- Menu Item -->
+<a class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low transition-all duration-200 group" href="#">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary/10 transition-colors duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">person</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface">Thông tin cá nhân</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors duration-200">chevron_right</span>
+</a>
+<!-- Menu Item -->
+<a class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low transition-all duration-200 group" href="#">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary/10 transition-colors duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface">Lịch sử đơn hàng</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors duration-200">chevron_right</span>
+</a>
+<!-- Menu Item -->
+<a class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low transition-all duration-200 group" href="#">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary/10 transition-colors duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">lock_reset</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface">Đổi mật khẩu</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors duration-200">chevron_right</span>
+</a>
+<!-- Menu Item -->
+<a class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low transition-all duration-200 group" href="#">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center text-primary group-hover:bg-primary/10 transition-colors duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">info</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface">Giới thiệu ứng dụng</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors duration-200">chevron_right</span>
+</a>
+<!-- Divider -->
+<div class="h-[1px] bg-surface-variant mx-4 my-2"></div>
+<!-- Logout Item -->
+<button class="w-full flex items-center justify-between p-4 rounded-xl hover:bg-error-container/50 transition-all duration-200 group">
+<div class="flex items-center space-x-4">
+<div class="w-10 h-10 rounded-full bg-error-container/30 flex items-center justify-center text-error group-hover:bg-error/10 transition-colors duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">logout</span>
+</div>
+<span class="font-label-lg text-label-lg text-error">Đăng xuất</span>
+</div>
+<span class="material-symbols-outlined text-error/50 group-hover:text-error transition-colors duration-200">chevron_right</span>
+</button>
+</section>
+</main>
+<!-- BottomNavBar (User App) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 bg-surface-white dark:bg-surface-container-lowest shadow-[0_-4px_30px_rgba(0,0,0,0.08)] md:hidden max-w-[428px] md:relative md:max-w-none md:mx-auto lg:hidden xl:hidden 2xl:hidden sm:hidden" style="left: 50%; transform: translateX(-50%);">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200 rounded-lg p-2" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-md text-label-md">Trang chủ</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200 rounded-lg p-2" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">shopping_cart</span>
+<span class="font-label-md text-label-md">Giỏ hàng</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200 rounded-lg p-2" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">local_shipping</span>
+<span class="font-label-md text-label-md">Đơn hàng</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-tertiary-container text-on-tertiary-container dark:bg-tertiary dark:text-on-tertiary-container rounded-full px-4 py-1 hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-md text-label-md">Tài khoản</span>
+</a>
+</nav>
+</div>
+</body></html>

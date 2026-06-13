@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fashion Store - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#280056",
+                        "primary-container": "#4a148c",
+                        "surface-container-low": "#f3f3f3",
+                        "on-primary-fixed-variant": "#5a2a9c",
+                        "tertiary": "#3f1500",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1a1c1c",
+                        "on-secondary-fixed": "#000767",
+                        "primary-fixed": "#eddcff",
+                        "on-primary-container": "#b889ff",
+                        "surface-variant": "#e2e2e2",
+                        "surface-container-high": "#e8e8e8",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#959efd",
+                        "secondary-fixed-dim": "#bdc2ff",
+                        "inverse-surface": "#2f3131",
+                        "on-tertiary-container": "#ff7a2d",
+                        "on-tertiary-fixed": "#341100",
+                        "divider-gray": "#E0E0E0",
+                        "on-surface": "#1a1c1c",
+                        "outline": "#7c7483",
+                        "inverse-primary": "#d7baff",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#cdc3d4",
+                        "surface": "#f9f9f9",
+                        "surface-tint": "#7345b6",
+                        "secondary": "#4c56af",
+                        "surface-white": "#FFFFFF",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#4a4452",
+                        "tertiary-container": "#612500",
+                        "on-secondary-container": "#27308a",
+                        "primary-fixed-dim": "#d7baff",
+                        "tertiary-fixed": "#ffdbcb",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-tertiary-fixed-variant": "#7a3000",
+                        "surface-container": "#eeeeee",
+                        "text-primary": "#212121",
+                        "inverse-on-surface": "#f1f1f1",
+                        "text-secondary": "#757575",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#f9f9f9",
+                        "on-secondary-fixed-variant": "#343d96",
+                        "accent-amber": "#FFD600",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#dadada",
+                        "secondary-fixed": "#e0e0ff",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#ffb692",
+                        "primary": "#310065",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#f9f9f9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-screen": "16dp",
+                        "spacing-between-elements": "8dp",
+                        "padding-card": "16dp",
+                        "gutter-list": "12dp",
+                        "unit": "8dp"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #F5F5F5; }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-24 relative">
+<!-- TopAppBar -->
+<header class="bg-surface-white text-primary text-headline-sm font-headline-sm docked full-width top-0 shadow-sm flex justify-between items-center w-full px-4 h-16 sticky z-40 transition-colors duration-200">
+<div class="flex items-center gap-3">
+<button aria-label="Menu" class="text-on-surface-variant hover:bg-surface-container rounded-full p-2 transition-colors duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-headline-sm font-headline-sm text-primary">Fashion Store</h1>
+</div>
+<button aria-label="Cart" class="text-on-surface-variant hover:bg-surface-container rounded-full p-2 transition-colors duration-200 relative">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="absolute top-1 right-1 bg-accent-amber text-on-surface text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">2</span>
+</button>
+</header>
+<main class="p-margin-screen max-w-7xl mx-auto space-y-6">
+<!-- Greeting -->
+<section>
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-text-primary md:text-headline-lg md:font-headline-lg">Xin chào, Thành 👋</h2>
+<p class="text-body-lg font-body-lg text-text-secondary mt-1">Khám phá phong cách của bạn hôm nay</p>
+</section>
+<!-- Search Bar -->
+<section>
+<div class="relative w-full shadow-sm rounded-lg overflow-hidden border border-outline-variant focus-within:border-secondary focus-within:ring-1 focus-within:ring-secondary transition-all">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-3 border-none focus:ring-0 text-body-lg font-body-lg bg-surface-white text-text-primary placeholder-text-secondary" placeholder="Tìm kiếm sản phẩm..." type="text"/>
+</div>
+</section>
+<!-- Promotional Banner -->
+<section>
+<div class="relative w-full h-40 md:h-64 rounded-xl overflow-hidden shadow-md group">
+<img alt="New Collection Banner" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A high-quality, professional photograph of a stylish clothing rack in a modern, brightly lit boutique. The clothing is arranged neatly, showcasing a new seasonal collection with soft, neutral tones and a few vibrant accent pieces. The lighting is bright and inviting, creating a clean, modern aesthetic that fits a high-end retail environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR8ka-skGyTWniYnmqNPzzEatodiKtoMNtxkO1_UKXjkpaJJOAGVLXLe_4i26tH1S8IxlUxtFhCeEc_FycAZ8T-zKxXvsNBycDKwZULglq48P25ySfalnGVZSRM2nl6cT-uOMBoZFgOjglQME70D9XUNWC5EE-aAESygcKSqp9oPvZSCySMVnrHLQhTRrLytslM2McUnR9p7m--d2hQIEqD0yKqEiDIYRTSB9237UlPLY2hohFEJKzjw"/>
+<div class="absolute inset-0 bg-gradient-to-r from-on-background/80 to-transparent flex flex-col justify-center p-6">
+<h3 class="text-surface-white text-headline-lg-mobile font-headline-lg-mobile md:text-headline-lg md:font-headline-lg mb-2">Bộ sưu tập mới</h3>
+<p class="text-surface-white text-body-md font-body-md mb-4 max-w-[60%]">Giảm đến 30% cho các mẫu thiết kế hè 2024</p>
+<button class="bg-surface-white text-primary text-label-lg font-label-lg px-4 py-2 rounded-lg w-fit hover:bg-surface-container transition-colors shadow-sm">Khám phá ngay</button>
+</div>
+</div>
+</section>
+<!-- Categories Chips -->
+<section>
+<div class="flex overflow-x-auto gap-3 pb-2 hide-scroll">
+<button class="whitespace-nowrap px-4 py-2 rounded-full bg-secondary-container text-on-secondary-container text-label-lg font-label-lg shadow-sm border border-transparent transition-all">Tất cả</button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full bg-surface-white text-on-surface-variant text-label-lg font-label-lg border border-outline-variant hover:bg-surface-container transition-all">Áo</button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full bg-surface-white text-on-surface-variant text-label-lg font-label-lg border border-outline-variant hover:bg-surface-container transition-all">Quần</button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full bg-surface-white text-on-surface-variant text-label-lg font-label-lg border border-outline-variant hover:bg-surface-container transition-all">Giày</button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full bg-surface-white text-on-surface-variant text-label-lg font-label-lg border border-outline-variant hover:bg-surface-container transition-all">Phụ kiện</button>
+</div>
+</section>
+<!-- Product Grid -->
+<section>
+<div class="flex justify-between items-end mb-4">
+<h3 class="text-headline-sm font-headline-sm text-text-primary">Gợi ý cho bạn</h3>
+<button class="text-secondary text-label-md font-label-md hover:underline">Xem thêm</button>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Product Card 1 -->
+<div class="bg-surface-white rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col group">
+<div class="relative w-full aspect-[4/5] overflow-hidden bg-surface-container-low">
+<img alt="Áo len cổ tròn" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A clean, studio-lit photograph of a classic crewneck sweater neatly folded or displayed on a minimal mannequin against a soft gray background. The sweater is a solid, versatile color like navy or beige. The lighting highlights the texture of the knit fabric, conveying a sense of warmth and high quality suitable for an e-commerce catalog." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMdAETWRZV2h5Eiyn7UnTuUthMeymKMs9aCh_qHVdaeYcDvAfz6Ok8DWWc1ksDpoYYqeJO8yEWrnU8s2RxfvjsQILqFSumVV13RTSrbCD_zfi0FI_zLLrlazlLT09Bl3-uRDnEEkMfEoa1R6sIPBQW4L6wWFxQW96MjOSkxgpoCdcJKjEjo2lUxbjbaF4zcYW0CfElOcLfHEBCuzzN1YqSWysDx9EDJbwP--UvejbPVjMjV5rEju5ang"/>
+<button class="absolute top-2 right-2 p-1.5 bg-surface-white/80 backdrop-blur-sm rounded-full text-text-secondary hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-3 flex-grow flex flex-col justify-between">
+<div>
+<h4 class="text-body-md font-body-md text-text-primary line-clamp-2">Áo len cổ tròn basic nam nữ unisex</h4>
+</div>
+<div class="flex items-center justify-between mt-2 pt-2 border-t border-divider-gray">
+<span class="text-label-lg font-label-lg text-primary">299.000đ</span>
+<button aria-label="Add to cart" class="w-8 h-8 rounded-full bg-surface-container hover:bg-secondary hover:text-surface-white flex items-center justify-center transition-colors text-primary">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface-white rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col group">
+<div class="relative w-full aspect-[4/5] overflow-hidden bg-surface-container-low">
+<img alt="Quần Jeans" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A crisp, high-resolution product shot of a pair of classic blue denim jeans laid flat or worn by a model in a minimalist setting. The denim texture is clearly visible, showing subtle fading and sturdy stitching. The background is neutral white or light gray, emphasizing the clean lines and modern fit of the pants." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbeb0rbbYJ3lBCu97d9X6T_JyktBwSAjIYI5piSU-Wo8nK8vkJ5ntYUg2OWnc7OAsRysXeo-h2qQF5bkNXHxAYtq9kYvwqKJtWOcG1n2MjbtHs1RSRhosMFYlqX1AMD0fl9BR9SxAB3MxGAmxg5-gUBK5TtGVwHDquPSs41rT7j3VpjF2OygtSu7ODsEjWe9xSvJc26PyIX5Fw-LOG-xPwosyfobcheCTogV8weZI9YcGES6CHxaQGZQ"/>
+<button class="absolute top-2 right-2 p-1.5 bg-surface-white/80 backdrop-blur-sm rounded-full text-text-secondary hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-3 flex-grow flex flex-col justify-between">
+<div>
+<h4 class="text-body-md font-body-md text-text-primary line-clamp-2">Quần Jeans Denim dáng suông rộng</h4>
+</div>
+<div class="flex items-center justify-between mt-2 pt-2 border-t border-divider-gray">
+<span class="text-label-lg font-label-lg text-primary">450.000đ</span>
+<button aria-label="Add to cart" class="w-8 h-8 rounded-full bg-surface-container hover:bg-secondary hover:text-surface-white flex items-center justify-center transition-colors text-primary">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface-white rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col group">
+<div class="relative w-full aspect-[4/5] overflow-hidden bg-surface-container-low">
+<img alt="Giày Sneaker" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek, dynamic studio shot of a modern white sneaker floating slightly above a reflective surface against a pristine white background. The lighting is sharp, highlighting the shoe's sleek silhouette, breathable mesh material, and minimal branding. The overall mood is sporty, clean, and highly appealing for e-commerce." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVoM-K4LHfDaFLmri_mnrMnZB6bYAWvbt3VQNAQKaASNSbwv9gp8c_NtDJf4bqr0Ng1mZUNe_ysimh6RURu0M17PvrEBXwgRI_0W9OHnqczJtHrnP5xTQLg8cKZh1thXrIgY7GWYqzAsoSCMlYhYFMapsksmSS0PuRMMyEshA16oiOR_1NydI3BqUzA6b70x9TUorohnHwgxyIX86rmPX92Vupd_Alsst9W8jNDwAWBKuiie6FE5eHfw"/>
+<button class="absolute top-2 right-2 p-1.5 bg-surface-white/80 backdrop-blur-sm rounded-full text-error hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="p-3 flex-grow flex flex-col justify-between">
+<div>
+<h4 class="text-body-md font-body-md text-text-primary line-clamp-2">Giày Sneaker thể thao năng động trắng</h4>
+</div>
+<div class="flex items-center justify-between mt-2 pt-2 border-t border-divider-gray">
+<span class="text-label-lg font-label-lg text-primary">890.000đ</span>
+<button aria-label="Add to cart" class="w-8 h-8 rounded-full bg-surface-container hover:bg-secondary hover:text-surface-white flex items-center justify-center transition-colors text-primary">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-surface-white rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col group relative">
+<div class="absolute top-2 left-2 z-10">
+<span class="bg-error-container text-on-error-container text-[10px] font-bold px-2 py-1 rounded-sm">-20%</span>
+</div>
+<div class="relative w-full aspect-[4/5] overflow-hidden bg-surface-container-low">
+<img alt="Áo thun" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A minimal product shot of a simple, high-quality white t-shirt hanging on a light wooden hanger against a clean, plain background. The lighting is soft and even, highlighting the smooth cotton fabric and precise stitching. The aesthetic is clean, essential, and professional, perfectly suited for an online clothing store." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwtondLN7z8_XnB9KlPza-bNIzbGngskXwMVN-iOw7mBupECTqRqYOyMvBLmhzQXfMGXwazOfnjnMBgYcN8L4kMb0Ii5y7D4rm8fg7pcIE6PHCd6u7P08WyH1nGcj36PUzKVMnrjO6YNEbFMCTw9UU0OKShvFJ3DkkkI2mZNn6deyKp6IoqgRB4QNnH0iit3kkpUqAoDh5UsydTQ1uqxjTo8Dq9kO2knxp9CWb_hFL2BaNYl4GVZX9lw"/>
+<button class="absolute top-2 right-2 p-1.5 bg-surface-white/80 backdrop-blur-sm rounded-full text-text-secondary hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-3 flex-grow flex flex-col justify-between">
+<div>
+<h4 class="text-body-md font-body-md text-text-primary line-clamp-2">Áo thun cotton trơn thoáng mát mùa hè</h4>
+</div>
+<div class="flex items-center justify-between mt-2 pt-2 border-t border-divider-gray">
+<div class="flex flex-col">
+<span class="text-label-md text-text-secondary line-through">150.000đ</span>
+<span class="text-label-lg font-label-lg text-primary">120.000đ</span>
+</div>
+<button aria-label="Add to cart" class="w-8 h-8 rounded-full bg-surface-container hover:bg-secondary hover:text-surface-white flex items-center justify-center transition-colors text-primary">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Spacing for bottom nav -->
+<div class="h-6"></div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden bg-surface-white text-tertiary-container text-label-md font-label-md fixed bottom-0 w-full z-50 rounded-t-xl border-t border-divider-gray shadow-[0_-2px_10px_rgba(0,0,0,0.05)] flex justify-around items-center h-20 px-2 pb-4">
+<!-- Trang chủ (Active) -->
+<button class="flex flex-col items-center justify-center bg-tertiary-container text-on-tertiary-container rounded-full px-5 py-1 active:scale-95 transition-transform duration-150 group">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="mt-1">Trang chủ</span>
+</button>
+<!-- Giỏ hàng (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-high active:scale-95 transition-transform duration-150 rounded-xl relative group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">shopping_cart</span>
+<span class="absolute top-0 right-2 bg-accent-amber text-on-surface text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">2</span>
+<span class="mt-1 group-hover:text-primary transition-colors">Giỏ hàng</span>
+</button>
+<!-- Đơn hàng (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-high active:scale-95 transition-transform duration-150 rounded-xl group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">receipt_long</span>
+<span class="mt-1 group-hover:text-primary transition-colors">Đơn hàng</span>
+</button>
+<!-- Tài khoản (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:bg-surface-container-high active:scale-95 transition-transform duration-150 rounded-xl group">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">person</span>
+<span class="mt-1 group-hover:text-primary transition-colors">Tài khoản</span>
+</button>
+</nav>
+</body></html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Giỏ hàng</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#1b0600",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#e16415",
+                        "primary-container": "#310065",
+                        "on-primary-fixed-variant": "#58328c",
+                        "surface-container-low": "#f3f3f3",
+                        "tertiary-fixed": "#ffdbcb",
+                        "on-primary-fixed": "#290056",
+                        "primary-fixed": "#eddcff",
+                        "on-primary-container": "#9d77d5",
+                        "surface-variant": "#e2e2e2",
+                        "surface-container-high": "#e8e8e8",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#97a1ff",
+                        "on-background": "#1a1c1c",
+                        "on-secondary-fixed": "#000865",
+                        "inverse-surface": "#2f3131",
+                        "secondary-fixed-dim": "#bdc2ff",
+                        "on-tertiary-fixed": "#341000",
+                        "on-surface": "#1a1c1c",
+                        "outline": "#7c7482",
+                        "inverse-primary": "#d7baff",
+                        "error-container": "#ffdad6",
+                        "surface": "#f9f9f9",
+                        "surface-tint": "#704ba6",
+                        "outline-variant": "#ccc3d2",
+                        "on-secondary-container": "#29338c",
+                        "primary-fixed-dim": "#d7baff",
+                        "on-surface-variant": "#4a4451",
+                        "tertiary-container": "#3f1500",
+                        "surface-white": "#ffffff",
+                        "on-error": "#ffffff",
+                        "secondary": "#4c56af",
+                        "surface-container": "#eeeeee",
+                        "on-tertiary-fixed-variant": "#7a3000",
+                        "surface-container-highest": "#e2e2e2",
+                        "inverse-on-surface": "#f1f1f1",
+                        "accent-amber": "#ffd600",
+                        "surface-bright": "#f9f9f9",
+                        "on-secondary-fixed-variant": "#333d95",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#14002f",
+                        "tertiary-fixed-dim": "#ffb693",
+                        "secondary-fixed": "#dfe0ff",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dadada",
+                        "background": "#f9f9f9",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-screen": "1.5rem",
+                        "spacing-between-elements": "0.5rem",
+                        "padding-card": "1rem",
+                        "gutter-list": "0.75rem",
+                        "unit": "0.5rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+<!-- TopAppBar -->
+<header class="docked full-width top-0 bg-surface/80 backdrop-blur-md shadow-sm z-40 sticky">
+<div class="flex justify-between items-center w-full px-margin-screen h-16">
+<button class="text-primary dark:text-primary-fixed hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors duration-200 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm text-primary dark:text-on-surface flex-1 text-center">Giỏ hàng</h1>
+<button class="text-on-surface-variant dark:text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors duration-200 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+</div>
+</header>
+<!-- Main Content - Active Cart State -->
+<main class="flex-1 px-margin-screen py-6 max-w-[428px] mx-auto w-full pb-[180px] md:pb-24" id="cart-content">
+<!-- Cart Items List -->
+<div class="flex flex-col gap-spacing-between-elements">
+<!-- Item 1 -->
+<div class="bg-surface-white rounded-lg p-padding-card flex gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-surface-variant/50 relative overflow-hidden group">
+<div class="w-20 h-24 rounded-md bg-surface-container-low flex-shrink-0 overflow-hidden">
+<img alt="Product Image" class="w-full h-full object-cover" data-alt="A luxurious, minimalist ceramic vase featuring a matte white finish and elegant curves. The vase is displayed against a bright, airy background, consistent with a high-end, light-mode modern aesthetic. Soft, natural lighting highlights the smooth texture and sophisticated design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5tTHG7Cyt-l7xN1gTciIv8unkw5UgzeLFL__ou5VvmE74BT-D31fosTaJoGWjSLD35OGzucUvIFkAh3a0iANIhEe_ur1oQkMjvmbF9OlmhBz5HbFbnHvqQ97z9tSFB1BUffo5O0XkXYjoZeaO5mGUhZu2D7qjbMuv5hbHsD6e_sBqoe6fh5lB5xHXOqrunsrCdUKNRfG3kBZTOMBJocjHSF-Q3YT1kFP5X8q0MKefZZW9Mg2S94jUKw"/>
+</div>
+<div class="flex flex-col flex-1 justify-between">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface line-clamp-2">Luxe Ceramic Vase - Matte White</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">450.000đ</p>
+</div>
+<button aria-label="Xóa" class="text-outline hover:text-error transition-colors p-1">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+<div class="flex justify-between items-end mt-3">
+<!-- Quantity Control -->
+<div class="flex items-center bg-surface-container-low rounded-full px-1 py-1">
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="remove">remove</span>
+</button>
+<span class="font-label-lg text-label-lg px-3 w-8 text-center">1</span>
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="add">add</span>
+</button>
+</div>
+<p class="font-headline-sm text-headline-sm text-primary">450.000đ</p>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="bg-surface-white rounded-lg p-padding-card flex gap-4 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-surface-variant/50 relative overflow-hidden group">
+<div class="w-20 h-24 rounded-md bg-surface-container-low flex-shrink-0 overflow-hidden">
+<img alt="Product Image" class="w-full h-full object-cover" data-alt="A premium minimalist leather wallet in a soft, elegant cream tone, resting on a clean, sun-drenched marble surface. The lighting is bright and diffuse, creating a high-end, light-mode atmosphere. Subtle shadows emphasize the premium texture of the leather." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNvgzDNCldBWN0UBaw0UxApw3yedSFTyddher6TJ6lbepPliYx-agj9DdChngsr6D0RlH2nxRBvr36hrpmKDMQNz4JjhrJlp8o407QothDOc5IB3wfgnC4xXe7OE6m405t1Q3S4sORYfxMR-WB4Zn7B75F67TbbaUJVfCzfe1-46IH2uKW63fMyq8k4VIf33nGLci8364ss_aihVyJz8vUuHF4qVlmvUbd0KLjlVAWENhbKyRGt74Pjw"/>
+</div>
+<div class="flex flex-col flex-1 justify-between">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-label-lg text-label-lg text-on-surface line-clamp-2">Minimalist Leather Wallet</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">477.000đ</p>
+</div>
+<button aria-label="Xóa" class="text-outline hover:text-error transition-colors p-1">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+<div class="flex justify-between items-end mt-3">
+<!-- Quantity Control -->
+<div class="flex items-center bg-surface-container-low rounded-full px-1 py-1">
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="remove">remove</span>
+</button>
+<span class="font-label-lg text-label-lg px-3 w-8 text-center">1</span>
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[16px]" data-icon="add">add</span>
+</button>
+</div>
+<p class="font-headline-sm text-headline-sm text-primary">477.000đ</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Checkout Footer Card -->
+<div class="fixed bottom-[72px] left-0 w-full z-40 bg-surface-white/90 backdrop-blur-md rounded-t-xl border-t border-surface-variant/30 shadow-[0_-8px_30px_rgba(0,0,0,0.05)] md:hidden block">
+<div class="max-w-[428px] mx-auto px-margin-screen py-4 flex flex-col gap-4">
+<div class="flex justify-between items-center">
+<span class="font-body-lg text-body-lg text-on-surface-variant">Tổng tiền</span>
+<span class="font-headline-md text-headline-md text-primary">927.000đ</span>
+</div>
+<button class="w-full bg-on-tertiary-container text-surface-white font-label-lg text-label-lg rounded-full h-[56px] shadow-[0_8px_20px_rgba(225,100,21,0.25)] hover:bg-[#c95710] transition-colors duration-200 flex items-center justify-center">
+                Đặt hàng
+            </button>
+</div>
+</div>
+<!-- Empty State (Hidden by default, shown for demonstration) -->
+<main class="hidden flex-1 px-margin-screen py-12 max-w-[428px] mx-auto w-full flex-col items-center justify-center text-center" id="empty-state">
+<div class="w-48 h-48 mb-8 bg-surface-container-low rounded-full flex items-center justify-center shadow-[0_10px_40px_rgba(0,0,0,0.04)] relative">
+<span class="material-symbols-outlined text-[80px] text-outline-variant" data-icon="shopping_bag">shopping_bag</span>
+<div class="absolute -right-2 -bottom-2 w-16 h-16 bg-surface-white rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[32px] text-on-surface-variant" data-icon="remove_shopping_cart">remove_shopping_cart</span>
+</div>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Giỏ hàng đang trống</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8 max-w-[280px]">Có vẻ như bạn chưa thêm sản phẩm nào vào giỏ. Hãy khám phá các sản phẩm tuyệt vời của chúng tôi nhé.</p>
+<button class="bg-primary text-on-primary font-label-lg text-label-lg rounded-full h-[48px] px-8 shadow-[0_8px_20px_rgba(20,0,47,0.15)] hover:bg-on-primary-fixed transition-colors duration-200">
+            Tiếp tục mua sắm
+        </button>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden docked full-width bottom-0 rounded-t-lg bg-surface-white dark:bg-surface-container-lowest shadow-[0_-4px_30px_rgba(0,0,0,0.08)] fixed left-0 w-full z-50 flex justify-around items-center px-4 py-3">
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200 w-16 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-label-md text-label-md">Trang chủ</span>
+</div>
+<!-- Active Tab: Giỏ hàng -->
+<div class="flex flex-col items-center justify-center bg-tertiary-container text-on-tertiary-container dark:bg-tertiary dark:text-on-tertiary-container rounded-full px-4 py-1 scale-95 transition-transform duration-200 cursor-pointer">
+<span class="material-symbols-outlined mb-1 filled" data-icon="shopping_cart">shopping_cart</span>
+<span class="font-label-md text-label-md">Giỏ hàng</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200 w-16 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined mb-1" data-icon="local_shipping">local_shipping</span>
+<span class="font-label-md text-label-md">Đơn hàng</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-variant transition-all duration-200 w-16 rounded-lg cursor-pointer">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+<span class="font-label-md text-label-md">Tài khoản</span>
+</div>
+</nav>
+<!-- Decorative ambient background -->
+<div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+<div class="absolute -top-[10%] -right-[10%] w-[50%] h-[50%] bg-primary-container/5 rounded-full blur-[80px]"></div>
+<div class="absolute top-[40%] -left-[20%] w-[60%] h-[60%] bg-secondary-container/5 rounded-full blur-[100px]"></div>
+</div>
+<script>
+        // Simple logic to toggle empty state for demonstration if needed
+        // document.getElementById('cart-content').classList.add('hidden');
+        // document.querySelector('.fixed.bottom-\\[72px\\]').classList.add('hidden');
+        // document.getElementById('empty-state').classList.remove('hidden');
+        // document.getElementById('empty-state').classList.add('flex');
+    </script>
+</body></html>

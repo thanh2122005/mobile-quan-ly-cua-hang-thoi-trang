@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Đăng nhập - Quản Lý Cửa Hàng</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#280056",
+                        "primary-container": "#4a148c",
+                        "surface-container-low": "#f3f3f3",
+                        "on-primary-fixed-variant": "#5a2a9c",
+                        "tertiary": "#3f1500",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1a1c1c",
+                        "on-secondary-fixed": "#000767",
+                        "primary-fixed": "#eddcff",
+                        "on-primary-container": "#b889ff",
+                        "surface-variant": "#e2e2e2",
+                        "surface-container-high": "#e8e8e8",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#959efd",
+                        "secondary-fixed-dim": "#bdc2ff",
+                        "inverse-surface": "#2f3131",
+                        "on-tertiary-container": "#ff7a2d",
+                        "on-tertiary-fixed": "#341100",
+                        "divider-gray": "#E0E0E0",
+                        "on-surface": "#1a1c1c",
+                        "outline": "#7c7483",
+                        "inverse-primary": "#d7baff",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#cdc3d4",
+                        "surface": "#f9f9f9",
+                        "surface-tint": "#7345b6",
+                        "secondary": "#4c56af",
+                        "surface-white": "#FFFFFF",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#4a4452",
+                        "tertiary-container": "#612500",
+                        "on-secondary-container": "#27308a",
+                        "primary-fixed-dim": "#d7baff",
+                        "tertiary-fixed": "#ffdbcb",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-tertiary-fixed-variant": "#7a3000",
+                        "surface-container": "#eeeeee",
+                        "text-primary": "#212121",
+                        "inverse-on-surface": "#f1f1f1",
+                        "text-secondary": "#757575",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#f9f9f9",
+                        "on-secondary-fixed-variant": "#343d96",
+                        "accent-amber": "#FFD600",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#dadada",
+                        "secondary-fixed": "#e0e0ff",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#ffb692",
+                        "primary": "#310065",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#f9f9f9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-screen": "16dp",
+                        "spacing-between-elements": "8dp",
+                        "padding-card": "16dp",
+                        "gutter-list": "12dp",
+                        "unit": "8dp"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-low min-h-screen flex flex-col items-center justify-center p-margin-screen relative overflow-hidden">
+<!-- Decorative background elements -->
+<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary-fixed opacity-40 blur-3xl -z-10 pointer-events-none"></div>
+<div class="absolute bottom-[-10%] right-[-5%] w-[35%] h-[35%] rounded-full bg-tertiary-fixed opacity-40 blur-3xl -z-10 pointer-events-none"></div>
+<!-- Main Login Card -->
+<div class="w-full max-w-[400px] bg-surface-white rounded-xl shadow-[0_4px_24px_rgba(0,0,0,0.04)] p-6 md:p-8 z-10 glass-card">
+<!-- App Logo -->
+<div class="flex justify-center mb-6">
+<div class="w-14 h-14 bg-primary-fixed-dim rounded-2xl flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-3xl text-primary" data-icon="inventory_2" data-weight="fill" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+</div>
+</div>
+<!-- Header -->
+<div class="text-center mb-8">
+<h1 class="text-headline-lg-mobile font-headline-lg-mobile text-text-primary mb-1">Đăng nhập</h1>
+<p class="text-body-md font-body-md text-text-secondary">Vui lòng đăng nhập để tiếp tục</p>
+</div>
+<!-- Login Form -->
+<form class="flex flex-col gap-5">
+<!-- Email Input Group -->
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+<span class="material-symbols-outlined text-text-secondary group-focus-within:text-primary transition-colors" data-icon="mail">mail</span>
+</div>
+<input class="block w-full pl-12 pr-4 py-3.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-body-lg font-body-lg text-text-primary placeholder-text-secondary focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-200" id="email" placeholder="Email" type="email"/>
+</div>
+<!-- Password Input Group -->
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+<span class="material-symbols-outlined text-text-secondary group-focus-within:text-primary transition-colors" data-icon="lock">lock</span>
+</div>
+<input class="block w-full pl-12 pr-12 py-3.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-body-lg font-body-lg text-text-primary placeholder-text-secondary focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all duration-200" id="password" placeholder="Mật khẩu" type="password"/>
+<div class="absolute inset-y-0 right-0 flex items-center pr-4 cursor-pointer">
+<span class="material-symbols-outlined text-text-secondary hover:text-text-primary transition-colors" data-icon="visibility_off">visibility_off</span>
+</div>
+</div>
+<!-- Role Selection (Radio Buttons) -->
+<div class="flex items-center gap-6 py-1">
+<label class="flex items-center gap-2 cursor-pointer group">
+<div class="relative flex items-center">
+<input class="peer h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-outline-variant checked:border-primary transition-all" name="role" type="radio" value="user"/>
+<span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity"></span>
+</div>
+<span class="text-body-md font-body-md text-text-primary group-hover:text-primary transition-colors">Người dùng</span>
+</label>
+<label class="flex items-center gap-2 cursor-pointer group">
+<div class="relative flex items-center">
+<input checked="" class="peer h-5 w-5 cursor-pointer appearance-none rounded-full border-2 border-outline-variant checked:border-primary transition-all" name="role" type="radio" value="admin"/>
+<span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity"></span>
+</div>
+<span class="text-body-md font-body-md text-text-primary group-hover:text-primary transition-colors">Admin</span>
+</label>
+</div>
+<!-- Primary Action Button -->
+<!-- Using on-tertiary-container (#ff7a2d) to match the "Yellow/Orange" bright orange primary button requirement -->
+<button class="w-full mt-2 bg-on-tertiary-container hover:bg-[#e66a22] text-surface-white text-headline-sm font-headline-sm py-3.5 rounded-lg shadow-[0_4px_12px_rgba(255,122,45,0.25)] transition-all duration-200 active:scale-[0.98] flex justify-center items-center gap-2" type="button">
+                Đăng nhập
+                <span class="material-symbols-outlined text-[20px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</form>
+<!-- Register Link -->
+<div class="mt-8 text-center text-body-md font-body-md">
+<span class="text-text-secondary">Chưa có tài khoản?</span>
+<a class="text-primary hover:text-primary-container font-semibold transition-colors ml-1" href="#">Đăng ký</a>
+</div>
+</div>
+<!-- Helper Information Card -->
+<div class="w-full max-w-[400px] mt-6 bg-surface-white rounded-lg p-4 shadow-sm border border-surface-variant z-10 opacity-90 hover:opacity-100 transition-opacity">
+<div class="flex items-center gap-2 mb-3 border-b border-surface-variant pb-2">
+<div class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-text-secondary">
+<span class="material-symbols-outlined text-[16px]" data-icon="info">info</span>
+</div>
+<span class="text-label-lg font-label-lg text-text-primary">Tài khoản mẫu</span>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between bg-surface-container-low px-3 py-2 rounded-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="shield_person">shield_person</span>
+<span class="text-label-md font-label-md text-text-secondary">Admin:</span>
+</div>
+<span class="text-label-md font-label-md font-semibold text-text-primary truncate">admin@gmail.com / 123456</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-low px-3 py-2 rounded-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary" data-icon="person">person</span>
+<span class="text-label-md font-label-md text-text-secondary">User:</span>
+</div>
+<span class="text-label-md font-label-md font-semibold text-text-primary truncate">user@gmail.com / 123456</span>
+</div>
+</div>
+</div>
+<script>
+        // Simple micro-interaction for password visibility toggle
+        const passwordInput = document.getElementById('password');
+        const visibilityIcon = document.querySelector('[data-icon="visibility_off"]');
+        
+        if(visibilityIcon && passwordInput) {
+            visibilityIcon.parentElement.addEventListener('click', () => {
+                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordInput.setAttribute('type', type);
+                
+                const newIcon = type === 'password' ? 'visibility_off' : 'visibility';
+                visibilityIcon.textContent = newIcon;
+                visibilityIcon.setAttribute('data-icon', newIcon);
+            });
+        }
+    </script>
+</body></html>

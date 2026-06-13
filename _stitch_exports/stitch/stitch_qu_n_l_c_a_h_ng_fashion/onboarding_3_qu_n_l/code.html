@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Luxe Retailer - Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#1b0600",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-container": "#e16415",
+                    "primary-container": "#310065",
+                    "on-primary-fixed-variant": "#58328c",
+                    "surface-container-low": "#f3f3f3",
+                    "tertiary-fixed": "#ffdbcb",
+                    "on-primary-fixed": "#290056",
+                    "primary-fixed": "#eddcff",
+                    "on-primary-container": "#9d77d5",
+                    "surface-variant": "#e2e2e2",
+                    "surface-container-high": "#e8e8e8",
+                    "on-primary": "#ffffff",
+                    "secondary-container": "#97a1ff",
+                    "on-background": "#1a1c1c",
+                    "on-secondary-fixed": "#000865",
+                    "inverse-surface": "#2f3131",
+                    "secondary-fixed-dim": "#bdc2ff",
+                    "on-tertiary-fixed": "#341000",
+                    "on-surface": "#1a1c1c",
+                    "outline": "#7c7482",
+                    "inverse-primary": "#d7baff",
+                    "error-container": "#ffdad6",
+                    "surface": "#f9f9f9",
+                    "surface-tint": "#704ba6",
+                    "outline-variant": "#ccc3d2",
+                    "on-secondary-container": "#29338c",
+                    "primary-fixed-dim": "#d7baff",
+                    "on-surface-variant": "#4a4451",
+                    "tertiary-container": "#3f1500",
+                    "surface-white": "#ffffff",
+                    "on-error": "#ffffff",
+                    "secondary": "#4c56af",
+                    "surface-container": "#eeeeee",
+                    "on-tertiary-fixed-variant": "#7a3000",
+                    "surface-container-highest": "#e2e2e2",
+                    "inverse-on-surface": "#f1f1f1",
+                    "accent-amber": "#ffd600",
+                    "surface-bright": "#f9f9f9",
+                    "on-secondary-fixed-variant": "#333d95",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "primary": "#14002f",
+                    "tertiary-fixed-dim": "#ffb693",
+                    "secondary-fixed": "#dfe0ff",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#dadada",
+                    "background": "#f9f9f9",
+                    "surface-container-lowest": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-screen": "1.5rem",
+                    "spacing-between-elements": "0.5rem",
+                    "padding-card": "1rem",
+                    "gutter-list": "0.75rem",
+                    "unit": "0.5rem"
+            },
+            "fontFamily": {
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "label-lg": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "headline-sm": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-md": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.5px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "headline-lg": [
+                            "28px",
+                            {
+                                    "lineHeight": "36px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-lg": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0.1px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-md": [
+                            "22px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-sm": [
+                            "18px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        
+        /* Subtle pulsing animation for the active dot */
+        @keyframes subtlePulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .active-dot {
+            animation: subtlePulse 2s infinite ease-in-out;
+        }
+
+        /* Float animation for the main image */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-img {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex items-center justify-center relative overflow-hidden font-body-md antialiased">
+<!-- Ambient Background Elements -->
+<div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-primary-fixed-dim rounded-full blur-[80px] opacity-40 z-0"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-tertiary-fixed-dim rounded-full blur-[80px] opacity-30 z-0"></div>
+<!-- Main Container (Mobile Viewport Size Constraint) -->
+<main class="relative z-10 w-full max-w-[428px] h-[884px] max-h-[926px] bg-surface-white sm:rounded-[40px] sm:shadow-2xl sm:h-[795px] overflow-hidden flex flex-col mx-auto">
+<!-- Header Actions -->
+<header class="w-full px-margin-screen pt-12 pb-4 flex justify-end z-20">
+<button class="font-label-lg text-label-lg text-outline font-medium hover:text-on-surface transition-colors">
+                Bỏ qua
+            </button>
+</header>
+<!-- Illustration Area -->
+<section class="flex-1 flex items-center justify-center px-margin-screen relative pt-4 pb-8">
+<div class="relative w-full max-w-[320px] aspect-square rounded-[32px] overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.06)] group float-img">
+<!-- Inner subtle gradient to give depth -->
+<div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent z-10 rounded-[32px]"></div>
+<img alt="Professional dashboard illustration" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" data-alt="A modern, sleek digital dashboard interface displayed on a high-end tablet screen. The UI features elegant, minimalist data visualizations, line graphs, and bar charts in a light mode aesthetic. Soft, bright ambient lighting illuminates the device against a pristine white background. The color palette emphasizes crisp whites, subtle grays, and premium touches of muted purple and vibrant orange to denote active data points." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKOYtcHgEX5UZ7LN2A7vb0AXYJ9TY-WZ9_xx_bf1e5M6fwwLMmifvNcKg0V-PMRobwx79kv25SrLjIqA7PANkGHj0umJed-_MUspw04FZOK6mZFpOj7m5vZ23yjQUF5RMaebiHGQbp_DPC3Vf01thR5--_N2OiWt49K5KRPQ2-kaudvOueZUYA1zX_rfJ_7RH6gXRjt-bE6mLgYFkh2qxU3qfSjEIwJsX8_TPXxVkPMROwTAhgAmRX7g"/>
+</div>
+</section>
+<!-- Content & Navigation Area -->
+<section class="px-margin-screen pb-12 pt-6 rounded-t-[40px] bg-surface-white glass-effect z-20 flex flex-col items-center text-center">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-spacing-between-elements">
+                Quản lý cửa hàng hiệu quả
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 px-4">
+                Admin có thể quản lý sản phẩm, hóa đơn và thống kê doanh thu.
+            </p>
+<!-- Pagination Dots -->
+<div class="flex items-center gap-2 mb-10">
+<div class="w-2 h-2 rounded-full bg-surface-variant transition-colors duration-300"></div>
+<div class="w-2 h-2 rounded-full bg-surface-variant transition-colors duration-300"></div>
+<div class="w-8 h-2 rounded-full bg-primary-container active-dot transition-all duration-300"></div>
+</div>
+<!-- Call to Action -->
+<button class="w-full h-14 rounded-full bg-on-tertiary-container text-on-tertiary font-label-lg text-label-lg shadow-[0_8px_24px_rgba(225,100,21,0.25)] hover:scale-[0.98] transition-all duration-200 flex items-center justify-center">
+                Bắt đầu
+            </button>
+</section>
+</main>
+</body></html>

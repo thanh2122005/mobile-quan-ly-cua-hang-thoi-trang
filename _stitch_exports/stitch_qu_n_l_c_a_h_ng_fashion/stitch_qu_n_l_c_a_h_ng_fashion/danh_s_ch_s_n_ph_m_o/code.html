@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Danh sách sản phẩm theo danh mục</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#eeeeee",
+                        "tertiary-container": "#3f1500",
+                        "secondary-fixed-dim": "#bdc2ff",
+                        "outline": "#7c7482",
+                        "accent-amber": "#ffd600",
+                        "tertiary": "#1b0600",
+                        "secondary-container": "#97a1ff",
+                        "secondary": "#4c56af",
+                        "surface-variant": "#e2e2e2",
+                        "surface-white": "#ffffff",
+                        "inverse-primary": "#d7baff",
+                        "on-tertiary-container": "#ff7a2d",
+                        "primary-fixed": "#eddcff",
+                        "on-tertiary-fixed": "#341000",
+                        "surface-tint": "#704ba6",
+                        "on-secondary-fixed-variant": "#333d95",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#f1f1f1",
+                        "primary-container": "#310065",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#ffdbcb",
+                        "surface-container-high": "#e8e8e8",
+                        "primary": "#14002f",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#ccc3d2",
+                        "on-primary-container": "#9d77d5",
+                        "surface-dim": "#dadada",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb693",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#d7baff",
+                        "background": "#f9f9f9",
+                        "surface": "#f9f9f9",
+                        "on-surface-variant": "#4a4451",
+                        "on-secondary-container": "#29338c",
+                        "secondary-fixed": "#dfe0ff",
+                        "on-surface": "#1a1c1c",
+                        "on-background": "#1a1c1c",
+                        "on-primary-fixed": "#290056",
+                        "inverse-surface": "#2f3131",
+                        "surface-container-low": "#f3f3f3",
+                        "on-primary-fixed-variant": "#58328c",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f9f9f9",
+                        "on-tertiary-fixed-variant": "#7a3000",
+                        "on-secondary-fixed": "#000865",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "spacing-between-elements": "0.5rem",
+                        "padding-card": "1rem",
+                        "unit": "0.5rem",
+                        "gutter-list": "0.75rem",
+                        "margin-screen": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9f9; /* background */
+            color: #1a1c1c; /* on-background */
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex justify-center pb-24 relative">
+<!-- Mobile Container -->
+<div class="w-full max-w-[428px] bg-surface relative min-h-screen flex flex-col shadow-lg">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-40 bg-surface/80 backdrop-blur-md flex justify-between items-center w-full px-margin-screen h-14 max-w-[428px] mx-auto">
+<button class="p-2 -ml-2 rounded-full hover:bg-surface-container-low transition-colors text-primary flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary truncate flex-1 text-center">Áo</h1>
+<div class="w-10"></div> <!-- Placeholder to balance flex -->
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col w-full px-margin-screen pt-4 pb-8 space-y-6">
+<!-- Search Bar -->
+<div class="relative w-full">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-lowest border border-surface-variant rounded-full font-body-md text-body-md text-on-surface placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary-container focus:border-transparent shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all" placeholder="Tìm sản phẩm trong danh mục..." type="text"/>
+</div>
+<!-- Filter Chips (Horizontal Scroll) -->
+<div class="flex space-x-3 overflow-x-auto hide-scrollbar pb-2 -mx-margin-screen px-margin-screen">
+<button class="flex-shrink-0 px-5 py-2 bg-primary-container text-on-primary-container rounded-full font-label-md text-label-md border border-transparent whitespace-nowrap shadow-sm">
+                    Mới nhất
+                </button>
+<button class="flex-shrink-0 px-5 py-2 bg-surface-container-lowest text-on-surface-variant rounded-full font-label-md text-label-md border border-outline-variant whitespace-nowrap hover:bg-surface-container-low transition-colors">
+                    Giá thấp
+                </button>
+<button class="flex-shrink-0 px-5 py-2 bg-surface-container-lowest text-on-surface-variant rounded-full font-label-md text-label-md border border-outline-variant whitespace-nowrap hover:bg-surface-container-low transition-colors">
+                    Giá cao
+                </button>
+</div>
+<!-- Product Grid -->
+<div class="grid grid-cols-2 gap-4">
+<!-- Product Card 1 -->
+<div class="flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.04)] border border-surface-variant relative group">
+<div class="w-full aspect-[4/5] bg-surface-container relative overflow-hidden">
+<img alt="White basic t-shirt" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" data-alt="A clean, modern flat lay photograph of a premium white basic t-shirt. The shirt is perfectly folded on a pristine white surface, bathed in soft, diffused natural light that highlights the fabric texture. The aesthetic is extremely minimalist and high-end, fitting a luxury boutique app in light mode." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQGFYHKscNE7ymSNN3IpB9YhIWnaCDYMx2iTMjxKjdKQJthUxbr3T-MCbYLQ8jO__FZef0emgATZnL-wt4raPubAVvH6DoBt8GwGrMKkZTggoIkzuKlT4ndwy716eSXWLNdm7QmOV5ZpLeUb1G0O3zKRsbwm4jY_2RvHclFj9NmUGALe30hsEiV3qqPTOZgTKSDUYQTpkiAXB5zu4oRoh_Midr6Ba2bzqju5qTpPfM1jWwhsoaCcNPqQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-surface-white rounded-full flex items-center justify-center shadow-md text-on-tertiary-container hover:scale-110 transition-transform z-10">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_shopping_cart</span>
+</button>
+</div>
+<div class="p-3 flex flex-col space-y-1">
+<h3 class="font-label-lg text-label-lg text-on-surface truncate">Áo Thun Trắng Basic</h3>
+<p class="font-body-md text-body-md text-primary font-semibold">250.000 đ</p>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.04)] border border-surface-variant relative group">
+<div class="w-full aspect-[4/5] bg-surface-container relative overflow-hidden">
+<img alt="Linen button down shirt" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" data-alt="A stylish, slightly oversized linen button-down shirt in a subtle beige tone. The shirt is displayed beautifully on a sleek minimalist hanger against a soft, bright background. Soft studio lighting creates elegant, airy shadows, conveying a premium, effortless chic style suitable for a modern fashion interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS4zwXWT3nKevGFcwaDYqmER_OXoZFnunP__noD9TcHGOna9yH9K8NEoOClAHFBXSD7cMgNNuoji5nxeQjVyS095W1bcU765RQqi4M9Zo9qtG9xSvwIiGmU1Rw8Uq7hb2ugS34NNjg_hMClj9GYNHJJ1DDVGMlqKXAfIArE2vV1aZR82hQmw--4SFtpVg118UUmgJqQJ6N0ChG67so3vZ-vYb3bSdi4DG5PHzDrDIVQgqj_mNySSF67Q"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-surface-white rounded-full flex items-center justify-center shadow-md text-on-tertiary-container hover:scale-110 transition-transform z-10">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_shopping_cart</span>
+</button>
+</div>
+<div class="p-3 flex flex-col space-y-1">
+<h3 class="font-label-lg text-label-lg text-on-surface truncate">Áo Sơ Mi Linen</h3>
+<p class="font-body-md text-body-md text-primary font-semibold">450.000 đ</p>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.04)] border border-surface-variant relative group">
+<div class="w-full aspect-[4/5] bg-surface-container relative overflow-hidden">
+<img alt="Black graphic tee" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" data-alt="A high-quality black t-shirt featuring a subtle, abstract minimalist graphic print on the front. The lighting is crisp and bright, isolating the dark shirt against a pristine white studio background. The overall look is modern, sharp, and luxurious, matching the sophisticated aesthetic of the retail application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwIyOMlD0TNuVeRSiMkso3XvFuwXuOF6WkviPwxUeiGksajj27LlvFpZF1wf-rV0LDLjKTe9hvPhxRbp0rHp2asO6q8KcAU75yXtfPJk885SbJjcVt9t_GnzWVvwQzKqb6SkfVSaTN9LVJzY7esvA8rvD0K-ZYPsajn4EejTsc5q19oNU8hRRmpWyGSdnun2VTyBTsOfiurdMAlCAHhw_qUBNCbxqIGld9NMDnT9veM1huU6EnvbsMUQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-surface-white rounded-full flex items-center justify-center shadow-md text-on-tertiary-container hover:scale-110 transition-transform z-10">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_shopping_cart</span>
+</button>
+</div>
+<div class="p-3 flex flex-col space-y-1">
+<h3 class="font-label-lg text-label-lg text-on-surface truncate">Áo Thun Đen Print</h3>
+<p class="font-body-md text-body-md text-primary font-semibold">280.000 đ</p>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="flex flex-col bg-surface-container-lowest rounded-2xl overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.04)] border border-surface-variant relative group">
+<div class="w-full aspect-[4/5] bg-surface-container relative overflow-hidden">
+<img alt="Hoodie" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out" data-alt="A premium, heavyweight cotton hoodie in a soft, muted pastel lavender color. The hoodie is laid flat with careful styling to show its relaxed fit and thick texture. Photographed in a bright, modern studio setting with soft, glowing ambient light, perfectly fitting a glassmorphic luxury UI design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgsJYGXH6i3fscqtV6NDWPL3usuGsr_lGvIG6X30DKxIj_AG2dAwL1R-t4x0Os9ay_JedgCLGTvEbUrfYqooYNHgggQPEkDesDpXGrxDrjw1hQIq4TVnfuM698ugxvC00ro3Ht2jqlyrq9JEpVVe4RIxAjGKZg5tgGuaZJE3-TNjNgWDK4m02um_-KahpoZh2Nd6_hM19qylzBW1ZO6zVRM6eqdIQeO_Kz1Iikz8WpfYRkNVFkDWOnSg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-surface-white rounded-full flex items-center justify-center shadow-md text-on-tertiary-container hover:scale-110 transition-transform z-10">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_shopping_cart</span>
+</button>
+</div>
+<div class="p-3 flex flex-col space-y-1">
+<h3 class="font-label-lg text-label-lg text-on-surface truncate">Hoodie Basic</h3>
+<p class="font-body-md text-body-md text-primary font-semibold">650.000 đ</p>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar (User App) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-2 pt-3 h-20 max-w-[428px] mx-auto bg-surface-white shadow-[0_-4px_30px_rgba(0,0,0,0.08)] rounded-t-lg">
+<!-- Trang chủ (Active) -->
+<button class="flex flex-col items-center justify-center text-on-tertiary-container font-semibold scale-110 duration-200 group">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-md text-label-md">Trang chủ</span>
+</button>
+<!-- Giỏ hàng (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-all p-2 rounded-xl">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">shopping_cart</span>
+<span class="font-label-md text-label-md">Giỏ hàng</span>
+</button>
+<!-- Đơn hàng (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-all p-2 rounded-xl">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
+<span class="font-label-md text-label-md">Đơn hàng</span>
+</button>
+<!-- Tài khoản (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-all p-2 rounded-xl">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 0;">person</span>
+<span class="font-label-md text-label-md">Tài khoản</span>
+</button>
+</nav>
+</div>
+</body></html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tạo hóa đơn</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#280056",
+                        "primary-container": "#4a148c",
+                        "surface-container-low": "#f3f3f3",
+                        "on-primary-fixed-variant": "#5a2a9c",
+                        "tertiary": "#3f1500",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1a1c1c",
+                        "on-secondary-fixed": "#000767",
+                        "primary-fixed": "#eddcff",
+                        "on-primary-container": "#b889ff",
+                        "surface-variant": "#e2e2e2",
+                        "surface-container-high": "#e8e8e8",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#959efd",
+                        "secondary-fixed-dim": "#bdc2ff",
+                        "inverse-surface": "#2f3131",
+                        "on-tertiary-container": "#ff7a2d",
+                        "on-tertiary-fixed": "#341100",
+                        "divider-gray": "#E0E0E0",
+                        "on-surface": "#1a1c1c",
+                        "outline": "#7c7483",
+                        "inverse-primary": "#d7baff",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#cdc3d4",
+                        "surface": "#f9f9f9",
+                        "surface-tint": "#7345b6",
+                        "secondary": "#4c56af",
+                        "surface-white": "#FFFFFF",
+                        "on-error": "#ffffff",
+                        "on-surface-variant": "#4a4452",
+                        "tertiary-container": "#612500",
+                        "on-secondary-container": "#27308a",
+                        "primary-fixed-dim": "#d7baff",
+                        "tertiary-fixed": "#ffdbcb",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-tertiary-fixed-variant": "#7a3000",
+                        "surface-container": "#eeeeee",
+                        "text-primary": "#212121",
+                        "inverse-on-surface": "#f1f1f1",
+                        "text-secondary": "#757575",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#f9f9f9",
+                        "on-secondary-fixed-variant": "#343d96",
+                        "accent-amber": "#FFD600",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#dadada",
+                        "secondary-fixed": "#e0e0ff",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#ffb692",
+                        "primary": "#310065",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#f5f5f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-screen": "16dp",
+                        "spacing-between-elements": "8dp",
+                        "padding-card": "16dp",
+                        "gutter-list": "12dp",
+                        "unit": "8dp"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface h-screen flex flex-col font-sans">
+<!-- TopAppBar -->
+<header class="bg-surface-white text-primary text-headline-sm font-headline-sm shadow-sm flex justify-between items-center w-full px-4 h-16 sticky top-0 z-50">
+<button class="p-2 -ml-2 rounded-full hover:bg-surface-container transition-colors duration-200 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+</button>
+<h1 class="text-headline-md font-headline-md text-primary font-bold">Tạo hóa đơn</h1>
+<button class="p-2 -mr-2 rounded-full hover:bg-surface-container transition-colors duration-200 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">qr_code_scanner</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto p-margin-screen pb-32">
+<!-- Search Section -->
+<div class="mb-gutter-list">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-white border border-outline-variant rounded-lg pl-10 pr-4 py-3 text-body-md font-body-md focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" placeholder="Tìm kiếm sản phẩm (Tên, Mã, Barcode)..." type="text"/>
+</div>
+</div>
+<!-- Product Selection List -->
+<section class="mb-6">
+<h2 class="text-label-lg font-label-lg text-secondary mb-3 uppercase tracking-wider">Danh mục sản phẩm</h2>
+<div class="space-y-gutter-list">
+<!-- Product Card 1 -->
+<div class="bg-surface-white rounded-xl shadow-[0_2px_4px_rgba(0,0,0,0.05)] p-3 flex gap-3 items-center">
+<img alt="Áo thun cơ bản" class="w-16 h-16 rounded-lg object-cover bg-surface-container border border-surface-variant" data-alt="A clean, flat-lay studio shot of a classic white cotton t-shirt neatly folded on a neutral light grey background. The lighting is bright and even, highlighting the soft texture of the fabric. The overall mood is modern, crisp, and commercial, perfect for a high-end retail inventory display." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzq9jiNa9KuJcuJURGam2ssSxfKdoKkLx8TZoChXuCIGvGyuoH45jhiDibdCeKjnHsyicWMlJ_su90CvrKihn59okR1BWj4S79gEYVLh7g23Dqx89TpnuXlYKtvqInxm4Dus8cC_QZm-_DzMiZEZ0IkFOf62nc6ym1pa8H85qRIVEDnzG5mBao8SDbE11ue21YVH2_eeorxci0SdX8Gfc-9Vi1S5MlEiPkG1Pb6QJqrDnf0ZhYCvKJ4w"/>
+<div class="flex-1">
+<h3 class="text-label-lg font-label-lg text-text-primary line-clamp-1">Áo thun Cotton Basic Trắng</h3>
+<p class="text-label-md font-label-md text-text-secondary mt-1">Mã: AT001 • Size: M</p>
+<p class="text-body-md font-body-md text-secondary font-semibold mt-1">150.000đ</p>
+</div>
+<div class="flex items-center bg-surface-container rounded-lg p-1 border border-outline-variant">
+<button class="p-1 rounded text-outline hover:bg-surface-variant active:bg-surface-dim transition-colors"><span class="material-symbols-outlined text-sm">remove</span></button>
+<span class="w-8 text-center text-body-md font-body-md">0</span>
+<button class="p-1 rounded text-primary hover:bg-surface-variant active:bg-surface-dim transition-colors"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+</div>
+<!-- Product Card 2 (Added to cart) -->
+<div class="bg-surface-white rounded-xl shadow-[0_2px_4px_rgba(0,0,0,0.05)] p-3 flex gap-3 items-center border border-primary-fixed-dim">
+<img alt="Quần Jeans" class="w-16 h-16 rounded-lg object-cover bg-surface-container border border-surface-variant" data-alt="A meticulously styled pair of classic blue denim jeans folded neatly against a seamless, bright white studio backdrop. The lighting is professional and soft, emphasizing the weave and blue tones of the denim. The aesthetic is clean, modern, and perfectly suited for a minimalist e-commerce catalog." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZuSrLUita53sQ9fExDFuhSsHO9pFtgfeJsSj-XWj6hKO53U8q8qkRBVmdeQpCQOyUvJ7pt0tF56XpfWjv4tDAfFE3q-NB0SYh1nxw2mL1Ygkd9ZIJcIlSc8tFC63uDnSBumgoLxdZ135laAPFmlHO2ATgYUIOiSOu9Eav7E-BGQHoLiGJAIhO4A7_REAxv1IiuoGZBn1CHZhUHT1G2e4hldK7IzkJZFoymC1ecjRcJSVHQBtU6QXjzg"/>
+<div class="flex-1">
+<h3 class="text-label-lg font-label-lg text-text-primary line-clamp-1">Quần Jeans Slimfit Xanh</h3>
+<p class="text-label-md font-label-md text-text-secondary mt-1">Mã: QJ023 • Size: 32</p>
+<p class="text-body-md font-body-md text-secondary font-semibold mt-1">450.000đ</p>
+</div>
+<div class="flex items-center bg-primary-fixed rounded-lg p-1 border border-primary-fixed-dim">
+<button class="p-1 rounded text-primary hover:bg-inverse-primary active:bg-surface-dim transition-colors"><span class="material-symbols-outlined text-sm">remove</span></button>
+<span class="w-8 text-center text-body-md font-body-md font-bold text-primary">2</span>
+<button class="p-1 rounded text-primary hover:bg-inverse-primary active:bg-surface-dim transition-colors"><span class="material-symbols-outlined text-sm">add</span></button>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface-white rounded-xl shadow-[0_2px_4px_rgba(0,0,0,0.05)] p-3 flex gap-3 items-center">
+<div class="w-16 h-16 rounded-lg bg-surface-container border border-surface-variant flex items-center justify-center text-outline">
+<span class="material-symbols-outlined">checkroom</span>
+</div>
+<div class="flex-1">
+<h3 class="text-label-lg font-label-lg text-text-primary line-clamp-1">Áo Sơ mi Nam Tay Dài</h3>
+<p class="text-label-md font-label-md text-text-secondary mt-1">Mã: SM005 • Size: L</p>
+<p class="text-body-md font-body-md text-secondary font-semibold mt-1">320.000đ</p>
+</div>
+<div class="flex items-center bg-surface-container rounded-lg p-1 border border-outline-variant opacity-50">
+<span class="text-label-md font-label-md text-error px-2 py-1">Hết hàng</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Selected Products Section -->
+<section class="mt-8">
+<div class="flex justify-between items-end mb-3 border-b border-divider-gray pb-2">
+<h2 class="text-headline-sm font-headline-sm text-text-primary">Sản phẩm đã chọn</h2>
+<span class="bg-secondary-container text-on-secondary-container text-label-md font-label-md px-2 py-1 rounded-full">1 món (2 SL)</span>
+</div>
+<div class="bg-surface-white rounded-xl shadow-sm border border-outline-variant overflow-hidden">
+<ul class="divide-y divide-surface-container">
+<!-- Selected Item -->
+<li class="p-4 flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<div class="flex-1">
+<h4 class="text-label-lg font-label-lg text-text-primary">Quần Jeans Slimfit Xanh</h4>
+<p class="text-label-md font-label-md text-text-secondary">450.000đ</p>
+</div>
+<button class="text-outline hover:text-error transition-colors p-1"><span class="material-symbols-outlined text-base">delete</span></button>
+</div>
+<div class="flex justify-between items-center mt-1">
+<div class="flex items-center gap-3">
+<span class="text-label-md font-label-md text-outline">SL:</span>
+<div class="flex items-center bg-surface-container rounded p-0.5">
+<button class="w-6 h-6 rounded flex items-center justify-center text-outline bg-surface-white shadow-sm"><span class="material-symbols-outlined text-[16px]">remove</span></button>
+<span class="w-8 text-center text-body-md font-body-md">2</span>
+<button class="w-6 h-6 rounded flex items-center justify-center text-outline bg-surface-white shadow-sm"><span class="material-symbols-outlined text-[16px]">add</span></button>
+</div>
+</div>
+<span class="text-body-lg font-body-lg text-primary font-bold">900.000đ</span>
+</div>
+</li>
+</ul>
+<!-- Notes Field -->
+<div class="p-4 bg-surface-bright border-t border-surface-container">
+<label class="text-label-md font-label-md text-text-secondary flex items-center gap-1 mb-1"><span class="material-symbols-outlined text-sm">edit_note</span> Ghi chú hóa đơn (Tùy chọn)</label>
+<input class="w-full bg-transparent border-b border-outline-variant focus:border-secondary outline-none py-1 text-body-md font-body-md transition-colors" placeholder="Nhập ghi chú..." type="text"/>
+</div>
+</div>
+</section>
+</main>
+<!-- Fixed Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-50 bg-surface-white border-t border-divider-gray shadow-[0_-4px_12px_rgba(0,0,0,0.08)] px-margin-screen py-4 flex items-center justify-between">
+<div>
+<p class="text-label-md font-label-md text-text-secondary uppercase tracking-wider mb-0.5">Tổng tiền</p>
+<p class="text-headline-md font-headline-md text-error font-bold">900.000đ</p>
+</div>
+<button class="bg-on-tertiary-container text-surface-white rounded-lg px-6 py-3 flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined text-surface-white" style="font-variation-settings: 'FILL' 1;">save</span>
+<span class="text-body-lg font-body-lg font-semibold">Lưu hóa đơn</span>
+</button>
+</footer>
+</body></html>

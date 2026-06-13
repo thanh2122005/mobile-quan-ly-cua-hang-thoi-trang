@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Luxe Retailer - Chi tiết sản phẩm</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#1b0600",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#e16415",
+                        "primary-container": "#310065",
+                        "on-primary-fixed-variant": "#58328c",
+                        "surface-container-low": "#f3f3f3",
+                        "tertiary-fixed": "#ffdbcb",
+                        "on-primary-fixed": "#290056",
+                        "primary-fixed": "#eddcff",
+                        "on-primary-container": "#9d77d5",
+                        "surface-variant": "#e2e2e2",
+                        "surface-container-high": "#e8e8e8",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#97a1ff",
+                        "on-background": "#1a1c1c",
+                        "on-secondary-fixed": "#000865",
+                        "inverse-surface": "#2f3131",
+                        "secondary-fixed-dim": "#bdc2ff",
+                        "on-tertiary-fixed": "#341000",
+                        "on-surface": "#1a1c1c",
+                        "outline": "#7c7482",
+                        "inverse-primary": "#d7baff",
+                        "error-container": "#ffdad6",
+                        "surface": "#f9f9f9",
+                        "surface-tint": "#704ba6",
+                        "outline-variant": "#ccc3d2",
+                        "on-secondary-container": "#29338c",
+                        "primary-fixed-dim": "#d7baff",
+                        "on-surface-variant": "#4a4451",
+                        "tertiary-container": "#3f1500",
+                        "surface-white": "#ffffff",
+                        "on-error": "#ffffff",
+                        "secondary": "#4c56af",
+                        "surface-container": "#eeeeee",
+                        "on-tertiary-fixed-variant": "#7a3000",
+                        "surface-container-highest": "#e2e2e2",
+                        "inverse-on-surface": "#f1f1f1",
+                        "accent-amber": "#ffd600",
+                        "surface-bright": "#f9f9f9",
+                        "on-secondary-fixed-variant": "#333d95",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#14002f",
+                        "tertiary-fixed-dim": "#ffb693",
+                        "secondary-fixed": "#dfe0ff",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dadada",
+                        "background": "#f9f9f9",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-screen": "1.5rem",
+                        "spacing-between-elements": "0.5rem",
+                        "padding-card": "1rem",
+                        "gutter-list": "0.75rem",
+                        "unit": "0.5rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen relative max-w-[428px] mx-auto shadow-2xl overflow-x-hidden">
+<!-- Hero Image Area -->
+<div class="relative w-full h-[486px] bg-surface-container-high rounded-b-xl overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.05)]">
+<img alt="Áo len cổ tròn dài tay" class="w-full h-full object-cover transition-transform duration-500 hover:scale-[1.02]" data-alt="A high-fashion, studio quality shot of a luxurious, soft gray and black crewneck sweater. The sweater is beautifully styled on a minimalist backdrop. The lighting is soft and ambient, casting gentle shadows that highlight the texture of the knit. The overall aesthetic is clean, modern, and aligned with a premium glassmorphic UI design, featuring deep blacks, crisp whites, and a touch of sophisticated violet ambient light in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD14kKHhSmwZ6KdsNjM1McU02CK1BL1i1yjKMwEWmu78mTe5RnNt1l640Hs8INLok_eMEEk4kFt67Htf_Lo3hMNkCwqy5tYVZ0xuKBdYERPLqdeTpmzaEgOqiLQv5PHC6J_XJT0gsxnAd99UOR6aAcoDhZX1DUBxja7yAZz7xxhQSQNTmaVEn4WoVErrAFHqaFIcKEfgRnoYGMG5dMH_cY5M8MlnDPVNn5NsFCZgH0VnZgcbTWVcZOWMQ"/>
+<!-- Gradient Overlay for Bottom -->
+<div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-surface/80 to-transparent pointer-events-none"></div>
+<!-- Top Actions -->
+<div class="absolute top-0 inset-x-0 pt-8 px-margin-screen flex justify-between items-center z-10">
+<button aria-label="Quay lại" class="w-10 h-10 bg-surface-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-primary shadow-sm hover:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<button aria-label="Yêu thích" class="w-10 h-10 bg-surface-white/80 backdrop-blur-md rounded-full flex items-center justify-center text-primary shadow-sm hover:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined">favorite_border</span>
+</button>
+</div>
+</div>
+<!-- Product Details Content -->
+<main class="px-margin-screen pt-6 pb-32">
+<!-- Header Info -->
+<div class="flex flex-col gap-spacing-between-elements mb-6">
+<div class="flex justify-between items-start">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">Áo len cổ tròn dài tay</h1>
+</div>
+<div class="font-headline-md text-headline-md text-on-tertiary-container font-bold">
+                299.000đ
+            </div>
+</div>
+<!-- Attributes -->
+<div class="flex items-center gap-4 mb-8 text-on-surface-variant font-label-lg text-label-lg">
+<span class="bg-surface-container-low px-4 py-2 rounded-full shadow-sm">Danh mục: Áo</span>
+<div class="flex items-center gap-2">
+<span class="bg-surface-container-low px-4 py-2 rounded-full shadow-sm flex items-center gap-2">
+                    Màu sắc: 
+                    <span class="w-4 h-4 rounded-full bg-black shadow-inner border border-outline-variant"></span>
+<span class="w-4 h-4 rounded-full bg-gray-500 shadow-inner border border-outline-variant"></span>
+</span>
+</div>
+</div>
+<!-- Description -->
+<div class="mb-8">
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                Áo len mềm mại, phù hợp mặc mùa đông, dễ phối đồ. Thiết kế cổ tròn tinh tế, mang lại cảm giác thoải mái và sang trọng cho người mặc.
+            </p>
+</div>
+<!-- Quantity Selector -->
+<div class="flex items-center gap-6 mb-8">
+<span class="font-label-lg text-label-lg text-primary">Số lượng</span>
+<div class="flex items-center bg-surface-container-lowest rounded-full shadow-sm border border-outline-variant/30 p-1">
+<button class="w-8 h-8 flex items-center justify-center text-primary rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="w-10 text-center font-label-lg text-label-lg text-primary">1</span>
+<button class="w-8 h-8 flex items-center justify-center text-primary rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Bottom Action Bar (Fixed) -->
+<div class="fixed bottom-0 left-0 right-0 max-w-[428px] mx-auto bg-surface/90 backdrop-blur-xl px-margin-screen py-4 pb-8 flex gap-4 z-50 border-t border-outline-variant/20 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+<button class="flex-1 h-14 bg-transparent border-2 border-on-tertiary-container text-on-tertiary-container font-label-lg text-label-lg rounded-full flex items-center justify-center gap-2 hover:bg-surface-container-low transition-all duration-200 active:scale-95 shadow-[0_4px_14px_rgba(225,100,21,0.1)]">
+<span class="material-symbols-outlined">shopping_cart</span>
+            Thêm vào giỏ
+        </button>
+<button class="flex-1 h-14 bg-on-tertiary-container text-on-tertiary font-label-lg text-label-lg rounded-full flex items-center justify-center hover:opacity-90 transition-all duration-200 active:scale-95 shadow-[0_8px_20px_rgba(225,100,21,0.3)]">
+            Mua ngay
+        </button>
+</div>
+</body></html>

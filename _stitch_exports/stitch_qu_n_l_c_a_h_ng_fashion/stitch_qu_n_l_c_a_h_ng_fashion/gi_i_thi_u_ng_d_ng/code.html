@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="light" lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Giới thiệu - Quản Lý Cửa Hàng Quần Áo</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#eeeeee",
+                        "tertiary-container": "#3f1500",
+                        "secondary-fixed-dim": "#bdc2ff",
+                        "outline": "#7c7482",
+                        "accent-amber": "#ffd600",
+                        "tertiary": "#1b0600",
+                        "secondary-container": "#97a1ff",
+                        "secondary": "#4c56af",
+                        "surface-variant": "#e2e2e2",
+                        "surface-white": "#ffffff",
+                        "inverse-primary": "#d7baff",
+                        "on-tertiary-container": "#ff7a2d",
+                        "primary-fixed": "#eddcff",
+                        "on-tertiary-fixed": "#341000",
+                        "surface-tint": "#704ba6",
+                        "on-secondary-fixed-variant": "#333d95",
+                        "surface-container-highest": "#e2e2e2",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#f1f1f1",
+                        "primary-container": "#310065",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#ffdbcb",
+                        "surface-container-high": "#e8e8e8",
+                        "primary": "#14002f",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#ccc3d2",
+                        "on-primary-container": "#9d77d5",
+                        "surface-dim": "#dadada",
+                        "on-error": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#ffb693",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#d7baff",
+                        "background": "#f9f9f9",
+                        "surface": "#f9f9f9",
+                        "on-surface-variant": "#4a4451",
+                        "on-secondary-container": "#29338c",
+                        "secondary-fixed": "#dfe0ff",
+                        "on-surface": "#1a1c1c",
+                        "on-background": "#1a1c1c",
+                        "on-primary-fixed": "#290056",
+                        "inverse-surface": "#2f3131",
+                        "surface-container-low": "#f3f3f3",
+                        "on-primary-fixed-variant": "#58328c",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f9f9f9",
+                        "on-tertiary-fixed-variant": "#7a3000",
+                        "on-secondary-fixed": "#000865",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "spacing-between-elements": "0.5rem",
+                        "padding-card": "1rem",
+                        "unit": "0.5rem",
+                        "gutter-list": "0.75rem",
+                        "margin-screen": "1.5rem"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.5px", "fontWeight": "500" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.1px", "fontWeight": "600" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9f9;
+            color: #1a1c1c;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .ambient-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.4;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface relative min-h-screen overflow-x-hidden">
+<!-- Ambient Background Elements -->
+<div class="ambient-glow bg-primary-fixed-dim w-96 h-96 top-[-100px] left-[-100px]"></div>
+<div class="ambient-glow bg-tertiary-fixed-dim w-80 h-80 bottom-[20%] right-[-50px]"></div>
+<!-- Main Container -->
+<div class="max-w-[428px] mx-auto min-h-screen flex flex-col relative bg-surface-white shadow-[0_0_40px_rgba(0,0,0,0.03)] sm:border-x sm:border-surface-variant overflow-hidden">
+<!-- TopAppBar (From JSON) -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md docked full-width top-0 z-50">
+<div class="flex justify-between items-center w-full px-margin-screen h-14 max-w-[428px] mx-auto">
+<button aria-label="Go back" class="text-primary dark:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-highest transition-colors p-2 -ml-2 rounded-full">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim flex-1 text-center pr-8">
+                    Giới thiệu
+                </h1>
+</div>
+</header>
+<!-- Content Canvas -->
+<main class="flex-1 px-margin-screen pb-32 pt-6 flex flex-col items-center z-10">
+<!-- App Logo & Branding Area -->
+<div class="flex flex-col items-center mt-8 mb-12 w-full">
+<div class="w-32 h-32 bg-primary-container rounded-[2rem] flex items-center justify-center shadow-[0_10px_30px_rgba(49,0,101,0.15)] mb-6 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
+<span class="material-symbols-outlined text-6xl text-on-primary-container" style="font-variation-settings: 'FILL' 1;">storefront</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary text-center mb-4 tracking-tight">
+                    Quản Lý Cửa Hàng Quần Áo
+                </h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant text-center max-w-[280px]">
+                    Ứng dụng hỗ trợ mua sắm thời trang và quản lý cửa hàng quần áo bằng SQLite local.
+                </p>
+</div>
+<!-- Bento Grid Info Cards -->
+<div class="w-full flex flex-col gap-spacing-between-elements mb-12">
+<!-- Main Project Info Card (Glassmorphism inspired) -->
+<div class="bg-surface-white rounded-DEFAULT p-padding-card shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-surface-container flex flex-col gap-4">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">info</span>
+                        Thông tin dự án
+                    </h3>
+<div class="flex flex-col gap-3">
+<div class="flex items-start justify-between border-b border-surface-container pb-2">
+<span class="font-body-md text-body-md text-on-surface-variant">Bài tập lớn</span>
+<span class="font-label-lg text-label-lg text-on-surface text-right max-w-[150px]">Lập trình Mobile</span>
+</div>
+<div class="flex items-center justify-between border-b border-surface-container pb-2">
+<span class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">code</span> Ngôn ngữ
+                            </span>
+<span class="font-label-lg text-label-lg text-on-surface">Java</span>
+</div>
+<div class="flex items-center justify-between border-b border-surface-container pb-2">
+<span class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">design_services</span> Giao diện
+                            </span>
+<span class="font-label-lg text-label-lg text-on-surface">XML</span>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">database</span> Cơ sở dữ liệu
+                            </span>
+<span class="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary-container/20 font-label-md text-label-md text-secondary">
+                                SQLite
+                            </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Spacer -->
+<div class="flex-1"></div>
+<!-- Primary Action Button -->
+<button class="w-full h-[56px] rounded-full bg-on-tertiary-container text-surface-white font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-[0_8px_20px_rgba(255,122,45,0.25)] hover:scale-[1.02] transition-transform duration-200 active:scale-95">
+<span class="material-symbols-outlined">arrow_back</span>
+                Quay lại
+            </button>
+</main>
+<!-- Navigation Suppressed: Linear/Task-Focused "About" screen implies temporary departure from main flow, requires a "Back" action. Context Canvas prioritized. -->
+</div>
+</body></html>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Quản Lý Cửa Hàng Thời Trang</string>
+
+    <!-- Splash -->
+    <string name="splash_title">Quản Lý Cửa Hàng Thời Trang</string>
+    <string name="splash_subtitle">Mua sắm dễ dàng - Quản lý nhanh chóng</string>
+    <string name="splash_loading">Đang khởi động…</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">Chào mừng đến với Fashion Store</string>
+    <string name="welcome_desc">Ứng dụng hỗ trợ mua sắm thời trang và quản lý cửa hàng quần áo.</string>
+    <string name="welcome_start">Bắt đầu</string>
+    <string name="welcome_skip">Bỏ qua</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title_1">Khám phá sản phẩm</string>
+    <string name="onboarding_desc_1">Tìm kiếm và khám phá hàng nghìn sản phẩm thời trang đa dạng.</string>
+    <string name="onboarding_title_2">Đặt hàng nhanh chóng</string>
+    <string name="onboarding_desc_2">Mua sắm tiện lợi với quy trình đặt hàng đơn giản và nhanh chóng.</string>
+    <string name="onboarding_title_3">Quản lý cửa hàng hiệu quả</string>
+    <string name="onboarding_desc_3">Công cụ quản lý mạnh mẽ cho chủ cửa hàng thời trang.</string>
+    <string name="onboarding_next">Tiếp theo</string>
+    <string name="onboarding_start">Bắt đầu</string>
+
+    <!-- Login -->
+    <string name="login_title">Đăng nhập</string>
+    <string name="login_subtitle">Vui lòng đăng nhập để tiếp tục</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_hint">Mật khẩu</string>
+    <string name="login_role_user">Người dùng</string>
+    <string name="login_role_admin">Admin</string>
+    <string name="login_button">Đăng nhập</string>
+    <string name="login_no_account">Chưa có tài khoản?</string>
+    <string name="login_register_link">Đăng ký</string>
+    <string name="login_sample_title">Tài khoản mẫu</string>
+    <string name="login_sample_admin">Admin: admin@gmail.com / 123456</string>
+    <string name="login_sample_user">User: user@gmail.com / 123456</string>
+
+    <!-- Register -->
+    <string name="register_title">Đăng ký tài khoản</string>
+    <string name="register_subtitle">Tạo tài khoản để mua sắm dễ dàng hơn và nhận những ưu đãi đặc quyền.</string>
+    <string name="register_fullname_hint">Họ và tên</string>
+    <string name="register_email_hint">Email</string>
+    <string name="register_phone_hint">Số điện thoại</string>
+    <string name="register_password_hint">Mật khẩu</string>
+    <string name="register_confirm_password_hint">Xác nhận mật khẩu</string>
+    <string name="register_terms">Tôi đồng ý với Điều khoản dịch vụ và Chính sách bảo mật</string>
+    <string name="register_button">Đăng ký</string>
+    <string name="register_has_account">Đã có tài khoản?</string>
+    <string name="register_login_link">Đăng nhập</string>
+    <string name="register_success">Đăng ký thành công!</string>
+
+    <!-- Admin Dashboard -->
+    <string name="admin_toolbar_title">Quản Lý Cửa Hàng</string>
+    <string name="admin_greeting">Xin chào, Admin 👋</string>
+    <string name="admin_greeting_sub">Đây là tổng quan cửa hàng của bạn hôm nay.</string>
+    <string name="admin_stat_products">Tổng sản phẩm</string>
+    <string name="admin_stat_orders">Tổng đơn hàng</string>
+    <string name="admin_stat_revenue">Doanh thu</string>
+    <string name="admin_stat_low_stock">Sắp hết hàng</string>
+    <string name="admin_func_title">Chức năng quản lý</string>
+    <string name="admin_func_products">Quản lý sản phẩm</string>
+    <string name="admin_func_categories">Quản lý danh mục</string>
+    <string name="admin_func_create_invoice">Tạo hóa đơn</string>
+    <string name="admin_func_invoice_history">Lịch sử hóa đơn</string>
+    <string name="admin_func_statistics">Thống kê</string>
+    <string name="admin_func_users">Quản lý người dùng</string>
+    <string name="admin_func_low_stock">SP sắp hết hàng</string>
+    <string name="admin_func_logout">Đăng xuất</string>
+
+    <!-- User Home -->
+    <string name="user_toolbar_title">Fashion Store</string>
+    <string name="user_greeting">Xin chào, Thành 👋</string>
+    <string name="user_greeting_sub">Khám phá phong cách của bạn hôm nay</string>
+    <string name="user_search_hint">Tìm kiếm sản phẩm…</string>
+    <string name="user_banner_title">Bộ sưu tập mới</string>
+    <string name="user_banner_desc">Giảm đến 30%% cho các mẫu thiết kế hè 2024</string>
+    <string name="user_banner_cta">Khám phá ngay</string>
+    <string name="user_products_title">Gợi ý cho bạn</string>
+    <string name="user_products_more">Xem thêm</string>
+    <string name="user_nav_home">Trang chủ</string>
+    <string name="user_nav_cart">Giỏ hàng</string>
+    <string name="user_nav_orders">Đơn hàng</string>
+    <string name="user_nav_account">Tài khoản</string>
+
+    <!-- General -->
+    <string name="feature_not_ready">Chức năng đang được phát triển</string>
+    <string name="category_all">Tất cả</string>
+    <string name="category_shirt">Áo</string>
+    <string name="category_pants">Quần</string>
+    <string name="category_shoes">Giày</string>
+    <string name="category_accessories">Phụ kiện</string>
+</resources>

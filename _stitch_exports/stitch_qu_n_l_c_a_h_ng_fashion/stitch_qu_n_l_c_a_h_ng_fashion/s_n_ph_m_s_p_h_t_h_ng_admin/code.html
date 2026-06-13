@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sản phẩm sắp hết hàng</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#eeeeee",
+                    "tertiary-container": "#3f1500",
+                    "secondary-fixed-dim": "#bdc2ff",
+                    "outline": "#7c7482",
+                    "accent-amber": "#ffd600",
+                    "tertiary": "#1b0600",
+                    "secondary-container": "#97a1ff",
+                    "secondary": "#4c56af",
+                    "surface-variant": "#e2e2e2",
+                    "surface-white": "#ffffff",
+                    "inverse-primary": "#d7baff",
+                    "on-tertiary-container": "#ff7a2d",
+                    "primary-fixed": "#eddcff",
+                    "on-tertiary-fixed": "#341000",
+                    "surface-tint": "#704ba6",
+                    "on-secondary-fixed-variant": "#333d95",
+                    "surface-container-highest": "#e2e2e2",
+                    "on-tertiary": "#ffffff",
+                    "inverse-on-surface": "#f1f1f1",
+                    "primary-container": "#310065",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#ffdbcb",
+                    "surface-container-high": "#e8e8e8",
+                    "primary": "#14002f",
+                    "error": "#ba1a1a",
+                    "outline-variant": "#ccc3d2",
+                    "on-primary-container": "#9d77d5",
+                    "surface-dim": "#dadada",
+                    "on-error": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#ffb693",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed-dim": "#d7baff",
+                    "background": "#f9f9f9",
+                    "surface": "#f9f9f9",
+                    "on-surface-variant": "#4a4451",
+                    "on-secondary-container": "#29338c",
+                    "secondary-fixed": "#dfe0ff",
+                    "on-surface": "#1a1c1c",
+                    "on-background": "#1a1c1c",
+                    "on-primary-fixed": "#290056",
+                    "inverse-surface": "#2f3131",
+                    "surface-container-low": "#f3f3f3",
+                    "on-primary-fixed-variant": "#58328c",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f9f9f9",
+                    "on-tertiary-fixed-variant": "#7a3000",
+                    "on-secondary-fixed": "#000865",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "spacing-between-elements": "0.5rem",
+                    "padding-card": "1rem",
+                    "unit": "0.5rem",
+                    "gutter-list": "0.75rem",
+                    "margin-screen": "1.5rem"
+            },
+            "fontFamily": {
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "headline-sm": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "label-lg": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "body-lg": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-sm": [
+                            "18px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-md": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.5px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "label-lg": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0.1px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-md": [
+                            "22px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-lg": [
+                            "28px",
+                            {
+                                    "lineHeight": "36px",
+                                    "fontWeight": "700"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen pb-24 relative overflow-x-hidden">
+<!-- Ambient Background Blobs -->
+<div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+<div class="absolute top-[-10%] right-[-10%] w-[300px] h-[300px] rounded-full bg-secondary-container opacity-20 blur-[60px]"></div>
+<div class="absolute bottom-[20%] left-[-10%] w-[250px] h-[250px] rounded-full bg-tertiary-fixed opacity-30 blur-[80px]"></div>
+</div>
+<!-- TopAppBar -->
+<header class="bg-surface/80 backdrop-blur-md sticky flex justify-between items-center w-full px-margin-screen h-14 max-w-[428px] mx-auto z-40">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-low transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Sản phẩm sắp hết</h1>
+<div class="w-10 h-10"></div>
+</header>
+<main class="max-w-[428px] mx-auto px-margin-screen pt-4 pb-8 space-y-6">
+<!-- Warning Banner -->
+<div class="bg-error-container rounded-DEFAULT p-4 flex items-start gap-3 border border-error/10">
+<span class="material-symbols-outlined text-error mt-0.5" data-icon="warning">warning</span>
+<div>
+<h2 class="font-label-lg text-label-lg text-on-error-container font-semibold">Cảnh báo tồn kho</h2>
+<p class="font-body-md text-body-md text-on-error-container mt-1">Các sản phẩm có số lượng thấp cần nhập thêm. Vui lòng kiểm tra và cập nhật.</p>
+</div>
+</div>
+<!-- Product List -->
+<div class="space-y-4">
+<!-- Product Card 1 -->
+<div class="bg-surface-white rounded-DEFAULT p-3 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-surface-container-high flex gap-4 items-center">
+<div class="w-20 h-20 rounded-DEFAULT overflow-hidden bg-surface-container flex-shrink-0 relative">
+<img alt="Nike Red Sneakers" class="w-full h-full object-cover" data-alt="A pair of vibrant red Nike sneakers displayed against a clean, minimalist background. The lighting is bright and even, highlighting the texture of the fabric and the crisp white sole. The overall aesthetic is modern, commercial, and premium, fitting for a high-end retail app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoqPun92_UPkEpRxZ-8_A7FRXB5OtWiIVOjRBULGRicHH3aTV_fsUgFzCxyCl96pYEN34NyhBqOLzYwVEqf33d_aKKZaQdQJ-3uWh5R5p29K7m_7fUBApM5gWrjLMIFSfaab6giyFERfa-bQHsLi8McsNB8UQ5taFfZqrTxoNlwOrhTb4ujWAgceTE-T5vxcbZ3YT_yBxuSA6lpQ3wZ6TpKugnccGrw9v3bSnL_mDWp5tpOI1J3CFVXQ"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-md text-label-md text-outline bg-surface-container-low px-2 py-0.5 rounded-sm">Giày thể thao</span>
+<span class="bg-error/10 text-error font-label-md text-label-md px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Sắp hết
+                        </span>
+</div>
+<h3 class="font-label-lg text-label-lg text-on-surface truncate">Giày chạy bộ Nike Air Max</h3>
+<div class="flex justify-between items-end mt-2">
+<div>
+<p class="font-body-md text-body-md text-primary font-semibold">2.450.000 ₫</p>
+<p class="font-label-md text-label-md text-on-surface-variant mt-0.5">Còn lại: <span class="text-error font-bold">2</span></p>
+</div>
+<button class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface-white rounded-DEFAULT p-3 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-surface-container-high flex gap-4 items-center">
+<div class="w-20 h-20 rounded-DEFAULT overflow-hidden bg-surface-container flex-shrink-0 relative">
+<img alt="Black T-Shirt" class="w-full h-full object-cover" data-alt="A premium black cotton t-shirt neatly folded on a pristine white surface. Soft, diffused lighting casts gentle shadows, emphasizing the fabric's quality and minimalist design. The composition is clean, airy, and sophisticated, reflecting a modern boutique aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZcYXymwnEAHTmcEF9Wl4M4d2Ypxik2XNY5ppVEtBooTpjomSpikswIncOUwEnFFSiXvzBHC5gmszVnaziiKwfzedhB2ADQheB10JAW8GsIImU6aKkCvkdY77hLeJlkC4WRXc9RHX3pXWhqFxya8ZoUsbA5c8LaB3fJNjyuE2_3SVkKOxL7acqNyEaOkTRurAIA4KZrmTFvn3DTTM1n9djefiuw17VJHqWTAbIjC8vScAIk2T1QaPn-Q"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-md text-label-md text-outline bg-surface-container-low px-2 py-0.5 rounded-sm">Áo thun</span>
+<span class="bg-error/10 text-error font-label-md text-label-md px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Sắp hết
+                        </span>
+</div>
+<h3 class="font-label-lg text-label-lg text-on-surface truncate">Áo thun Basic Cotton Đen</h3>
+<div class="flex justify-between items-end mt-2">
+<div>
+<p class="font-body-md text-body-md text-primary font-semibold">350.000 ₫</p>
+<p class="font-label-md text-label-md text-on-surface-variant mt-0.5">Còn lại: <span class="text-error font-bold">5</span></p>
+</div>
+<button class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface-white rounded-DEFAULT p-3 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-surface-container-high flex gap-4 items-center">
+<div class="w-20 h-20 rounded-DEFAULT overflow-hidden bg-surface-container flex-shrink-0 relative">
+<img alt="Leather Bag" class="w-full h-full object-cover" data-alt="A luxurious brown leather tote bag showcased against a soft, light background. Subtle directional lighting highlights the rich texture and stitching of the leather. The setting is minimalist and elegant, conveying a sense of premium craftsmanship and style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvcflAsWc_tJEnBsNGIZiBojXBb2Jq-EGDz0-qFHfvIZP_7AZmEGvl8t3vTfHRQN0iA13pXBCSo2UGjUphywnhQp0UO-8S3zvVzG2eqLbUQK9oCwcqM1srdzvCpyF1lkmz_gw_uEBftIHh4SE-Tub2xmkmS5ezZIhWRx8gqqYTu3M2XoNpjxcxoq98iyccHZ7432FtAebZAWwkyJh-_vVHv7_LKVcJPGuhE1Tf5iBWGZ8NPtAoaj5oWg"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-md text-label-md text-outline bg-surface-container-low px-2 py-0.5 rounded-sm">Túi xách</span>
+<span class="bg-error/10 text-error font-label-md text-label-md px-2 py-0.5 rounded-full flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span> Hết hàng
+                        </span>
+</div>
+<h3 class="font-label-lg text-label-lg text-on-surface truncate">Túi xách da thật cao cấp</h3>
+<div class="flex justify-between items-end mt-2">
+<div>
+<p class="font-body-md text-body-md text-primary font-semibold">1.850.000 ₫</p>
+<p class="font-label-md text-label-md text-on-surface-variant mt-0.5">Còn lại: <span class="text-error font-bold">0</span></p>
+</div>
+<button class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:bg-primary hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="edit">edit</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar Admin -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pb-2 pt-3 h-20 max-w-[428px] mx-auto bg-surface-white shadow-[0_-4px_30px_rgba(0,0,0,0.08)] rounded-t-lg">
+<button class="flex flex-col items-center justify-center text-on-tertiary-container font-semibold hover:bg-surface-container-low transition-all scale-110 duration-200 px-2 py-1 rounded-lg">
+<span class="material-symbols-outlined" data-icon="dashboard" data-weight="fill" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="font-label-md text-label-md mt-1">Quản trị</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-all px-2 py-1 rounded-lg">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md mt-1">Sản phẩm</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-all px-2 py-1 rounded-lg">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="font-label-md text-label-md mt-1">Hóa đơn</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-all px-2 py-1 rounded-lg">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-md text-label-md mt-1">Thống kê</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-all px-2 py-1 rounded-lg">
+<span class="material-symbols-outlined" data-icon="admin_panel_settings">admin_panel_settings</span>
+<span class="font-label-md text-label-md mt-1">Admin</span>
+</button>
+</nav>
+</body></html>

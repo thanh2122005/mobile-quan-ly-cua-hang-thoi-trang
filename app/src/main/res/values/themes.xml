@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme -->
+    <style name="Base.Theme.QuanLyCuaHangThoiTrang" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary_purple</item>
+        <item name="colorPrimaryContainer">@color/primary_container</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondaryContainer">@color/secondary_container</item>
+        <item name="colorTertiary">@color/accent_orange</item>
+        <item name="colorTertiaryContainer">@color/accent_orange_light</item>
+        <item name="colorError">@color/error_red</item>
+        <item name="colorErrorContainer">@color/error_container</item>
+        <item name="colorSurface">@color/surface_white</item>
+        <item name="colorSurfaceVariant">@color/surface_container_highest</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+        <item name="colorOutline">@color/outline</item>
+        <item name="colorOutlineVariant">@color/border_gray</item>
+        <item name="android:colorBackground">@color/background_light</item>
+        <item name="android:statusBarColor">@color/primary_dark</item>
+        <item name="android:navigationBarColor">@color/surface_white</item>
+    </style>
+
+    <style name="Theme.QuanLyCuaHangThoiTrang" parent="Base.Theme.QuanLyCuaHangThoiTrang" />
+
+    <!-- Splash theme: fullscreen, no action bar, purple background -->
+    <style name="Theme.QuanLyCuaHangThoiTrang.Splash" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowBackground">@color/primary_purple</item>
+        <item name="android:statusBarColor">@color/primary_purple</item>
+        <item name="android:navigationBarColor">@color/primary_purple</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <!-- Welcome/Onboarding theme: white background -->
+    <style name="Theme.QuanLyCuaHangThoiTrang.Welcome" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowBackground">@color/surface_white</item>
+        <item name="android:statusBarColor">@color/surface_white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/surface_white</item>
+    </style>
+
+    <!-- Auth screens (Login, Register) -->
+    <style name="Theme.QuanLyCuaHangThoiTrang.Auth" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowBackground">@color/surface_gray</item>
+        <item name="android:statusBarColor">@color/surface_gray</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/surface_gray</item>
+    </style>
+</resources>
