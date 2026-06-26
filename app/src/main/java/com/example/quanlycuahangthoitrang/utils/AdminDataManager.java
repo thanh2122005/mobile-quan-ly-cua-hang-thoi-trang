@@ -16,15 +16,15 @@ public class AdminDataManager {
 
     static {
         // Initialize mock products
-        products.add(new Product(1, "Áo len cổ tròn basic nam nữ unisex", "Áo", 299000, "Xám", "Áo len chất liệu mềm mại, giữ ấm tốt, phù hợp mọi giới tính.", R.drawable.ic_product_tshirt, 12));
-        products.add(new Product(2, "Áo sơ mi nam", "Áo", 350000, "Trắng", "Áo sơ mi nam thanh lịch, chống nhăn.", R.drawable.ic_product_shirt, 8));
-        products.add(new Product(3, "Áo thun cotton trơn thoáng mát", "Áo", 120000, "Đen", "Thoáng mát, thấm hút mồ hôi tốt.", R.drawable.ic_product_tshirt, 20));
-        products.add(new Product(4, "Quần Jeans Denim dáng suông rộng", "Quần", 450000, "Xanh", "Quần jeans form rộng thoải mái, phong cách.", R.drawable.ic_product_pants, 10));
-        products.add(new Product(5, "Quần Jeans cạp cao", "Quần", 499000, "Đen", "Tôn dáng, vải denim cao cấp.", R.drawable.ic_product_pants, 6));
-        products.add(new Product(6, "Giày Sneaker thể thao năng động", "Giày", 890000, "Trắng", "Giày thể thao nhẹ, êm chân.", R.drawable.ic_product_shoes, 5));
-        products.add(new Product(7, "Giày sneaker phối màu", "Giày", 809000, "Đỏ Trắng", "Thiết kế nổi bật, phù hợp đi chơi.", R.drawable.ic_product_shoes, 3));
-        products.add(new Product(8, "Túi đơn giản và sang trọng", "Phụ kiện", 1299000, "Nâu", "Túi xách tay chất liệu da PU.", R.drawable.ic_product_bag, 4));
-        products.add(new Product(9, "Kính râm gọng tròn", "Phụ kiện", 879000, "Đen", "Kính râm chống tia UV.", R.drawable.ic_product_glasses, 2));
+        products.add(new Product(1, "Áo len cổ tròn basic nam nữ unisex", "Áo", 299000, "Xám", "S,M,L,XL", "Áo len chất liệu mềm mại, giữ ấm tốt, phù hợp mọi giới tính.", 0, 12));
+        products.add(new Product(2, "Áo sơ mi nam", "Áo", 350000, "Trắng", "S,M,L,XL", "Áo sơ mi nam thanh lịch, chống nhăn.", 0, 8));
+        products.add(new Product(3, "Áo thun cotton trơn thoáng mát", "Áo", 120000, "Đen", "S,M,L,XL", "Thoáng mát, thấm hút mồ hôi tốt.", 0, 20));
+        products.add(new Product(4, "Quần Jeans Denim dáng suông rộng", "Quần", 450000, "Xanh", "28,29,30,31,32,33", "Quần jeans form rộng thoải mái, phong cách.", 0, 10));
+        products.add(new Product(5, "Quần Jeans cạp cao", "Quần", 499000, "Đen", "28,29,30,31,32,33", "Tôn dáng, vải denim cao cấp.", 0, 6));
+        products.add(new Product(6, "Giày Sneaker thể thao năng động", "Giày", 890000, "Trắng", "38,39,40,41,42,43", "Giày thể thao nhẹ, êm chân.", 0, 5));
+        products.add(new Product(7, "Giày sneaker phối màu", "Giày", 809000, "Đỏ Trắng", "38,39,40,41,42,43", "Thiết kế nổi bật, phù hợp đi chơi.", 0, 3));
+        products.add(new Product(8, "Túi đơn giản và sang trọng", "Phụ kiện", 1299000, "Nâu", "Freesize", "Túi xách tay chất liệu da PU.", 0, 4));
+        products.add(new Product(9, "Kính râm gọng tròn", "Phụ kiện", 879000, "Đen", "Freesize", "Kính râm chống tia UV.", 0, 2));
 
         // Initialize mock categories
         categories.add(new Category(1, "Áo", "👕"));

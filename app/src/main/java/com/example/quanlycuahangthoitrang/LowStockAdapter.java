@@ -42,7 +42,7 @@ public class LowStockAdapter extends RecyclerView.Adapter<LowStockAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product p = productList.get(position);
         
-        holder.ivIcon.setImageResource(p.getImageResId());
+        com.example.quanlycuahangthoitrang.utils.ImageLoader.load(holder.ivIcon, p.getMainImage());
         holder.tvName.setText(p.getName());
         holder.tvStock.setText("Còn lại: " + p.getStock());
 

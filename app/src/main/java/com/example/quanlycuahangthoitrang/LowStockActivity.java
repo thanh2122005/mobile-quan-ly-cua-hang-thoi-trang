@@ -22,14 +22,20 @@ public class LowStockActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Hàm khởi tạo chạy đầu tiên khi mở Activity
         super.onCreate(savedInstanceState);
+        // Nạp giao diện từ file XML
         setContentView(R.layout.activity_low_stock);
 
+        // Khởi tạo bộ công cụ thao tác với CSDL
         dbHelper = new DatabaseHelper(this);
 
+        // Bắt sự kiện bấm nút quay lại
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
+        // Ánh xạ view từ XML sang Java
         rvLowStock = findViewById(R.id.rvLowStock);
+        // Ánh xạ view từ XML sang Java
         tvLowStockSummary = findViewById(R.id.tvLowStockSummary);
         
         rvLowStock.setLayoutManager(new LinearLayoutManager(this));

@@ -41,7 +41,7 @@ public class ProductUserAdapter extends RecyclerView.Adapter<ProductUserAdapter.
         Product product = productList.get(position);
         holder.tvProductName.setText(product.getName());
         holder.tvProductPrice.setText(FormatUtils.formatPrice(product.getPrice()));
-        holder.ivProductImage.setImageResource(product.getImageResId());
+        com.example.quanlycuahangthoitrang.utils.ImageLoader.load(holder.ivProductImage, product.getMainImage());
 
         holder.itemView.setOnClickListener(v -> listener.onProductClick(product));
         holder.btnAddProduct.setOnClickListener(v -> listener.onAddToCartClick(product));

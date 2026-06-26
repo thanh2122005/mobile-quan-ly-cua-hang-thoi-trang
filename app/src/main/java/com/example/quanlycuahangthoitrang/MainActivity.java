@@ -12,8 +12,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Hàm khởi tạo chạy đầu tiên khi mở Activity
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+        // Nạp giao diện từ file XML
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

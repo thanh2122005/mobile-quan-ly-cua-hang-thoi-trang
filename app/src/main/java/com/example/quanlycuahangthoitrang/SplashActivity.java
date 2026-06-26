@@ -15,7 +15,9 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Hàm khởi tạo chạy đầu tiên khi mở Activity
         super.onCreate(savedInstanceState);
+        // Nạp giao diện từ file XML
         setContentView(R.layout.activity_splash);
 
         // Khởi tạo Database để trigger onCreate/onUpgrade
@@ -27,11 +29,14 @@ public class SplashActivity extends AppCompatActivity {
             com.example.quanlycuahangthoitrang.utils.SessionManager session = new com.example.quanlycuahangthoitrang.utils.SessionManager(this);
             if (session.isLoggedIn()) {
                 if ("admin".equals(session.getRole())) {
+                    // Chuyển sang màn hình tương ứng
                     startActivity(new Intent(SplashActivity.this, AdminDashboardActivity.class));
                 } else {
+                    // Chuyển sang màn hình tương ứng
                     startActivity(new Intent(SplashActivity.this, UserHomeActivity.class));
                 }
             } else {
+                // Chuyển sang màn hình tương ứng
                 startActivity(new Intent(SplashActivity.this, WelcomeActivity.class));
             }
             finish();

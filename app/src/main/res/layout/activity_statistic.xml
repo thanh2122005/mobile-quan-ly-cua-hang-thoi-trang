@@ -156,6 +156,15 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="* Doanh thu chỉ tính từ các đơn hàng trực tuyến."
+                android:textSize="11sp"
+                android:textColor="@color/text_secondary"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"/>
+
             <!-- Chart -->
             <TextView
                 android:layout_width="wrap_content"
@@ -171,16 +180,14 @@
                 android:textColor="@color/text_secondary"
                 android:layout_marginBottom="8dp"/>
                 
-            <LinearLayout
-                android:id="@+id/llChartContainer"
+            <!-- Biểu đồ cột tự vẽ (CustomBarChartView) -->
+            <com.example.quanlycuahangthoitrang.CustomBarChartView
+                android:id="@+id/barChartView"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="250dp"
                 android:background="@drawable/bg_card"
-                android:gravity="bottom|center_horizontal"
-                android:orientation="horizontal"
                 android:padding="16dp"
-                android:layout_marginBottom="24dp">
-            </LinearLayout>
+                android:layout_marginBottom="24dp"/>
 
             <!-- Top selling -->
             <TextView

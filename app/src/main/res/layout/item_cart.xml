@@ -8,6 +8,18 @@
     android:orientation="horizontal"
     android:padding="12dp">
 
+    <TextView
+        android:id="@+id/cbSelect"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="12dp"
+        android:gravity="center"
+        android:text="✓"
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/bg_checkbox_checked" />
+
     <FrameLayout
         android:id="@+id/imgContainer"
         android:layout_width="80dp"
@@ -30,10 +42,21 @@
 
         <TextView
             android:id="@+id/tvProductName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:text="Áo len cổ tròn"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvProductVariant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Màu: Đen - Size: M"
+            android:textColor="@color/text_secondary"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tvProductPrice"

@@ -22,6 +22,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         void onIncrease(CartItem item);
         void onDecrease(CartItem item);
         void onRemove(CartItem item);
+        void onEditVariant(CartItem item);
+        void onSelectionChanged(CartItem item, boolean isChecked);
     }
 
     public CartAdapter(List<CartItem> cartItems, OnCartItemInteractionListener listener) {
@@ -48,11 +50,61 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.tvProductName.setText(item.getProduct().getName());
         holder.tvProductPrice.setText(FormatUtils.formatPrice(item.getProduct().getPrice()));
         holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
-        holder.ivProductImage.setImageResource(item.getProduct().getImageResId());
+        
+        if (item.isSelected()) {
+            holder.cbSelect.setBackgroundResource(R.drawable.bg_checkbox_checked);
+            holder.cbSelect.setText("✓");
+        } else {
+            holder.cbSelect.setBackgroundResource(R.drawable.bg_checkbox_unchecked);
+            holder.cbSelect.setText("");
+        }
+
+        holder.cbSelect.setOnClickListener(v -> {
+            boolean newState = !item.isSelected();
+            item.setSelected(newState);
+            
+            if (newState) {
+                holder.cbSelect.setBackgroundResource(R.drawable.bg_checkbox_checked);
+                holder.cbSelect.setText("✓");
+            } else {
+                holder.cbSelect.setBackgroundResource(R.drawable.bg_checkbox_unchecked);
+                holder.cbSelect.setText("");
+            }
+            
+            listener.onSelectionChanged(item, newState);
+        });
+        
+        String variantText = "";
+        if (item.getSelectedColor() != null && !item.getSelectedColor().isEmpty()) {
+            variantText += "Màu: " + item.getSelectedColor();
+        }
+        if (item.getSelectedSize() != null && !item.getSelectedSize().isEmpty()) {
+            if (!variantText.isEmpty()) variantText += " - ";
+            variantText += "Size: " + item.getSelectedSize();
+        }
+        if (!variantText.isEmpty()) {
+            variantText += " ✏️";
+            holder.tvProductVariant.setText(variantText);
+            holder.tvProductVariant.setVisibility(View.VISIBLE);
+            holder.tvProductVariant.setOnClickListener(v -> listener.onEditVariant(item));
+        } else {
+            holder.tvProductVariant.setVisibility(View.GONE);
+        }
+
+        com.example.quanlycuahangthoitrang.utils.ImageLoader.load(holder.ivProductImage, item.getProduct().getMainImage());
 
         holder.btnMinus.setOnClickListener(v -> listener.onDecrease(item));
         holder.btnPlus.setOnClickListener(v -> listener.onIncrease(item));
         holder.btnRemove.setOnClickListener(v -> listener.onRemove(item));
+        
+        // Mở chi tiết sản phẩm khi click vào ảnh hoặc tên
+        android.view.View.OnClickListener openDetailListener = v -> {
+            android.content.Intent intent = new android.content.Intent(v.getContext(), ProductDetailActivity.class);
+            intent.putExtra("product_id", item.getProduct().getId());
+            v.getContext().startActivity(intent);
+        };
+        holder.ivProductImage.setOnClickListener(openDetailListener);
+        holder.tvProductName.setOnClickListener(openDetailListener);
     }
 
     @Override
@@ -61,13 +113,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     }
 
     static class CartViewHolder extends RecyclerView.ViewHolder {
-        TextView tvProductName, tvProductPrice, tvQuantity;
+        TextView tvProductName, tvProductVariant, tvProductPrice, tvQuantity, cbSelect;
         TextView btnMinus, btnPlus, btnRemove;
         android.widget.ImageView ivProductImage;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
+            cbSelect = itemView.findViewById(R.id.cbSelect);
             tvProductName = itemView.findViewById(R.id.tvProductName);
+            tvProductVariant = itemView.findViewById(R.id.tvProductVariant);
             tvProductPrice = itemView.findViewById(R.id.tvProductPrice);
             ivProductImage = itemView.findViewById(R.id.ivProductImage);
             tvQuantity = itemView.findViewById(R.id.tvQuantity);

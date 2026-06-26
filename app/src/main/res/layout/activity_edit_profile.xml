@@ -60,6 +60,7 @@
             </FrameLayout>
 
             <EditText
+                android:id="@+id/edtName"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginBottom="16dp"
@@ -68,6 +69,7 @@
                 android:paddingHorizontal="16dp" />
 
             <EditText
+                android:id="@+id/edtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginBottom="16dp"
@@ -77,6 +79,7 @@
                 android:paddingHorizontal="16dp" />
 
             <EditText
+                android:id="@+id/edtPhone"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginBottom="16dp"
@@ -86,6 +89,7 @@
                 android:paddingHorizontal="16dp" />
 
             <EditText
+                android:id="@+id/edtAddress"
                 android:layout_width="match_parent"
                 android:layout_height="96dp"
                 android:layout_marginBottom="24dp"

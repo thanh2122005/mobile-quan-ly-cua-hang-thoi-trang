@@ -28,18 +28,25 @@ public class CategoryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Hàm khởi tạo chạy đầu tiên khi mở Activity
         super.onCreate(savedInstanceState);
+        // Nạp giao diện từ file XML
         setContentView(R.layout.activity_category);
 
+        // Khởi tạo bộ công cụ thao tác với CSDL
         dbHelper = new DatabaseHelper(this);
 
+        // Bắt sự kiện bấm nút quay lại
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
         findViewById(R.id.btnAddCategory).setOnClickListener(v -> {
+            // Chuyển sang màn hình tương ứng
             startActivity(new Intent(CategoryActivity.this, AddCategoryActivity.class));
         });
 
+        // Ánh xạ view từ XML sang Java
         edtSearchCategory = findViewById(R.id.edtSearchCategory);
+        // Ánh xạ view từ XML sang Java
         rvCategories = findViewById(R.id.rvCategories);
         rvCategories.setLayoutManager(new LinearLayoutManager(this));
 
@@ -54,6 +61,7 @@ public class CategoryActivity extends AppCompatActivity {
             @Override
             public void onDelete(Category category) {
                 if (dbHelper.getProductCountByCategory(category.getName()) > 0) {
+                    // Hiện thông báo (Toast) cho người dùng
                     Toast.makeText(CategoryActivity.this, "Không thể xóa danh mục đang có sản phẩm", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -63,6 +71,7 @@ public class CategoryActivity extends AppCompatActivity {
                         .setPositiveButton("Xóa", (dialog, which) -> {
                             dbHelper.deleteCategory(category.getId());
                             adapter.updateData(dbHelper.searchCategories(edtSearchCategory.getText().toString()));
+                            // Hiện thông báo (Toast) cho người dùng
                             Toast.makeText(CategoryActivity.this, "Đã xóa danh mục", Toast.LENGTH_SHORT).show();
                         })
                         .setNegativeButton("Hủy", null)

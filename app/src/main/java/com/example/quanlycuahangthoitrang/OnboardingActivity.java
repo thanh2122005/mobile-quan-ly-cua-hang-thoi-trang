@@ -30,15 +30,24 @@ public class OnboardingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Hàm khởi tạo chạy đầu tiên khi mở Activity
         super.onCreate(savedInstanceState);
+        // Nạp giao diện từ file XML
         setContentView(R.layout.activity_onboarding);
 
+        // Ánh xạ view từ XML sang Java
         tvTitle = findViewById(R.id.tvOnboardingTitle);
+        // Ánh xạ view từ XML sang Java
         tvDesc = findViewById(R.id.tvOnboardingDesc);
+        // Ánh xạ view từ XML sang Java
         tvEmoji = findViewById(R.id.tvOnboardingEmoji);
+        // Ánh xạ view từ XML sang Java
         btnNext = findViewById(R.id.btnOnboardingNext);
+        // Ánh xạ view từ XML sang Java
         dot1 = findViewById(R.id.dot1);
+        // Ánh xạ view từ XML sang Java
         dot2 = findViewById(R.id.dot2);
+        // Ánh xạ view từ XML sang Java
         dot3 = findViewById(R.id.dot3);
 
         updateStep();

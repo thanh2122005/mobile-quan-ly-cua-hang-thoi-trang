@@ -22,16 +22,24 @@ public class AddCategoryActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Hàm khởi tạo chạy đầu tiên khi mở Activity
         super.onCreate(savedInstanceState);
+        // Nạp giao diện từ file XML
         setContentView(R.layout.activity_add_category);
 
+        // Khởi tạo bộ công cụ thao tác với CSDL
         dbHelper = new DatabaseHelper(this);
 
+        // Bắt sự kiện bấm nút quay lại
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+        // Bắt sự kiện bấm nút quay lại
         findViewById(R.id.btnCancel).setOnClickListener(v -> finish());
 
+        // Ánh xạ view từ XML sang Java
         TextView tvTitleCategory = findViewById(R.id.tvTitleCategory);
+        // Ánh xạ view từ XML sang Java
         EditText edtCategoryName = findViewById(R.id.edtCategoryName);
+        // Ánh xạ view từ XML sang Java
         TextView btnSave = findViewById(R.id.btnSave);
 
         categoryId = getIntent().getIntExtra("category_id", -1);
@@ -50,6 +58,7 @@ public class AddCategoryActivity extends AppCompatActivity {
         btnSave.setOnClickListener(v -> {
             String name = edtCategoryName.getText().toString().trim();
             if (name.isEmpty()) {
+                // Hiện thông báo (Toast) cho người dùng
                 Toast.makeText(this, "Vui lòng nhập tên danh mục", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -58,6 +67,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                 String existingNormalized = com.example.quanlycuahangthoitrang.utils.FormatUtils.normalizeSearchText(c.getName());
                 String newNormalized = com.example.quanlycuahangthoitrang.utils.FormatUtils.normalizeSearchText(name);
                 if (existingNormalized.equals(newNormalized) && c.getId() != categoryId) {
+                    // Hiện thông báo (Toast) cho người dùng
                     Toast.makeText(this, "Danh mục đã tồn tại", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -74,17 +84,21 @@ public class AddCategoryActivity extends AppCompatActivity {
                             dbHelper.updateProduct(p);
                         }
                     }
+                    // Hiện thông báo (Toast) cho người dùng
                     Toast.makeText(this, "Cập nhật danh mục thành công", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
+                    // Hiện thông báo (Toast) cho người dùng
                     Toast.makeText(this, "Lỗi khi cập nhật danh mục", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Category c = new Category(0, name, "📁");
                 if (dbHelper.insertCategory(c)) {
+                    // Hiện thông báo (Toast) cho người dùng
                     Toast.makeText(this, "Thêm danh mục thành công", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
+                    // Hiện thông báo (Toast) cho người dùng
                     Toast.makeText(this, "Lỗi khi thêm danh mục", Toast.LENGTH_SHORT).show();
                 }
             }

@@ -124,18 +124,6 @@
             android:textColorHint="@color/text_hint"
             android:textSize="16sp" />
 
-        <!-- Terms checkbox -->
-        <CheckBox
-            android:id="@+id/cbTerms"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:buttonTint="@color/accent_orange"
-            android:fontFamily="sans-serif"
-            android:text="@string/register_terms"
-            android:textColor="@color/text_secondary"
-            android:textSize="14sp" />
-
         <!-- Register button -->
         <TextView
             android:id="@+id/btnRegister"

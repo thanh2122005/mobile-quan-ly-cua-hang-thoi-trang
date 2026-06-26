@@ -14,7 +14,9 @@ public class CartManager {
                 return;
             }
         }
-        cartItems.add(new CartItem(product, quantity));
+        String defaultColor = product.getColor() != null && !product.getColor().isEmpty() ? product.getColor().split(",")[0].trim() : "";
+        String defaultSize = product.getSizes() != null && !product.getSizes().isEmpty() ? product.getSizes().split(",")[0].trim() : "";
+        cartItems.add(new CartItem(product, quantity, defaultColor, defaultSize));
     }
 
     public static void removeFromCart(int productId) {

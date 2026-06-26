@@ -90,18 +90,18 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvWelcomeName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:layout_marginTop="4dp"
-                    android:fontFamily="sans-serif"
-                    android:text="@string/user_greeting_sub"
-                    android:textColor="@color/text_hint"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Chào mừng, Khách hàng!"
+                    android:textColor="@color/text_primary"
                     android:textSize="16sp" />
 
-                <!-- Search bar -->
+                <!-- Search Bar -->
                 <EditText
-                    android:id="@+id/edtSearch"
+                    android:id="@+id/edtHomeSearch"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_marginBottom="16dp"

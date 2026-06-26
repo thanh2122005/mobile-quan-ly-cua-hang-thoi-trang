@@ -78,10 +78,37 @@
                 android:id="@+id/edtNote"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_input"
                 android:hint="Ghi chú (tùy chọn)"
                 android:paddingHorizontal="16dp" />
+
+            <LinearLayout
+                android:id="@+id/btnSelectVoucher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_card"
+                android:padding="16dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="24dp">
+                
+                <TextView
+                    android:id="@+id/tvSelectedVoucher"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Chọn hoặc nhập mã giảm giá"
+                    android:textSize="14sp" />
+                    
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="&gt;"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_purple"
+                    android:textSize="18sp" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -104,7 +131,18 @@
 
                 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp">
                     <TextView android:text="Phí giao hàng" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
-                    <TextView android:text="Miễn phí" android:textColor="@color/success_green" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    <TextView android:id="@+id/tvShippingFee" android:text="30.000đ" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+
+                <LinearLayout android:id="@+id/llShippingDiscount" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" android:visibility="gone">
+                    <TextView android:text="Giảm giá phí vận chuyển" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
+                    <TextView android:id="@+id/tvShippingDiscount" android:text="-30.000đ" android:textColor="@color/success_green" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <LinearLayout android:id="@+id/llDiscountAmount" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" android:visibility="gone">
+                    <TextView android:text="Mã giảm giá" android:layout_weight="1" android:layout_width="0dp" android:layout_height="wrap_content"/>
+                    <TextView android:id="@+id/tvDiscountAmount" android:text="-0đ" android:textColor="@color/success_green" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
                 </LinearLayout>
 
                 <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/divider_gray" android:layout_marginBottom="12dp"/>

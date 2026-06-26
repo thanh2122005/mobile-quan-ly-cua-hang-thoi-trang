@@ -24,18 +24,25 @@ public class AdminProductActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Hàm khởi tạo chạy đầu tiên khi mở Activity
         super.onCreate(savedInstanceState);
+        // Nạp giao diện từ file XML
         setContentView(R.layout.activity_admin_product);
 
+        // Khởi tạo bộ công cụ thao tác với CSDL
         dbHelper = new DatabaseHelper(this);
 
+        // Bắt sự kiện bấm nút quay lại
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
         findViewById(R.id.btnAddProduct).setOnClickListener(v -> {
+            // Chuyển sang màn hình tương ứng
             startActivity(new Intent(AdminProductActivity.this, AddProductActivity.class));
         });
 
+        // Ánh xạ view từ XML sang Java
         edtSearch = findViewById(R.id.edtSearch);
+        // Ánh xạ view từ XML sang Java
         rvAdminProducts = findViewById(R.id.rvAdminProducts);
         rvAdminProducts.setLayoutManager(new LinearLayoutManager(this));
 
@@ -55,6 +62,7 @@ public class AdminProductActivity extends AppCompatActivity {
                         .setPositiveButton("Xóa", (dialog, which) -> {
                             dbHelper.deleteProduct(product.getId());
                             adapter.updateData(dbHelper.searchProducts(edtSearch.getText().toString()));
+                            // Hiện thông báo (Toast) cho người dùng
                             Toast.makeText(AdminProductActivity.this, "Đã xóa sản phẩm", Toast.LENGTH_SHORT).show();
                         })
                         .setNegativeButton("Hủy", null)

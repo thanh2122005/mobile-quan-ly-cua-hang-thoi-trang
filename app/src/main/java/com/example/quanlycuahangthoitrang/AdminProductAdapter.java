@@ -47,7 +47,7 @@ public class AdminProductAdapter extends RecyclerView.Adapter<AdminProductAdapte
         holder.tvProductName.setText(product.getName());
         holder.tvProductCategory.setText("Danh mục: " + product.getCategory());
         holder.tvProductPriceStock.setText("Giá: " + FormatUtils.formatPrice(product.getPrice()) + " | Kho: " + product.getStock());
-        holder.ivProductImage.setImageResource(product.getImageResId());
+        com.example.quanlycuahangthoitrang.utils.ImageLoader.load(holder.ivProductImage, product.getMainImage());
 
         if (product.getStock() <= 3) {
             holder.tvProductStatus.setText("Sắp hết (" + product.getStock() + ")");

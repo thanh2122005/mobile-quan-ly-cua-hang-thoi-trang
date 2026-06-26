@@ -104,7 +104,16 @@
                 android:layout_height="48dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_input"
-                android:hint="Màu sắc"
+                android:hint="Màu sắc (phân tách bằng dấu phẩy)"
+                android:paddingHorizontal="16dp" />
+
+            <EditText
+                android:id="@+id/edtSizes"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_input"
+                android:hint="Kích cỡ (phân tách bằng dấu phẩy)"
                 android:paddingHorizontal="16dp" />
 
             <EditText

@@ -63,16 +63,17 @@
             android:exported="false" />
 
         <!-- ADMIN ACTIVITIES -->
+        <activity android:name=".AdminOrderActivity" android:exported="false" />
+        <activity android:name=".AdminOrderDetailActivity" android:exported="false" />
         <activity android:name=".AdminProductActivity" android:exported="false" />
         <activity android:name=".AddProductActivity" android:exported="false" />
         <activity android:name=".EditProductActivity" android:exported="false" />
         <activity android:name=".CategoryActivity" android:exported="false" />
         <activity android:name=".AddCategoryActivity" android:exported="false" />
-        <activity android:name=".CreateInvoiceActivity" android:exported="false" />
-        <activity android:name=".InvoiceHistoryActivity" android:exported="false" />
-        <activity android:name=".InvoiceDetailActivity" android:exported="false" />
+
         <activity android:name=".StatisticActivity" android:exported="false" />
         <activity android:name=".UserManagementActivity" android:exported="false" />
+        <activity android:name=".VoucherManagementActivity" android:exported="false" />
         <activity android:name=".LowStockActivity" android:exported="false" />
         <activity android:name=".UpdateStockActivity" android:exported="false" />
         <activity android:name=".AdminProfileActivity" android:exported="false" />
