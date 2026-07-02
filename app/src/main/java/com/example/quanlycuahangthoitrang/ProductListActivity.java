@@ -45,14 +45,21 @@ public class ProductListActivity extends AppCompatActivity {
         TextView tvCategoryTitle = findViewById(R.id.tvCategoryTitle);
         tvCartBadge = findViewById(R.id.tvCartBadge);
         
+        TextView chipFilterCategory = findViewById(R.id.chipFilterCategory);
+
         // Logic lọc sản phẩm:
         // Nếu người dùng chọn "Tất cả" -> Gọi hàm getAllProducts lấy toàn bộ kho
         // Nếu người dùng chọn danh mục cụ thể -> Gọi getProductsByCategory để lọc riêng
         if (category.equals("Tất cả")) {
             tvCategoryTitle.setText("Tất cả sản phẩm");
+            chipFilterCategory.setText("Lọc danh mục ▾");
             currentList = dbHelper.getAllProducts();
         } else {
             tvCategoryTitle.setText("Sản phẩm: " + category);
+            chipFilterCategory.setText("Danh mục: " + category + " ▾");
+            // Đổi màu chip sang màu nổi bật để thể hiện là đang bật bộ lọc
+            chipFilterCategory.setBackgroundResource(R.drawable.bg_chip_selected);
+            chipFilterCategory.setTextColor(getResources().getColor(R.color.white));
             currentList = dbHelper.getProductsByCategory(category);
         }
 
