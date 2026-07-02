@@ -108,6 +108,17 @@
                     android:gravity="center"
                     android:paddingHorizontal="16dp"
                     android:text="Giá cao" />
+                <TextView
+                    android:id="@+id/chipFilterCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_chip_normal"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:text="Lọc danh mục ▾"
+                    android:textColor="@color/primary_purple"
+                    android:textStyle="bold" />
             </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>

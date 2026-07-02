@@ -172,6 +172,28 @@ public class ProductListActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
             updateChipStyles(R.id.chipSortHigh);
         });
+
+        // Bắt sự kiện Lọc danh mục
+        findViewById(R.id.chipFilterCategory).setOnClickListener(v -> {
+            java.util.List<com.example.quanlycuahangthoitrang.model.Category> categories = dbHelper.getAllCategories();
+            String[] categoryNames = new String[categories.size() + 1];
+            categoryNames[0] = "Tất cả";
+            for (int i = 0; i < categories.size(); i++) {
+                categoryNames[i + 1] = categories.get(i).getName();
+            }
+            
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Chọn danh mục lọc")
+                .setItems(categoryNames, (dialog, which) -> {
+                    String selectedCategory = categoryNames[which];
+                    // Chuyển sang danh mục mới bằng cách mở lại Activity với category mới
+                    android.content.Intent intent = new android.content.Intent(ProductListActivity.this, ProductListActivity.class);
+                    intent.putExtra("category", selectedCategory);
+                    startActivity(intent);
+                    finish(); // Tắt màn hình cũ đi để ấn Back không bị lỗi
+                })
+                .show();
+        });
     }
 
     private void updateChipStyles(int selectedId) {
