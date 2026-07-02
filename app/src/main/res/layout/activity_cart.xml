@@ -91,12 +91,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
+            <CheckBox
+                android:id="@+id/cbSelectAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tất cả"
+                android:textStyle="bold"
+                android:buttonTint="@color/accent_orange" />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Tổng tiền:"
+                android:gravity="end"
+                android:layout_marginEnd="8dp"
+                android:text="Tổng:"
                 android:textSize="16sp"
                 android:textStyle="bold" />
             <TextView

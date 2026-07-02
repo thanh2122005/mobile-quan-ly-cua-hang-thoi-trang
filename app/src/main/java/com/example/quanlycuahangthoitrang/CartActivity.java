@@ -57,6 +57,22 @@ public class CartActivity extends AppCompatActivity {
         // Ánh xạ view từ XML sang Java
         rvCartItems = findViewById(R.id.rvCartItems); // Danh sách cuộn chứa các mặt hàng
 
+        android.widget.CheckBox cbSelectAll = findViewById(R.id.cbSelectAll);
+        cbSelectAll.setOnClickListener(v -> {
+            boolean isChecked = cbSelectAll.isChecked();
+            if (isChecked) {
+                // Tích tất cả: xóa danh sách "Bị bỏ chọn"
+                unselectedKeys.clear();
+            } else {
+                // Bỏ tích tất cả: thêm mọi sản phẩm vào danh sách "Bị bỏ chọn"
+                java.util.List<CartItem> items = dbHelper.getCartItems(getCurrentUserId());
+                for (CartItem item : items) {
+                    unselectedKeys.add(getItemKey(item));
+                }
+            }
+            refreshCart(); // Cập nhật lại giao diện và tổng tiền
+        });
+
         // Nút quay lại màn hình trước
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
@@ -171,6 +187,7 @@ public class CartActivity extends AppCompatActivity {
     // Hàm Tính tổng tiền của các món hàng đang được khách hàng TÍCH CHỌN trong Giỏ hàng
     private void updateTotalPrice() {
         int total = 0; // Biến lưu trữ tổng tiền tạm tính ban đầu là 0
+        boolean allSelected = true;
 
         // Lấy danh sách toàn bộ các món hàng đang có trong Giỏ từ Bộ điều hợp (Adapter)
         java.util.List<CartItem> items = adapter.getItems();
@@ -189,6 +206,18 @@ public class CartActivity extends AppCompatActivity {
                 
                 // Cộng dồn vào Tổng tiền
                 total += itemTotal;
+            } else {
+                allSelected = false; // Có ít nhất 1 sản phẩm bị bỏ chọn
+            }
+        }
+
+        // Đồng bộ lại nút Chọn tất cả
+        android.widget.CheckBox cbSelectAll = findViewById(R.id.cbSelectAll);
+        if (cbSelectAll != null) {
+            if (!items.isEmpty()) {
+                cbSelectAll.setChecked(allSelected);
+            } else {
+                cbSelectAll.setChecked(false);
             }
         }
 
@@ -201,9 +230,22 @@ public class CartActivity extends AppCompatActivity {
         // Lấy danh sách hàng hóa từ Database
         java.util.List<CartItem> items = dbHelper.getCartItems(getCurrentUserId());
         
+        boolean allSelected = true;
         // Cập nhật trạng thái "Tích chọn" (Checkbox) cho từng món
         for (CartItem item : items) {
-            item.setSelected(!unselectedKeys.contains(getItemKey(item)));
+            boolean isSelected = !unselectedKeys.contains(getItemKey(item));
+            item.setSelected(isSelected);
+            if (!isSelected) {
+                allSelected = false;
+            }
+        }
+        
+        // Đồng bộ lại nút Chọn tất cả
+        android.widget.CheckBox cbSelectAll = findViewById(R.id.cbSelectAll);
+        if (!items.isEmpty()) {
+            cbSelectAll.setChecked(allSelected);
+        } else {
+            cbSelectAll.setChecked(false);
         }
         
         // Bơm danh sách mới vào Adapter để vẽ lên màn hình
