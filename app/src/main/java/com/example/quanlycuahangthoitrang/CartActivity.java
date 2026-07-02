@@ -57,14 +57,14 @@ public class CartActivity extends AppCompatActivity {
         // Ánh xạ view từ XML sang Java
         rvCartItems = findViewById(R.id.rvCartItems); // Danh sách cuộn chứa các mặt hàng
 
-        android.widget.CheckBox cbSelectAll = findViewById(R.id.cbSelectAll);
-        cbSelectAll.setOnClickListener(v -> {
-            boolean isChecked = cbSelectAll.isChecked();
-            if (isChecked) {
-                // Tích tất cả: xóa danh sách "Bị bỏ chọn"
+        android.widget.LinearLayout btnSelectAll = findViewById(R.id.btnSelectAll);
+        btnSelectAll.setOnClickListener(v -> {
+            android.widget.TextView cbSelectAllIcon = findViewById(R.id.cbSelectAllIcon);
+            boolean isChecked = cbSelectAllIcon.getTag() != null && (boolean) cbSelectAllIcon.getTag();
+            
+            if (!isChecked) { // Đang là rỗng (chưa chọn) -> Bấm vào thì Tích tất cả
                 unselectedKeys.clear();
-            } else {
-                // Bỏ tích tất cả: thêm mọi sản phẩm vào danh sách "Bị bỏ chọn"
+            } else { // Đang có dấu tích -> Bấm vào thì Bỏ tích tất cả
                 java.util.List<CartItem> items = dbHelper.getCartItems(getCurrentUserId());
                 for (CartItem item : items) {
                     unselectedKeys.add(getItemKey(item));
@@ -212,12 +212,17 @@ public class CartActivity extends AppCompatActivity {
         }
 
         // Đồng bộ lại nút Chọn tất cả
-        android.widget.CheckBox cbSelectAll = findViewById(R.id.cbSelectAll);
-        if (cbSelectAll != null) {
-            if (!items.isEmpty()) {
-                cbSelectAll.setChecked(allSelected);
+        android.widget.TextView cbSelectAllIcon = findViewById(R.id.cbSelectAllIcon);
+        if (cbSelectAllIcon != null) {
+            boolean isChecked = !items.isEmpty() && allSelected;
+            cbSelectAllIcon.setTag(isChecked); // Lưu trạng thái ẩn vào thuộc tính Tag
+            
+            if (isChecked) {
+                cbSelectAllIcon.setBackgroundResource(R.drawable.bg_checkbox_checked);
+                cbSelectAllIcon.setText("✓");
             } else {
-                cbSelectAll.setChecked(false);
+                cbSelectAllIcon.setBackgroundResource(R.drawable.bg_checkbox_unchecked);
+                cbSelectAllIcon.setText("");
             }
         }
 
@@ -241,11 +246,18 @@ public class CartActivity extends AppCompatActivity {
         }
         
         // Đồng bộ lại nút Chọn tất cả
-        android.widget.CheckBox cbSelectAll = findViewById(R.id.cbSelectAll);
-        if (!items.isEmpty()) {
-            cbSelectAll.setChecked(allSelected);
-        } else {
-            cbSelectAll.setChecked(false);
+        android.widget.TextView cbSelectAllIcon = findViewById(R.id.cbSelectAllIcon);
+        if (cbSelectAllIcon != null) {
+            boolean isChecked = !items.isEmpty() && allSelected;
+            cbSelectAllIcon.setTag(isChecked);
+            
+            if (isChecked) {
+                cbSelectAllIcon.setBackgroundResource(R.drawable.bg_checkbox_checked);
+                cbSelectAllIcon.setText("✓");
+            } else {
+                cbSelectAllIcon.setBackgroundResource(R.drawable.bg_checkbox_unchecked);
+                cbSelectAllIcon.setText("");
+            }
         }
         
         // Bơm danh sách mới vào Adapter để vẽ lên màn hình
