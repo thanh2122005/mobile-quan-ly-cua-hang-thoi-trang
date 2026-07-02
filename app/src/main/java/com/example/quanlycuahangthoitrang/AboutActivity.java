@@ -12,6 +12,7 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
 
         // Bắt sự kiện bấm nút quay lại
+        // Lệnh finish() sẽ đóng màn hình About này lại và quay trở về màn hình trước đó
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
     }
 }

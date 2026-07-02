@@ -39,46 +39,59 @@ public class UpdateStockActivity extends AppCompatActivity {
         // Ánh xạ view từ XML sang Java
         EditText edtNewStock = findViewById(R.id.edtNewStock);
 
+        // Bước 1: Lấy ID của sản phẩm cần nhập hàng do màn hình trước gửi sang
         productId = getIntent().getIntExtra("product_id", -1);
+        
+        // Bước 2: Dùng ID chọc xuống Database để lấy ra đầy đủ thông tin (Tên, Ảnh, Tồn kho cũ...)
         product = dbHelper.getProductById(productId);
 
         if (product != null) {
+            // Bước 3: Đổ thông tin cũ lên giao diện để Admin nhìn thấy
             tvProductName.setText(product.getName());
+            // Mã sản phẩm được làm đẹp bằng cách thêm số 0 đằng trước (Ví dụ: ID=5 -> "SP005")
             tvProductCode.setText("Mã SP: SP" + String.format("%03d", product.getId()));
             tvCurrentStock.setText("Tồn kho hiện tại: " + product.getStock());
         } else {
-            // Hiện thông báo (Toast) cho người dùng
+            // Lỗi không tìm thấy sản phẩm -> Thoát luôn
             Toast.makeText(this, "Không tìm thấy sản phẩm", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
+        // Bắt sự kiện bấm nút [CẬP NHẬT]
         findViewById(R.id.btnUpdate).setOnClickListener(v -> {
+            // Lấy số lượng mới mà Admin vừa gõ vào
             String newStockStr = edtNewStock.getText().toString().trim();
+            
+            // RÀO CẢN 1: Không được để trống
             if (newStockStr.isEmpty()) {
-                // Hiện thông báo (Toast) cho người dùng
                 Toast.makeText(this, "Vui lòng nhập số lượng mới", Toast.LENGTH_SHORT).show();
                 return;
             }
+            
             try {
+                // RÀO CẢN 2: Ép kiểu chuỗi sang số nguyên
+                // Nếu Admin cố tình gõ chữ (Ví dụ "abc") thì vòng try-catch sẽ ném thẳng xuống catch bên dưới
                 int newStock = Integer.parseInt(newStockStr);
+                
+                // RÀO CẢN 3: Không cho nhập số âm
                 if (newStock < 0) {
-                    // Hiện thông báo (Toast) cho người dùng
                     Toast.makeText(this, "Số lượng không được âm", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 
+                // Cập nhật lại số lượng tồn kho mới vào biến product
                 product.setStock(newStock);
+                
+                // BƯỚC CUỐI: Đưa product mới lưu đè xuống Database
                 if (dbHelper.updateProduct(product)) {
-                    // Hiện thông báo (Toast) cho người dùng
                     Toast.makeText(this, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                    // Đóng màn hình, tự động quay về trang Cảnh báo hết hàng
                     finish();
                 } else {
-                    // Hiện thông báo (Toast) cho người dùng
                     Toast.makeText(this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
                 }
             } catch (NumberFormatException e) {
-                // Hiện thông báo (Toast) cho người dùng
                 Toast.makeText(this, "Số lượng không hợp lệ", Toast.LENGTH_SHORT).show();
             }
         });

@@ -164,50 +164,75 @@ public class EditProductActivity extends AppCompatActivity {
 
     private java.util.ArrayList<String> selectedImages = new java.util.ArrayList<>();
 
+    // Hàm được tự động gọi lại sau khi người dùng vừa chọn file ảnh từ Thư viện (Gallery) xong
     @Override
     protected void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        
+        // Kiểm tra đúng mã yêu cầu (100), kết quả chọn thành công (RESULT_OK) và có dữ liệu trả về
         if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
+            
+            // Xử lý trường hợp CHỌN NHIỀU ẢNH (ClipData)
             if (data.getClipData() != null) {
-                int count = data.getClipData().getItemCount();
+                int count = data.getClipData().getItemCount(); // Đếm xem chọn bao nhiêu ảnh
                 for (int i = 0; i < count; i++) {
+                    // Lấy ra địa chỉ (URI) tạm thời của từng ảnh
                     android.net.Uri uri = data.getClipData().getItemAt(i).getUri();
+                    
+                    // GỌI HÀM copyToInternal để sao chép ảnh từ bộ nhớ điện thoại vào thư mục nội bộ của App
                     String path = copyToInternal(uri);
+                    
+                    // Nếu copy thành công thì lưu đường dẫn mới vào mảng selectedImages
                     if (path != null) selectedImages.add(path);
                 }
-            } else if (data.getData() != null) {
+            } 
+            // Xử lý trường hợp CHỌN 1 ẢNH DUY NHẤT (Data thường)
+            else if (data.getData() != null) {
                 String path = copyToInternal(data.getData());
                 if (path != null) selectedImages.add(path);
             }
             
+            // Sau khi chọn và copy xong, lấy ảnh ĐẦU TIÊN (get(0)) hiển thị lên màn hình
             if (!selectedImages.isEmpty()) {
-                // Ánh xạ view từ XML sang Java
                 android.widget.ImageView ivProductImage = findViewById(R.id.ivProductImage);
                 com.example.quanlycuahangthoitrang.utils.ImageLoader.load(ivProductImage, selectedImages.get(0));
-                // Hiện thông báo (Toast) cho người dùng
                 Toast.makeText(this, "Đã chọn " + selectedImages.size() + " ảnh mới", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
+    // Hàm cực kỳ quan trọng: COPY ảnh từ bộ nhớ công khai vào bộ nhớ an toàn (Internal Storage) của ứng dụng
+    // Tránh việc người dùng xóa mất ảnh trong Bộ sưu tập (Gallery) làm App không hiển thị được nữa
     private String copyToInternal(android.net.Uri uri) {
         try {
+            // Bước 1: Tạo một thư mục ẩn tên là "product_images" bên trong CSDL của ứng dụng
             java.io.File dir = new java.io.File(getFilesDir(), "product_images");
-            if (!dir.exists()) dir.mkdirs();
+            if (!dir.exists()) dir.mkdirs(); // Nếu thư mục chưa có thì tự động tạo
+            
+            // Bước 2: Băm tên file để tránh bị trùng lặp (Ví dụ: IMG_16999999_123ab.jpg)
             String fileName = "IMG_" + System.currentTimeMillis() + "_" + java.util.UUID.randomUUID().toString().substring(0,5) + ".jpg";
+            
+            // Tạo file đích (Rỗng)
             java.io.File dest = new java.io.File(dir, fileName);
             
+            // Bước 3: Dùng Luồng (Stream) để đọc dữ liệu từ file gốc và Ghi vào file đích
             java.io.InputStream is = getContentResolver().openInputStream(uri);
             java.io.FileOutputStream fos = new java.io.FileOutputStream(dest);
-            byte[] buffer = new byte[1024];
+            
+            byte[] buffer = new byte[1024]; // Mỗi lần múc 1KB dữ liệu
             int length;
+            // Vòng lặp: Đọc và đổ dữ liệu liên tục cho đến khi cạn file
             while ((length = is.read(buffer)) > 0) fos.write(buffer, 0, length);
+            
+            // Đóng luồng cho an toàn bộ nhớ
             is.close();
             fos.close();
+            
+            // Trả về địa chỉ tuyệt đối của file ảnh MỚI để lưu thẳng vào Database
             return dest.getAbsolutePath();
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return null; // Báo lỗi nếu copy thất bại
         }
     }
 }

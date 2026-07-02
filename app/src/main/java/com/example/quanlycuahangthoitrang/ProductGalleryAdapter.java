@@ -34,6 +34,8 @@ public class ProductGalleryAdapter extends RecyclerView.Adapter<ProductGalleryAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        // Sử dụng công cụ ImageLoader do ta tự viết (Tự động phân biệt Link Web hay File nội bộ)
+        // để tải ảnh lên View
         ImageLoader.load(holder.ivGalleryImage, images.get(position));
     }
 

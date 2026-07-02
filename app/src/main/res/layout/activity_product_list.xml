@@ -21,12 +21,38 @@
             android:textSize="20sp" />
         <TextView
             android:id="@+id/tvCategoryTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Sản phẩm: Áo"
             android:textColor="@color/primary_purple"
             android:textSize="18sp"
             android:textStyle="bold" />
+            
+        <FrameLayout
+            android:id="@+id/btnCartTop"
+            android:layout_width="40dp"
+            android:layout_height="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="🛒"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tvCartBadge"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="top|end"
+                android:background="@color/warning_amber"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="@color/text_primary"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </FrameLayout>
     </LinearLayout>
 
     <LinearLayout

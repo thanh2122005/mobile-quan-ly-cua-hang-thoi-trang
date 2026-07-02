@@ -121,21 +121,32 @@ public class CheckoutActivity extends AppCompatActivity {
         }
 
         // -------------------------------------------------------------------
-        // SỰ KIỆN KHI BẤM NÚT [ĐẶT HÀNG]
+        // SỰ KIỆN KHI BẤM NÚT [ĐẶT HÀNG] - NGHIỆP VỤ CỐT LÕI
         // -------------------------------------------------------------------
         findViewById(R.id.btnConfirmOrder).setOnClickListener(v -> {
-            // Kiểm tra an toàn: Không có hàng thì không cho đặt
+            // Nghiệp vụ 1: Kiểm tra an toàn - Không có hàng thì không cho đặt
             if (checkoutItems.isEmpty()) {
                 // Hiện thông báo (Toast) cho người dùng
                 Toast.makeText(this, "Không có sản phẩm nào để thanh toán", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Kiểm tra Tồn kho trước khi cho đi tiếp
+            // Nghiệp vụ 2: Kiểm tra Tồn kho tổng hợp trước khi cho đi tiếp
+            // Tại sao phải dùng HashMap? Vì 1 sản phẩm có thể được chia làm nhiều dòng trong giỏ (Khác màu/size)
+            // Cần cộng dồn tất cả lại xem tổng số lượng khách muốn mua có vượt quá số lượng trong kho không.
+            java.util.Map<Integer, Integer> productQuantities = new java.util.HashMap<>();
             for (CartItem item : checkoutItems) {
-                if (item.getQuantity() > item.getProduct().getStock()) {
-                    // Hiện thông báo (Toast) cho người dùng
-                    Toast.makeText(this, "Sản phẩm " + item.getProduct().getName() + " không đủ số lượng (Còn " + item.getProduct().getStock() + ")", Toast.LENGTH_SHORT).show();
+                int pid = item.getProduct().getId();
+                int currentQty = productQuantities.containsKey(pid) ? productQuantities.get(pid) : 0;
+                productQuantities.put(pid, currentQty + item.getQuantity());
+            }
+
+            // Quét lại một lượt để đối chiếu với tồn kho thực tế
+            for (CartItem item : checkoutItems) {
+                int pid = item.getProduct().getId();
+                int totalRequested = productQuantities.get(pid);
+                if (totalRequested > item.getProduct().getStock()) {
+                    Toast.makeText(this, "Sản phẩm " + item.getProduct().getName() + " không đủ số lượng (Cần " + totalRequested + ", Còn " + item.getProduct().getStock() + ")", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }

@@ -27,15 +27,22 @@ public class OrderSuccessActivity extends AppCompatActivity {
         TextView tvOrderId = findViewById(R.id.tvOrderId);
         tvOrderId.setText("Mã đơn hàng: " + orderCode);
 
+        // Bắt sự kiện khi người dùng bấm nút [XEM ĐƠN HÀNG]
         findViewById(R.id.btnViewOrder).setOnClickListener(v -> {
+            // Chuyển sang màn hình Chi tiết Đơn Hàng (UserOrderDetailActivity)
             Intent intent = new Intent(OrderSuccessActivity.this, UserOrderDetailActivity.class);
+            // Kẹp theo ID của đơn hàng vừa đặt xong
             intent.putExtra("order_id", orderId);
             startActivity(intent);
+            // Đóng màn hình Báo Thành Công này lại (để bấm Back không bị quay lại đây)
             finish();
         });
 
+        // Bắt sự kiện khi người dùng bấm nút [VỀ TRANG CHỦ]
         findViewById(R.id.btnGoHome).setOnClickListener(v -> {
             Intent intent = new Intent(OrderSuccessActivity.this, UserHomeActivity.class);
+            // Cờ FLAG_ACTIVITY_CLEAR_TOP: Xóa toàn bộ các màn hình trung gian (Giỏ hàng, Thanh toán, v.v.)
+            // đang mở lơ lửng, đưa ứng dụng về lại trạng thái ban đầu ở Trang Chủ, giúp giải phóng RAM.
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();

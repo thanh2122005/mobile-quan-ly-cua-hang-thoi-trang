@@ -567,7 +567,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/funcLogout"
+                    android:id="@+id/funcSwitchUser"
                     android:layout_width="0dp"
                     android:layout_height="120dp"
                     android:layout_marginStart="6dp"
@@ -588,7 +588,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="🚪"
+                            android:text="📱"
                             android:textSize="22sp" />
                     </FrameLayout>
 
@@ -597,9 +597,45 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
                         android:gravity="center"
+                        android:text="Trải nghiệm Khách hàng"
+                        android:textColor="@color/primary_purple"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Row 6 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/funcLogout"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="@drawable/bg_card"
+                    android:elevation="1dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="12dp"
+                        android:text="🚪"
+                        android:textSize="22sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
                         android:text="@string/admin_func_logout"
                         android:textColor="@color/error_red"
-                        android:textSize="13sp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>

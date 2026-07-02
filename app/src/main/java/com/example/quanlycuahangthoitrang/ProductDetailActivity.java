@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.quanlycuahangthoitrang.database.DatabaseHelper;
 import com.example.quanlycuahangthoitrang.model.Product;
 import com.example.quanlycuahangthoitrang.model.User;
+
 import com.example.quanlycuahangthoitrang.utils.FormatUtils;
 import com.example.quanlycuahangthoitrang.utils.SessionManager;
 
@@ -24,6 +25,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private android.widget.LinearLayout llColors;
     private android.widget.LinearLayout llSizes;
     private SessionManager sessionManager;
+    private TextView tvCartBadge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,15 @@ public class ProductDetailActivity extends AppCompatActivity {
         tvQuantity = findViewById(R.id.tvQuantity);
         llColors = findViewById(R.id.llColors);
         llSizes = findViewById(R.id.llSizes);
+        tvCartBadge = findViewById(R.id.tvCartBadge);
+
+        // Bắt sự kiện bấm nút quay lại
+        findViewById(R.id.btnBack).setOnClickListener(v -> finish());
+
+        // Bắt sự kiện bấm nút giỏ hàng
+        findViewById(R.id.btnCartTop).setOnClickListener(v -> {
+            startActivity(new Intent(ProductDetailActivity.this, CartActivity.class));
+        });
 
         // Đổ danh sách Màu sắc ra màn hình để người dùng chọn
         populateColors();
@@ -165,6 +176,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             // Tiến hành Lưu món hàng này vào Database Giỏ Hàng
             if (dbHelper.addToCart(userId, currentProduct.getId(), quantity, selectedColor, selectedSize)) {
                 Toast.makeText(this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                updateCartBadge();
             } else {
                 Toast.makeText(this, "Lỗi thêm giỏ hàng. Có thể vượt quá tồn kho.", Toast.LENGTH_SHORT).show();
             }
@@ -338,5 +350,32 @@ public class ProductDetailActivity extends AppCompatActivity {
     private int getCurrentUserId() {
         User currentUser = dbHelper.getUserByEmail(sessionManager.getEmail());
         return currentUser != null ? currentUser.getId() : -1;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateCartBadge();
+    }
+
+    public void updateCartBadge() {
+        if (tvCartBadge != null) {
+            String email = sessionManager.getEmail();
+            if (email != null && !email.isEmpty()) {
+                User u = dbHelper.getUserByEmail(email);
+                if (u != null) {
+                    java.util.List<com.example.quanlycuahangthoitrang.model.CartItem> cartItems = dbHelper.getCartItems(u.getId());
+                    int count = cartItems.size();
+                    if (count > 0) {
+                        tvCartBadge.setText(String.valueOf(count));
+                        tvCartBadge.setVisibility(android.view.View.VISIBLE);
+                    } else {
+                        tvCartBadge.setVisibility(android.view.View.GONE);
+                    }
+                }
+            } else {
+                tvCartBadge.setVisibility(android.view.View.GONE);
+            }
+        }
     }
 }

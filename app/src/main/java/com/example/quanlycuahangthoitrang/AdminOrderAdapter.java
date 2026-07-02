@@ -40,6 +40,7 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Order order = orderList.get(position);
 
+        // Đổ dữ liệu đơn hàng lên các ô Text trên giao diện thẻ (card)
         holder.tvOrderCode.setText("Mã ĐH: " + order.getCode());
         holder.tvOrderDate.setText(order.getCreatedAt());
         holder.tvReceiverName.setText(order.getReceiverName());
@@ -47,16 +48,25 @@ public class AdminOrderAdapter extends RecyclerView.Adapter<AdminOrderAdapter.Vi
         holder.tvOrderStatus.setText(order.getStatus());
         holder.tvOrderTotal.setText("Tổng: " + FormatUtils.formatPrice(order.getTotal()));
 
-        // Set status color based on state
+        // =========================================================================
+        // THUẬT TOÁN ĐỔI MÀU TRẠNG THÁI ĐƠN HÀNG (UX/UI)
+        // Mục đích: Giúp Admin lướt nhanh qua hàng trăm đơn vẫn nhận diện được
+        // trạng thái dựa vào màu sắc mà không cần đọc chữ.
+        // =========================================================================
         if ("Đã hủy".equals(order.getStatus())) {
+            // Đơn hủy -> Chữ màu ĐỎ cảnh báo
             holder.tvOrderStatus.setTextColor(context.getResources().getColor(R.color.error_red));
         } else if ("Hoàn thành".equals(order.getStatus())) {
+            // Đơn xong -> Chữ màu XANH LÁ an toàn
             holder.tvOrderStatus.setTextColor(context.getResources().getColor(R.color.success_green));
         } else {
+            // Các trạng thái đang xử lý (Chờ xác nhận, Đang giao) -> Chữ màu CAM chờ đợi
             holder.tvOrderStatus.setTextColor(context.getResources().getColor(R.color.accent_orange));
         }
 
+        // Bắt sự kiện khi Admin bấm nút [Xem chi tiết]
         holder.btnViewDetails.setOnClickListener(v -> {
+            // Đóng gói ID của đơn hàng này ném sang màn hình AdminOrderDetailActivity
             Intent intent = new Intent(context, AdminOrderDetailActivity.class);
             intent.putExtra("order_id", order.getId());
             context.startActivity(intent);

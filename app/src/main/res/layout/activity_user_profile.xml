@@ -54,12 +54,17 @@
             android:textColor="@color/text_secondary" />
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp">
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="16dp">
         
         <TextView
             android:id="@+id/btnEditProfile"
@@ -106,6 +111,20 @@
             android:layout_marginBottom="8dp"/>
 
         <TextView
+            android:id="@+id/btnReturnAdmin"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_card"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:text="Quay lại Admin Dashboard"
+            android:textColor="@color/primary_purple"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"/>
+
+        <TextView
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="56dp"
@@ -115,8 +134,10 @@
             android:text="Đăng xuất"
             android:textColor="@color/error_red"
             android:textSize="16sp"
+            android:layout_marginBottom="8dp"
             android:textStyle="bold"/>
     </LinearLayout>
+    </ScrollView>
 
     <!-- Bottom Navigation placeholder for visual only if not part of parent activity -->
     <LinearLayout

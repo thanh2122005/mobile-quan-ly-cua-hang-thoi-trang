@@ -39,11 +39,16 @@ public class ProductUserAdapter extends RecyclerView.Adapter<ProductUserAdapter.
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = productList.get(position);
+        
+        // Đổ thông tin Cơ bản của Sản phẩm lên thẻ (Tên, Giá, Ảnh)
         holder.tvProductName.setText(product.getName());
         holder.tvProductPrice.setText(FormatUtils.formatPrice(product.getPrice()));
         com.example.quanlycuahangthoitrang.utils.ImageLoader.load(holder.ivProductImage, product.getMainImage());
 
+        // Bắt sự kiện bấm vào toàn bộ cái Thẻ (Card) -> Đi tới trang Chi tiết sản phẩm
         holder.itemView.setOnClickListener(v -> listener.onProductClick(product));
+        
+        // Bắt sự kiện bấm vào dấu CỘNG màu cam -> Gọi hàm thêm nhanh vào giỏ hàng
         holder.btnAddProduct.setOnClickListener(v -> listener.onAddToCartClick(product));
     }
 

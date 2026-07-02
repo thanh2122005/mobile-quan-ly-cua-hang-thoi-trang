@@ -45,23 +45,31 @@ public class UserManagementActivity extends AppCompatActivity {
         rvUsers = findViewById(R.id.rvUsers);
         rvUsers.setLayoutManager(new LinearLayoutManager(this));
 
+        // Tải toàn bộ danh sách User từ Database lên
         allUsers = dbHelper.getAllUsers();
+        
+        // Khởi tạo Adapter
+        // Truyền kèm SessionManager.getEmail() để phân biệt được đâu là "Tài khoản của chính tôi" (Tránh việc Admin tự xóa chính mình)
         adapter = new UserAdapter(allUsers, sessionManager.getEmail(), new UserAdapter.OnUserInteractionListener() {
+            
+            // SỰ KIỆN: KHI BẤM NÚT [XÓA NGƯỜI DÙNG]
             @Override
             public void onDelete(User user) {
+                // RÀO CẢN: Hiển thị Hộp thoại Cảnh báo (Dialog)
                 new AlertDialog.Builder(UserManagementActivity.this)
                         .setTitle("Xác nhận xóa")
-                        .setMessage("Bạn chắc chắn muốn xóa người dùng " + user.getName() + "?")
+                        .setMessage("Bạn chắc chắn muốn xóa người dùng " + user.getName() + "?\nHành động này không thể hoàn tác.")
                         .setPositiveButton("Xóa", (dialog, which) -> {
+                            // Gọi hàm Xóa trong CSDL theo ID
                             if (dbHelper.deleteUser(user.getId())) {
-                                // Hiện thông báo (Toast) cho người dùng
                                 Toast.makeText(UserManagementActivity.this, "Đã xóa người dùng", Toast.LENGTH_SHORT).show();
+                                // Xóa xong thì tải lại danh sách hiển thị
                                 loadUsers();
                             } else {
-                                // Hiện thông báo (Toast) cho người dùng
                                 Toast.makeText(UserManagementActivity.this, "Lỗi khi xóa", Toast.LENGTH_SHORT).show();
                             }
                         })
+                        // Bấm Hủy thì tắt hộp thoại
                         .setNegativeButton("Hủy", null)
                         .show();
             }

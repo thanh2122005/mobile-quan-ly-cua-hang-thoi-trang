@@ -115,28 +115,46 @@ public class AdminOrderActivity extends AppCompatActivity {
         }
     }
 
+    // Hàm này rất quan trọng: Kết hợp giữa TÌM KIẾM (theo chữ gõ) và LỌC (theo trạng thái đã chọn)
     private void applyFilterAndSearch() {
+        // Tạo một mảng rỗng để chứa kết quả trung gian sau khi Tìm kiếm
         ArrayList<Order> searchResults = new ArrayList<>();
+        
+        // Bước 1: KIỂM TRA TÌM KIẾM
+        // Nếu ô tìm kiếm đang bỏ trống -> Lấy toàn bộ danh sách gốc (allOrders) bỏ vào searchResults
         if (currentKeyword.isEmpty()) {
             searchResults.addAll(allOrders);
         } else {
+            // Nếu có gõ chữ -> Gọi hàm tìm kiếm trong Database để quét các đơn hàng khớp với chữ đó
             searchResults = dbHelper.searchOrders(currentKeyword);
         }
 
+        // Tạo thêm một mảng rỗng nữa để chứa kết quả cuối cùng sau khi Lọc
         ArrayList<Order> filteredList = new ArrayList<>();
+        
+        // Bước 2: KIỂM TRA LỌC TRẠNG THÁI
+        // Duyệt qua từng Đơn hàng (Order) trong danh sách vừa Tìm kiếm được
         for (Order o : searchResults) {
+            // Rào cản: Nếu đang chọn "Tất cả" HOẶC trạng thái của đơn hàng này khớp y chang cái Đang chọn
             if ("Tất cả".equals(currentFilter) || o.getStatus().equals(currentFilter)) {
+                // Thì mới nhét đơn hàng đó vào danh sách Cuối cùng
                 filteredList.add(o);
             }
         }
 
+        // Bước 3: Đưa danh sách Cuối cùng vào Adapter để vẽ ra màn hình
         adapter.updateList(filteredList);
 
+        // Bước 4: HIỂN THỊ THÔNG BÁO NẾU TRỐNG
         if (filteredList.isEmpty()) {
+            // Nếu danh sách lọc ra không có đơn nào -> Bật dòng chữ "Không tìm thấy" lên
             tvEmptyState.setVisibility(View.VISIBLE);
+            // Giấu hẳn cái Danh sách cuộn đi để không bị lỗi khoảng trắng
             rvAdminOrders.setVisibility(View.GONE);
         } else {
+            // Nếu có đơn hàng -> Giấu dòng chữ trống đi
             tvEmptyState.setVisibility(View.GONE);
+            // Hiện danh sách cuộn lên
             rvAdminOrders.setVisibility(View.VISIBLE);
         }
     }

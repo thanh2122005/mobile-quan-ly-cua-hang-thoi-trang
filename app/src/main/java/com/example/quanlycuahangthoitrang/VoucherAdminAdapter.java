@@ -47,14 +47,17 @@ public class VoucherAdminAdapter extends RecyclerView.Adapter<VoucherAdminAdapte
     public void onBindViewHolder(@NonNull VoucherAdminViewHolder holder, int position) {
         Voucher v = list.get(position);
 
+        // Hiển thị mã giảm giá (VD: TET2024)
         holder.tvCode.setText(v.getCode());
         
+        // Phân loại hiển thị theo Loại Voucher
         if (v.getType().equalsIgnoreCase("freeship")) {
             holder.tvType.setText("Miễn phí vận chuyển");
         } else {
             holder.tvType.setText("Giảm giá đơn hàng");
         }
 
+        // Hiển thị Mô tả và Số lượng đã dùng
         holder.tvDesc.setText(v.getDisplayText());
         holder.tvUsage.setText("Đã dùng: " + v.getUsedCount() + " / " + v.getUsageLimit());
 

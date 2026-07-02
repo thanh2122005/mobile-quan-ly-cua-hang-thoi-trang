@@ -36,6 +36,10 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         notifyDataSetChanged();
     }
 
+    public List<CartItem> getItems() {
+        return cartItems;
+    }
+
     @NonNull
     @Override
     public CartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,22 +51,37 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public void onBindViewHolder(@NonNull CartViewHolder holder, int position) {
         CartItem item = cartItems.get(position);
         
+        // Đổ dữ liệu chữ lên màn hình
         holder.tvProductName.setText(item.getProduct().getName());
         holder.tvProductPrice.setText(FormatUtils.formatPrice(item.getProduct().getPrice()));
         holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
         
+        // =========================================================================
+        // XỬ LÝ HỘP KIỂM (CHECKBOX) CHỌN SẢN PHẨM TRONG GIỎ HÀNG
+        // Thuật toán vẽ giao diện:
+        // Thay vì dùng CheckBox mặc định xấu xí của Android, ta tự vẽ lại bằng TextView (cbSelect)
+        // để tạo ra hình tròn đẹp mắt. Dưới đây là logic thay đổi hình dạng nút bấm.
+        // =========================================================================
         if (item.isSelected()) {
+            // Đổi hình nền thành hình tròn màu cam (Đã chọn)
             holder.cbSelect.setBackgroundResource(R.drawable.bg_checkbox_checked);
+            // In thêm dấu tick chữ v vào giữa hình tròn
             holder.cbSelect.setText("✓");
         } else {
+            // Đổi hình nền thành vòng tròn viền xám rỗng (Chưa chọn)
             holder.cbSelect.setBackgroundResource(R.drawable.bg_checkbox_unchecked);
+            // Xóa rỗng chữ bên trong
             holder.cbSelect.setText("");
         }
 
+        // Bắt sự kiện khi người dùng bấm chạm ngón tay vào cái vòng tròn
         holder.cbSelect.setOnClickListener(v -> {
+            // Lật ngược trạng thái (Đang chọn -> Bỏ chọn, và ngược lại)
             boolean newState = !item.isSelected();
+            // Lưu trạng thái mới vào bộ nhớ
             item.setSelected(newState);
             
+            // Đổi luôn giao diện tức thì (Cho mượt)
             if (newState) {
                 holder.cbSelect.setBackgroundResource(R.drawable.bg_checkbox_checked);
                 holder.cbSelect.setText("✓");
@@ -71,23 +90,35 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 holder.cbSelect.setText("");
             }
             
+            // Bắn tín hiệu sang Activity gốc (CartActivity) để nó tính lại tổng tiền
             listener.onSelectionChanged(item, newState);
         });
         
+        // =========================================================================
+        // XỬ LÝ HIỂN THỊ THUỘC TÍNH SẢN PHẨM (MÀU SẮC, KÍCH CỠ)
+        // =========================================================================
         String variantText = "";
+        // Nếu có chọn màu thì nối thêm chữ Màu vào
         if (item.getSelectedColor() != null && !item.getSelectedColor().isEmpty()) {
             variantText += "Màu: " + item.getSelectedColor();
         }
+        // Nếu có chọn Size thì nối thêm chữ Size vào
         if (item.getSelectedSize() != null && !item.getSelectedSize().isEmpty()) {
+            // Nếu đằng trước đã có Màu rồi thì thêm dấu gạch ngang phân cách
             if (!variantText.isEmpty()) variantText += " - ";
             variantText += "Size: " + item.getSelectedSize();
         }
+        
+        // Hiển thị chuỗi vừa ghép ra màn hình
         if (!variantText.isEmpty()) {
-            variantText += " ✏️";
+            variantText += " ✏️"; // Gắn thêm cái icon cây bút chì cho trực quan
             holder.tvProductVariant.setText(variantText);
+            // Hiển thị ô văn bản
             holder.tvProductVariant.setVisibility(View.VISIBLE);
+            // Khi bấm vào cái dòng Màu - Size này, bắn tín hiệu sang Activity mở hộp thoại cho sửa
             holder.tvProductVariant.setOnClickListener(v -> listener.onEditVariant(item));
         } else {
+            // Ẩn hoàn toàn ô chữ đi nếu sản phẩm này không có Màu hay Size
             holder.tvProductVariant.setVisibility(View.GONE);
         }
 

@@ -17,6 +17,7 @@ import com.example.quanlycuahangthoitrang.model.User;
 import com.example.quanlycuahangthoitrang.utils.FormatUtils;
 import com.example.quanlycuahangthoitrang.utils.SessionManager;
 
+
 public class CartActivity extends AppCompatActivity {
 
     // CART ACTIVITY - MÀN HÌNH QUẢN LÝ GIỎ HÀNG
@@ -167,18 +168,31 @@ public class CartActivity extends AppCompatActivity {
         refreshCart();
     }
 
-    // Hàm tính toán [TỔNG TIỀN] cho những mặt hàng được tích chọn
-    // Lưu ý: Những món bị "Bỏ chọn" sẽ không được tính vào tổng tiền
+    // Hàm Tính tổng tiền của các món hàng đang được khách hàng TÍCH CHỌN trong Giỏ hàng
     private void updateTotalPrice() {
-        int total = 0;
-        // Quét toàn bộ giỏ hàng của user
-        for (CartItem item : dbHelper.getCartItems(getCurrentUserId())) {
-            // Kiểm tra: Nếu "chìa khóa" không nằm trong danh sách Bỏ chọn, thì cộng dồn tiền
-            if (!unselectedKeys.contains(getItemKey(item))) {
-                total += (item.getQuantity() * item.getProduct().getPrice());
+        int total = 0; // Biến lưu trữ tổng tiền tạm tính ban đầu là 0
+
+        // Lấy danh sách toàn bộ các món hàng đang có trong Giỏ từ Bộ điều hợp (Adapter)
+        java.util.List<CartItem> items = adapter.getItems();
+
+        // Vòng lặp: Duyệt qua từng món hàng một
+        for (CartItem item : items) {
+            // Lấy "chìa khóa" đặc trưng của món hàng này (Ghép từ ID_MÀU_SIZE)
+            String key = getItemKey(item);
+
+            // Kiểm tra: Nếu món hàng này KHÔNG NẰM TRONG danh sách "Bị bỏ chọn" (unselectedKeys)
+            // Tức là món hàng này đang được khách hàng Tích xanh (Chọn để mua)
+            if (!unselectedKeys.contains(key)) {
+                
+                // Lấy Giá tiền của 1 sản phẩm nhân với Số lượng khách muốn mua
+                int itemTotal = item.getProduct().getPrice() * item.getQuantity();
+                
+                // Cộng dồn vào Tổng tiền
+                total += itemTotal;
             }
         }
-        // Hiển thị tổng tiền ra giao diện (có định dạng phẩy ngăn cách hàng nghìn)
+
+        // Sau khi đã cộng dồn xong, hiển thị số tiền đó lên màn hình và định dạng cho đẹp (Ví dụ: 100.000đ)
         tvTotalPrice.setText(FormatUtils.formatPrice(total));
     }
 

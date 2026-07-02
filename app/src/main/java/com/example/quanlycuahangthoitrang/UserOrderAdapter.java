@@ -39,12 +39,20 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Order order = orderList.get(position);
+        
+        // Đổ dữ liệu từ Object Order (Lấy từ CSDL) lên giao diện thẻ (CardView)
         holder.tvOrderCode.setText(order.getCode());
         holder.tvOrderStatus.setText(order.getStatus());
         holder.tvOrderDate.setText("Ngày đặt: " + order.getCreatedAt());
         holder.tvOrderTotal.setText("Tổng: " + FormatUtils.formatPrice(order.getTotal()));
 
-        holder.btnOrderDetail.setOnClickListener(v -> listener.onDetailClick(order));
+        // Bắt sự kiện khi người dùng bấm nút [Xem chi tiết]
+        holder.btnOrderDetail.setOnClickListener(v -> {
+            // Thay vì mở Activity trực tiếp ở đây, ta dùng interface OnOrderClickListener
+            // bắn sự kiện (chứa nguyên cái Object order) về lại cho UserOrderHistoryActivity xử lý.
+            // Điều này giúp tuân thủ nguyên tắc thiết kế MVC/MVP, Adapter chỉ lo hiển thị, không chứa logic chuyển trang.
+            listener.onDetailClick(order);
+        });
     }
 
     @Override

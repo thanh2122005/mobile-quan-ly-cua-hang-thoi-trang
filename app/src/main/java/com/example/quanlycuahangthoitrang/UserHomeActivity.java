@@ -18,6 +18,7 @@ import com.example.quanlycuahangthoitrang.utils.SessionManager;
 
 import java.util.List;
 
+
 public class UserHomeActivity extends AppCompatActivity {
 
     private TextView tvCartBadge;
@@ -52,14 +53,18 @@ public class UserHomeActivity extends AppCompatActivity {
         findViewById(R.id.chipCategory4).setOnClickListener(v -> openProductList("Giày"));
         findViewById(R.id.chipCategory5).setOnClickListener(v -> openProductList("Phụ kiện"));
 
-        // RecyclerView
+        // Tìm danh sách hiển thị sản phẩm trên giao diện
         RecyclerView rvProducts = findViewById(R.id.rvProducts);
+        
+        // Tạo giao diện dạng lưới (Grid) với 2 cột (Giống Shopee)
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2) {
             @Override
             public boolean canScrollVertically() {
-                return false; // Disable to let ScrollView handle scrolling
+                // Tắt tính năng cuộn riêng của danh sách để dùng chung cuộn của toàn màn hình
+                return false; 
             }
         };
+        // Áp dụng giao diện lưới vào danh sách
         rvProducts.setLayoutManager(layoutManager);
         
         // Lấy TOÀN BỘ sản phẩm từ cơ sở dữ liệu lên
@@ -119,10 +124,9 @@ public class UserHomeActivity extends AppCompatActivity {
     private void updateCartBadge() {
         if (tvCartBadge != null) {
             int userId = getCurrentUserId();
-            int total = 0;
-            for (CartItem item : dbHelper.getCartItems(userId)) {
-                total += item.getQuantity();
-            }
+            java.util.List<CartItem> cartItems = dbHelper.getCartItems(userId);
+            int total = cartItems.size();
+            
             if (total > 0) {
                 tvCartBadge.setVisibility(View.VISIBLE);
                 tvCartBadge.setText(String.valueOf(total));

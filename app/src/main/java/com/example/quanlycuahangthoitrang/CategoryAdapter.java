@@ -45,12 +45,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         Category category = categoryList.get(position);
+        
+        // Đổ thông tin cơ bản: Tên danh mục và Icon
         holder.tvCategoryName.setText(category.getName());
         holder.tvCategoryIcon.setText(category.getIconName());
 
+        // Đếm xem trong Database có bao nhiêu Sản phẩm thuộc Danh mục này
+        // (Ví dụ: Danh mục "Áo" đang có 15 cái áo)
         int count = dbHelper.getProductCountByCategory(category.getName());
         holder.tvProductCount.setText(count + " sản phẩm");
 
+        // Bắt sự kiện bấm nút [Sửa] và [Xóa]
+        // Truyền thẳng Object category về cho CategoryActivity xử lý
         holder.btnEditCategory.setOnClickListener(v -> listener.onEdit(category));
         holder.btnDeleteCategory.setOnClickListener(v -> listener.onDelete(category));
     }

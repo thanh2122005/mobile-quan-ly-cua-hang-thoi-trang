@@ -29,7 +29,7 @@ import java.util.Map;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "FashionStore.db";
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 13;
     private static final String ORDER_STATUS_PENDING = "Chờ xác nhận";
     private static final String ORDER_STATUS_CONFIRMED = "Đã xác nhận";
     private static final String ORDER_STATUS_SHIPPING = "Đang giao";
@@ -38,6 +38,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    @Override
+    public void onConfigure(SQLiteDatabase db) {
+        super.onConfigure(db);
+        db.setForeignKeyConstraintsEnabled(true);
     }
 
     @Override
@@ -71,14 +77,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "color TEXT, " +
                 "sizes TEXT, " +
                 "description TEXT, " +
-                "imageResId INTEGER)");
+                "imageResId INTEGER, " +
+                "FOREIGN KEY (categoryId) REFERENCES categories(id) ON DELETE SET NULL)");
 
         // 3a. Table product_images
         db.execSQL("CREATE TABLE product_images (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "productId INTEGER, " +
                 "imagePath TEXT, " +
-                "sortOrder INTEGER)");
+                "sortOrder INTEGER, " +
+                "FOREIGN KEY (productId) REFERENCES products(id) ON DELETE CASCADE)");
 
         // 4. Table cart_items
         db.execSQL("CREATE TABLE cart_items (" +
@@ -87,28 +95,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "productId INTEGER, " +
                 "quantity INTEGER, " +
                 "selectedColor TEXT, " +
-                "selectedSize TEXT)");
+                "selectedSize TEXT, " +
+                "FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE, " +
+                "FOREIGN KEY (productId) REFERENCES products(id) ON DELETE CASCADE)");
 
-        // 5. Table invoices
-        db.execSQL("CREATE TABLE invoices (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "code TEXT, " +
-                "createdAt TEXT, " +
-                "createdBy TEXT, " +
-                "total INTEGER, " +
-                "status TEXT)");
 
-        // 6. Table invoice_details
-        db.execSQL("CREATE TABLE invoice_details (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "invoiceId INTEGER, " +
-                "productId INTEGER, " +
-                "productName TEXT, " +
-                "quantity INTEGER, " +
-                "unitPrice INTEGER, " +
-                "subtotal INTEGER, " +
-                "selectedColor TEXT, " +
-                "selectedSize TEXT)");
 
         // 7. Table orders
         db.execSQL("CREATE TABLE orders (" +
@@ -123,7 +114,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "total INTEGER, " +
                 "status TEXT, " +
                 "freeshipVoucherCode TEXT, " +
-                "discountVoucherCode TEXT)");
+                "discountVoucherCode TEXT, " +
+                "FOREIGN KEY (userId) REFERENCES users(id) ON DELETE SET NULL)");
 
         // 8. Table order_details
         db.execSQL("CREATE TABLE order_details (" +
@@ -135,7 +127,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "unitPrice INTEGER, " +
                 "subtotal INTEGER, " +
                 "selectedColor TEXT, " +
-                "selectedSize TEXT)");
+                "selectedSize TEXT, " +
+                "FOREIGN KEY (orderId) REFERENCES orders(id) ON DELETE CASCADE, " +
+                "FOREIGN KEY (productId) REFERENCES products(id) ON DELETE SET NULL)");
 
         // 9. Table vouchers
         db.execSQL("CREATE TABLE vouchers (" +
@@ -154,7 +148,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "productId INTEGER, " +
                 "rating INTEGER, " +
                 "comment TEXT, " +
-                "createdAt TEXT)");
+                "createdAt TEXT, " +
+                "FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE, " +
+                "FOREIGN KEY (productId) REFERENCES products(id) ON DELETE CASCADE)");
 
         insertInitialData(db);
         Log.d("DatabaseHelper", "Khởi tạo database thành công!");
@@ -174,6 +170,34 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         insertOldProducts(db);
         insertNewProducts(db);
+        insertSampleOrders(db);
+    }
+
+    private void insertSampleOrders(SQLiteDatabase db) {
+        // Đơn 1: Hoàn thành (Tháng 5/2026 để có dữ liệu so sánh)
+        db.execSQL("INSERT OR IGNORE INTO orders (id, code, userId, receiverName, phone, address, note, createdAt, total, status, freeshipVoucherCode, discountVoucherCode) VALUES (1, 'DH001', 2, 'Thành', '0987654321', 'Hải Dương', 'Giao giờ hành chính', '15/05/2026 10:30', 569000, 'Hoàn thành', null, null)");
+        db.execSQL("INSERT OR IGNORE INTO order_details (orderId, productId, productName, quantity, unitPrice, subtotal, selectedColor, selectedSize) VALUES (1, 1, 'Áo len cổ tròn basic nam nữ unisex', 1, 299000, 299000, 'Xám', 'XL')");
+        db.execSQL("INSERT OR IGNORE INTO order_details (orderId, productId, productName, quantity, unitPrice, subtotal, selectedColor, selectedSize) VALUES (1, 3, 'Áo thun cotton trơn thoáng mát', 2, 120000, 240000, 'Trắng', 'XL')");
+
+        // Đơn 2: Hoàn thành (Tháng 6/2026)
+        db.execSQL("INSERT OR IGNORE INTO orders (id, code, userId, receiverName, phone, address, note, createdAt, total, status, freeshipVoucherCode, discountVoucherCode) VALUES (2, 'DH002', 2, 'Thành', '0987654321', 'Hải Dương', '', '10/06/2026 08:15', 890000, 'Hoàn thành', 'FREESHIP', null)");
+        db.execSQL("INSERT OR IGNORE INTO order_details (orderId, productId, productName, quantity, unitPrice, subtotal, selectedColor, selectedSize) VALUES (2, 6, 'Giày Sneaker thể thao năng động', 1, 890000, 890000, 'Đen', '41')");
+
+        // Đơn 3: Đang giao
+        db.execSQL("INSERT OR IGNORE INTO orders (id, code, userId, receiverName, phone, address, note, createdAt, total, status, freeshipVoucherCode, discountVoucherCode) VALUES (3, 'DH003', 2, 'Thành', '0987654321', 'Ký túc xá Đại học', 'Gọi trước khi giao', '24/06/2026 14:20', 1279000, 'Đang giao', null, 'GIAM50K')");
+        db.execSQL("INSERT OR IGNORE INTO order_details (orderId, productId, productName, quantity, unitPrice, subtotal, selectedColor, selectedSize) VALUES (3, 8, 'Túi đơn giản và sang trọng', 1, 1299000, 1299000, 'Nâu', 'Freesize')");
+
+        // Đơn 4: Đã xác nhận
+        db.execSQL("INSERT OR IGNORE INTO orders (id, code, userId, receiverName, phone, address, note, createdAt, total, status, freeshipVoucherCode, discountVoucherCode) VALUES (4, 'DH004', 2, 'Nguyễn Văn A', '0912345678', 'Hà Nội', '', '25/06/2026 16:45', 529000, 'Đã xác nhận', null, null)");
+        db.execSQL("INSERT OR IGNORE INTO order_details (orderId, productId, productName, quantity, unitPrice, subtotal, selectedColor, selectedSize) VALUES (4, 5, 'Quần Jeans cạp cao', 1, 499000, 499000, 'Xanh nhạt', '30')");
+
+        // Đơn 5: Chờ xác nhận
+        db.execSQL("INSERT OR IGNORE INTO orders (id, code, userId, receiverName, phone, address, note, createdAt, total, status, freeshipVoucherCode, discountVoucherCode) VALUES (5, 'DH005', 2, 'Thành', '0987654321', 'Hải Dương', 'Đóng gói cẩn thận', '26/06/2026 09:00', 380000, 'Chờ xác nhận', null, null)");
+        db.execSQL("INSERT OR IGNORE INTO order_details (orderId, productId, productName, quantity, unitPrice, subtotal, selectedColor, selectedSize) VALUES (5, 2, 'Áo sơ mi nam', 1, 350000, 350000, 'Trắng', 'L')");
+
+        // Đơn 6: Đã hủy
+        db.execSQL("INSERT OR IGNORE INTO orders (id, code, userId, receiverName, phone, address, note, createdAt, total, status, freeshipVoucherCode, discountVoucherCode) VALUES (6, 'DH006', 2, 'Thành', '0987654321', 'Hải Dương', 'Đổi ý không mua nữa', '20/06/2026 11:00', 480000, 'Đã hủy', null, null)");
+        db.execSQL("INSERT OR IGNORE INTO order_details (orderId, productId, productName, quantity, unitPrice, subtotal, selectedColor, selectedSize) VALUES (6, 4, 'Quần Jeans Denim dáng suông rộng', 1, 450000, 450000, 'Xanh denim', '31')");
     }
 
     private void insertOldProducts(SQLiteDatabase db) {
@@ -282,161 +306,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 4) {
-            db.execSQL("CREATE TABLE IF NOT EXISTS product_images (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "productId INTEGER, " +
-                    "imagePath TEXT, " +
-                    "sortOrder INTEGER)");
-            
-            // Delete old mappings if upgrading from 2 to 3
-            db.execSQL("DELETE FROM product_images");
+        db.execSQL("DROP TABLE IF EXISTS reviews");
+        db.execSQL("DROP TABLE IF EXISTS order_details");
+        db.execSQL("DROP TABLE IF EXISTS orders");
 
-            Cursor c = db.rawQuery("SELECT id, name, categoryName FROM products", null);
-            if (c != null && c.moveToFirst()) {
-                do {
-                    int pid = c.getInt(0);
-                    String name = c.getString(1) != null ? c.getString(1).toLowerCase() : "";
-                    String cat = c.getString(2) != null ? c.getString(2).toLowerCase() : "";
-                    
-                    String[] images = {"shirt_1", "shirt_2", "shirt_3"}; // default
-                    if (name.contains("áo len")) images = new String[]{"ao_len_co_tron_1", "ao_len_co_tron_2", "ao_len_co_tron_3"};
-                    else if (name.contains("áo thun")) images = new String[]{"tshirt_1", "tshirt_2", "tshirt_3"};
-                    else if (name.contains("áo") || cat.contains("áo")) images = new String[]{"shirt_1", "shirt_2", "shirt_3"};
-                    else if (name.contains("cạp cao")) images = new String[]{"quan_jeans_cap_cao_1", "quan_jeans_cap_cao_2", "quan_jeans_cap_cao_3"};
-                    else if (name.contains("quần") || cat.contains("quần")) images = new String[]{"quan_jeans_dang_suong_1", "quan_jeans_dang_suong_2", "quan_jeans_dang_suong_3"};
-                    else if (name.contains("phối màu")) images = new String[]{"shoes2_1", "shoes2_2", "shoes2_3"};
-                    else if (name.contains("giày") || cat.contains("giày")) images = new String[]{"shoes_1", "shoes_2", "shoes_3"};
-                    else if (name.contains("kính")) images = new String[]{"kinh_ram_gong_tron_1", "kinh_ram_gong_tron_2", "kinh_ram_gong_tron_3"};
-                    else if (name.contains("túi") || cat.contains("phụ kiện")) images = new String[]{"bag_1", "bag_2", "bag_3"};
-                    else images = new String[]{"shirt_1", "quan_jeans_dang_suong_1", "shoes_1"}; // test default fallback
-                    
-                    for (int i=0; i<images.length; i++) {
-                        ContentValues cv = new ContentValues();
-                        cv.put("productId", pid);
-                        cv.put("imagePath", images[i]);
-                        cv.put("sortOrder", i + 1);
-                        db.insert("product_images", null, cv);
-                    }
-                } while (c.moveToNext());
-                c.close();
-            }
-        }
-        if (oldVersion < 5) {
-            db.execSQL("ALTER TABLE products ADD COLUMN sizes TEXT");
-            db.execSQL("ALTER TABLE cart_items ADD COLUMN selectedColor TEXT");
-            db.execSQL("ALTER TABLE cart_items ADD COLUMN selectedSize TEXT");
-            db.execSQL("ALTER TABLE order_details ADD COLUMN selectedColor TEXT");
-            db.execSQL("ALTER TABLE order_details ADD COLUMN selectedSize TEXT");
-            db.execSQL("ALTER TABLE invoice_details ADD COLUMN selectedColor TEXT");
-            db.execSQL("ALTER TABLE invoice_details ADD COLUMN selectedSize TEXT");
-
-            db.execSQL("UPDATE products SET color='Xám,Đen', sizes='S,M,L,XL,XXL', description='Áo len cổ tròn chất liệu mềm mại, giữ ấm tốt, phù hợp mặc hằng ngày và phối nhiều phong cách.' WHERE name='Áo len cổ tròn basic nam nữ unisex'");
-            db.execSQL("UPDATE products SET color='Trắng,Xanh nhạt', sizes='S,M,L,XL,XXL', description='Áo sơ mi nam form gọn, chất vải thoáng, phù hợp đi học, đi làm hoặc mặc hằng ngày.' WHERE name='Áo sơ mi nam'");
-            db.execSQL("UPDATE products SET color='Đen,Trắng,Xám', sizes='S,M,L,XL,XXL', description='Áo thun cotton trơn, thấm hút tốt, dễ phối đồ, phù hợp mặc thường ngày.' WHERE name='Áo thun cotton trơn thoáng mát'");
-            db.execSQL("UPDATE products SET color='Xanh denim,Xanh đậm', sizes='28,29,30,31,32,33', description='Quần jeans denim dáng suông rộng, chất vải bền, tạo cảm giác thoải mái khi vận động.' WHERE name='Quần Jeans Denim dáng suông rộng'");
-            db.execSQL("UPDATE products SET color='Xanh nhạt,Xanh đậm', sizes='28,29,30,31,32,33', description='Quần jeans cạp cao giúp tôn dáng, phù hợp phối cùng áo thun, áo sơ mi hoặc áo len.' WHERE name='Quần Jeans cạp cao'");
-            db.execSQL("UPDATE products SET color='Trắng,Đen', sizes='38,39,40,41,42,43', description='Giày sneaker thể thao êm chân, phù hợp đi học, đi chơi và vận động hằng ngày.' WHERE name='Giày Sneaker thể thao năng động'");
-            db.execSQL("UPDATE products SET color='Trắng phối xanh,Trắng phối đỏ', sizes='38,39,40,41,42,43', description='Giày sneaker phối màu trẻ trung, thiết kế nổi bật, dễ phối với nhiều trang phục.' WHERE name='Giày sneaker phối màu'");
-            db.execSQL("UPDATE products SET color='Nâu,Đen', sizes='Freesize', description='Túi xách thiết kế đơn giản, sang trọng, phù hợp đi làm, đi học hoặc đi chơi.' WHERE name='Túi đơn giản và sang trọng'");
-            db.execSQL("UPDATE products SET color='Đen,Nâu', sizes='Freesize', description='Kính râm gọng tròn phong cách thời trang, hỗ trợ che nắng và tạo điểm nhấn khi phối đồ.' WHERE name='Kính râm gọng tròn'");
-
-            db.execSQL("UPDATE products SET sizes='Freesize' WHERE sizes IS NULL");
-        }
-        if (oldVersion < 6) {
-            // Fix corrupted sizes and descriptions in the database
-            Cursor c = db.rawQuery("SELECT id, name, categoryName, sizes, description FROM products", null);
-            if (c != null && c.moveToFirst()) {
-                do {
-                    int pid = c.getInt(0);
-                    String name = c.getString(1);
-                    String cat = c.getString(2);
-                    String sizes = c.getString(3);
-                    String desc = c.getString(4);
-                    
-                    if (name == null) name = "";
-                    if (cat == null) cat = "";
-                    if (sizes == null) sizes = "";
-                    if (desc == null) desc = "";
-
-                    boolean needsUpdate = false;
-                    
-                    // If sizes contains long text or descriptions
-                    if (sizes.length() > 20 || sizes.toLowerCase().contains("chất liệu") || sizes.toLowerCase().contains("phù hợp")) {
-                        needsUpdate = true;
-                        // Reset sizes based on category
-                        if (cat.equalsIgnoreCase("Áo")) sizes = "S,M,L,XL,XXL";
-                        else if (cat.equalsIgnoreCase("Quần")) sizes = "28,29,30,31,32,33";
-                        else if (cat.equalsIgnoreCase("Giày")) sizes = "37,38,39,40,41,42,43";
-                        else sizes = "Freesize";
-                    }
-
-                    // If description contains random numbers (e.g., resource IDs) or is empty
-                    if (desc.isEmpty() || desc.matches("^[0-9]+$")) {
-                        needsUpdate = true;
-                        desc = "Sản phẩm thời trang thuộc danh mục " + cat + ", phù hợp sử dụng hằng ngày.";
-                    }
-
-                    // Strict overrides for specific items as requested
-                    if (name.equalsIgnoreCase("Áo len cổ tròn basic nam nữ unisex")) {
-                        sizes = "S,M,L,XL,XXL"; desc = "Áo len cổ tròn chất liệu mềm mại, giữ ấm tốt, phù hợp mặc hằng ngày và dễ phối với nhiều trang phục."; needsUpdate = true;
-                    } else if (name.equalsIgnoreCase("Áo sơ mi nam")) {
-                        sizes = "S,M,L,XL,XXL"; desc = "Áo sơ mi nam form gọn, chất vải thoáng, phù hợp đi học, đi làm hoặc mặc trong các dịp lịch sự."; needsUpdate = true;
-                    } else if (name.equalsIgnoreCase("Áo thun cotton trơn thoáng mát")) {
-                        sizes = "S,M,L,XL,XXL"; desc = "Áo thun cotton trơn, thấm hút tốt, thoáng mát, phù hợp mặc thường ngày và dễ phối đồ."; needsUpdate = true;
-                    } else if (name.equalsIgnoreCase("Quần Jeans Denim dáng suông rộng")) {
-                        sizes = "28,29,30,31,32,33"; desc = "Quần jeans denim dáng suông rộng, chất vải bền, tạo cảm giác thoải mái khi mặc và vận động."; needsUpdate = true;
-                    } else if (name.equalsIgnoreCase("Quần Jeans cạp cao")) {
-                        sizes = "28,29,30,31,32,33"; desc = "Quần jeans cạp cao giúp tôn dáng, dễ phối cùng áo thun, áo sơ mi hoặc áo len."; needsUpdate = true;
-                    } else if (name.equalsIgnoreCase("Giày Sneaker thể thao năng động")) {
-                        sizes = "37,38,39,40,41,42,43"; desc = "Giày sneaker thể thao thiết kế êm chân, phù hợp đi học, đi chơi và vận động hằng ngày."; needsUpdate = true;
-                    } else if (name.equalsIgnoreCase("Giày sneaker phối màu")) {
-                        sizes = "37,38,39,40,41,42,43"; desc = "Giày sneaker phối màu trẻ trung, thiết kế nổi bật, dễ phối với nhiều trang phục năng động."; needsUpdate = true;
-                    } else if (name.equalsIgnoreCase("Túi đơn giản và sang trọng")) {
-                        sizes = "Freesize"; desc = "Túi xách thiết kế đơn giản, thanh lịch, phù hợp đi làm, đi học hoặc đi chơi."; needsUpdate = true;
-                    } else if (name.equalsIgnoreCase("Kính râm gọng tròn")) {
-                        sizes = "Freesize"; desc = "Kính râm phong cách thời trang, hỗ trợ che nắng và tạo điểm nhấn khi phối đồ."; needsUpdate = true;
-                    }
-
-                    if (needsUpdate) {
-                        ContentValues cv = new ContentValues();
-                        cv.put("sizes", sizes);
-                        cv.put("description", desc);
-                        db.update("products", cv, "id=?", new String[]{String.valueOf(pid)});
-                    }
-                } while (c.moveToNext());
-                c.close();
-            }
-        }
-        if (oldVersion < 7) {
-            db.execSQL("CREATE TABLE vouchers (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                    "code TEXT UNIQUE, " +
-                    "type TEXT, " +
-                    "value INTEGER, " +
-                    "minOrder INTEGER, " +
-                    "usageLimit INTEGER, " +
-                    "usedCount INTEGER)");
-            
-            db.execSQL("INSERT OR IGNORE INTO vouchers (code, type, value, minOrder, usageLimit, usedCount) VALUES ('FREESHIP', 'freeship', 30000, 0, 100, 0)");
-            db.execSQL("INSERT OR IGNORE INTO vouchers (code, type, value, minOrder, usageLimit, usedCount) VALUES ('GIAM50K', 'discount', 50000, 200000, 50, 0)");
-        }
-        if (oldVersion < 8) {
-            db.execSQL("ALTER TABLE cart_items ADD COLUMN userId INTEGER DEFAULT -1");
-            db.execSQL("DELETE FROM cart_items");
-            db.execSQL("ALTER TABLE orders ADD COLUMN freeshipVoucherCode TEXT");
-            db.execSQL("ALTER TABLE orders ADD COLUMN discountVoucherCode TEXT");
-        }
-        if (oldVersion < 9) {
-            db.execSQL("CREATE TABLE reviews (id INTEGER PRIMARY KEY AUTOINCREMENT, userId INTEGER, productId INTEGER, rating INTEGER, comment TEXT, createdAt TEXT)");
-        }
-        if (oldVersion < 11) {
-            db.execSQL("DELETE FROM products");
-            db.execSQL("DELETE FROM product_images");
-            db.execSQL("DELETE FROM sqlite_sequence WHERE name='products'");
-            db.execSQL("DELETE FROM sqlite_sequence WHERE name='product_images'");
-            insertInitialData(db);
-        }
+        db.execSQL("DROP TABLE IF EXISTS cart_items");
+        db.execSQL("DROP TABLE IF EXISTS product_images");
+        db.execSQL("DROP TABLE IF EXISTS products");
+        db.execSQL("DROP TABLE IF EXISTS categories");
+        db.execSQL("DROP TABLE IF EXISTS vouchers");
+        db.execSQL("DROP TABLE IF EXISTS users");
+        onCreate(db);
     }
 
     private String normalizeOption(String value) {
@@ -456,16 +336,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    // Cập nhật trực tiếp số lượng tồn kho của sản phẩm
     private boolean updateProductStock(SQLiteDatabase db, int productId, int newStock) {
+        // Không cho phép tồn kho nhỏ hơn 0
         if (newStock < 0) return false;
+
+        // Tạo đối tượng chứa dữ liệu cần cập nhật
         ContentValues cv = new ContentValues();
+
+        // Gán giá trị mới cho cột "stock"
         cv.put("stock", newStock);
-        return db.update("products", cv, "id=?", new String[]{String.valueOf(productId)}) > 0;
+
+        // Thực hiện UPDATE products SET stock = newStock WHERE id = productId
+        // Trả về true nếu có ít nhất 1 dòng được cập nhật
+        return db.update(
+                "products",
+                cv,
+                "id=?",
+                new String[]{String.valueOf(productId)}
+        ) > 0;
     }
 
+    // Điều chỉnh số lượng tồn kho dựa trên mức thay đổi (delta)
+    // delta > 0: nhập thêm hàng
+    // delta < 0: bán hoặc xuất kho
     private boolean adjustProductStock(SQLiteDatabase db, int productId, int delta) {
+        // Lấy số lượng tồn kho hiện tại của sản phẩm
         int currentStock = getProductStock(db, productId);
+
+        // Nếu không tìm thấy sản phẩm hoặc xảy ra lỗi thì dừng
         if (currentStock < 0) return false;
+
+        // Tính số lượng tồn kho mới rồi cập nhật vào cơ sở dữ liệu
         return updateProductStock(db, productId, currentStock + delta);
     }
 
@@ -643,31 +545,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update("orders", cvOrder, "id=?", new String[]{String.valueOf(orderId)});
     }
 
-    // ==========================================
     // PHẦN 3: METHOD CHO USER
-    // ==========================================
 
+    // Hàm kiểm tra xem thông tin Đăng nhập (Email và Mật khẩu) có khớp trong Cơ sở dữ liệu hay không
     public boolean checkLogin(String email, String password) {
+        // Mở kết nối đến cơ sở dữ liệu ở chế độ "Chỉ Đọc" (Vì mình chỉ cần kiểm tra, không cần sửa đổi)
         SQLiteDatabase db = this.getReadableDatabase();
+        
+        // Khởi tạo một con trỏ (Cursor) dùng để duyệt qua các kết quả trả về từ CSDL
         Cursor cursor = null;
         try {
+            // Thực thi câu lệnh SQL để tìm xem có dòng nào trong bảng "users" khớp đúng cả Email và Password không
             cursor = db.rawQuery("SELECT id FROM users WHERE email=? AND password=?", new String[]{email, password});
+            
+            // Nếu con trỏ không rỗng VÀ có thể trỏ tới được dòng kết quả đầu tiên (nghĩa là có tài khoản tồn tại)
+            // thì trả về True (Đăng nhập đúng), ngược lại trả về False (Sai email hoặc mật khẩu)
             return cursor != null && cursor.moveToFirst();
         } finally {
+            // Khối lệnh này luôn luôn chạy dù code phía trên có bị lỗi hay không
+            // Dùng để Đóng con trỏ lại, giải phóng bộ nhớ cho điện thoại để không bị giật lag
             if (cursor != null) cursor.close();
         }
     }
 
+    // Hàm lấy ra Quyền (Role) của người dùng dựa vào Email
+    // Giúp ứng dụng biết được người này là "admin" hay chỉ là "user" bình thường
     public String getUserRole(String email) {
+        // Mở kết nối đến cơ sở dữ liệu ở chế độ "Chỉ Đọc"
         SQLiteDatabase db = this.getReadableDatabase();
+        
+        // Khởi tạo một con trỏ (Cursor)
         Cursor cursor = null;
         try {
+            // Dùng câu lệnh SQL lấy đúng cột "role" từ bảng "users" với điều kiện Email trùng khớp
             cursor = db.rawQuery("SELECT role FROM users WHERE email=?", new String[]{email});
+            
+            // Nếu có kết quả trả về từ cơ sở dữ liệu
             if (cursor != null && cursor.moveToFirst()) {
+                // Lấy dữ liệu ở cột số 0 (tức là cột "role" vừa lấy ra) và chuyển thành dạng Chữ (String)
                 return cursor.getString(0);
             }
+            
+            // Nếu không tìm thấy thì trả về chuỗi rỗng
             return "";
         } finally {
+            // Luôn luôn nhớ đóng con trỏ sau khi truy vấn xong để tránh tràn bộ nhớ (Memory Leak)
             if (cursor != null) cursor.close();
         }
     }
@@ -804,7 +726,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cursor = db.rawQuery("SELECT * FROM categories", null);
             if (cursor != null && cursor.moveToFirst()) {
                 do {
-                    list.add(new Category(cursor.getInt(0), cursor.getString(1), ""));
+                    String name = cursor.getString(1);
+                    String icon = "🏷️";
+                    if (name != null) {
+                        String lowerName = name.toLowerCase();
+                        if (lowerName.contains("áo")) icon = "👕";
+                        else if (lowerName.contains("quần")) icon = "👖";
+                        else if (lowerName.contains("giày")) icon = "👟";
+                        else if (lowerName.contains("phụ kiện")) icon = "🎒";
+                    }
+                    list.add(new Category(cursor.getInt(0), name, icon));
                 } while (cursor.moveToNext());
             }
         } finally {
@@ -819,7 +750,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         try {
             cursor = db.rawQuery("SELECT * FROM categories WHERE id=?", new String[]{String.valueOf(id)});
             if (cursor != null && cursor.moveToFirst()) {
-                return new Category(cursor.getInt(0), cursor.getString(1), "");
+                String name = cursor.getString(1);
+                String icon = "🏷️";
+                if (name != null) {
+                    String lowerName = name.toLowerCase();
+                    if (lowerName.contains("áo")) icon = "👕";
+                    else if (lowerName.contains("quần")) icon = "👖";
+                    else if (lowerName.contains("giày")) icon = "👟";
+                    else if (lowerName.contains("phụ kiện")) icon = "🎒";
+                }
+                return new Category(cursor.getInt(0), name, icon);
             }
             return null;
         } finally {
@@ -840,8 +780,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put("name", category.getName());
-        int result = db.update("categories", cv, "id=?", new String[]{String.valueOf(category.getId())});
-        return result > 0;
+        
+        db.beginTransaction();
+        try {
+            int result = db.update("categories", cv, "id=?", new String[]{String.valueOf(category.getId())});
+            if (result > 0) {
+                // Cập nhật tên danh mục mới cho tất cả sản phẩm thuộc danh mục này
+                ContentValues cvProduct = new ContentValues();
+                cvProduct.put("categoryName", category.getName());
+                db.update("products", cvProduct, "categoryId=?", new String[]{String.valueOf(category.getId())});
+                db.setTransactionSuccessful();
+                return true;
+            }
+            return false;
+        } finally {
+            db.endTransaction();
+        }
     }
 
     public boolean deleteCategory(int categoryId) {
@@ -1096,32 +1050,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // ==========================================
 
 
+    // Hàm lấy danh sách các mặt hàng đang có trong Giỏ hàng của một Khách hàng cụ thể (dựa vào userId)
     public ArrayList<CartItem> getCartItems(int userId) {
+        // Tạo một danh sách rỗng để chuẩn bị chứa kết quả
         ArrayList<CartItem> list = new ArrayList<>();
+        
+        // Nếu ID khách hàng không hợp lệ (nhỏ hơn hoặc bằng 0) thì trả về danh sách rỗng luôn
         if (userId <= 0) return list;
 
+        // Mở kết nối đến cơ sở dữ liệu ở chế độ "Chỉ Đọc"
         SQLiteDatabase db = this.getReadableDatabase();
+        
+        // Khởi tạo con trỏ (Cursor) để hứng dữ liệu
         Cursor cursor = null;
         try {
+            // Chạy câu lệnh SQL: "Lấy ra ID sản phẩm, Số lượng, Màu sắc, Kích cỡ từ bảng cart_items của ông khách có ID = ?"
             cursor = db.rawQuery(
                     "SELECT productId, quantity, selectedColor, selectedSize FROM cart_items WHERE userId=?",
                     new String[]{String.valueOf(userId)}
             );
+            
+            // Nếu có kết quả trả về từ cơ sở dữ liệu
             if (cursor != null && cursor.moveToFirst()) {
+                // Vòng lặp do-while: Quét từng dòng dữ liệu trong bảng kết quả
                 do {
-                    int productId = cursor.getInt(0);
-                    int quantity = cursor.getInt(1);
-                    String color = cursor.getString(2);
-                    String size = cursor.getString(3);
+                    // Lấy ra các cột theo thứ tự 0, 1, 2, 3 tương ứng với câu lệnh SELECT ở trên
+                    int productId = cursor.getInt(0); // Cột productId
+                    int quantity = cursor.getInt(1); // Cột quantity
+                    String color = cursor.getString(2); // Cột selectedColor
+                    String size = cursor.getString(3); // Cột selectedSize
+                    
+                    // Từ ID của sản phẩm, gọi hàm getProductById để lấy ra TOÀN BỘ thông tin (tên, giá, hình ảnh...) của nó
                     Product product = getProductById(productId);
+                    
+                    // Đề phòng trường hợp admin đã xóa mất sản phẩm đó khỏi kho nhưng trong giỏ của khách vẫn còn lưu ID cũ
                     if (product != null) {
+                        // Đóng gói sản phẩm + số lượng + màu + size thành 1 đối tượng CartItem và nhét vào danh sách
                         list.add(new CartItem(product, quantity, color, size));
                     }
-                } while (cursor.moveToNext());
+                } while (cursor.moveToNext()); // Tiếp tục nhảy sang dòng dữ liệu tiếp theo nếu có
             }
         } finally {
+            // Luôn luôn đóng Cursor lại sau khi dùng xong để chống rò rỉ bộ nhớ (Tràn RAM)
             if (cursor != null) cursor.close();
         }
+        
+        // Trả về danh sách cuối cùng để giao diện (Activity) hiển thị lên màn hình
         return list;
     }
 
@@ -1296,37 +1270,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    public int getSoldQuantity() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
-        try {
-            cursor = db.rawQuery("SELECT SUM(quantity) FROM invoice_details", null);
-            if (cursor != null && cursor.moveToFirst()) {
-                return cursor.getInt(0);
-            }
-            return 0;
-        } finally {
-            if (cursor != null) cursor.close();
-        }
-    }
 
-    public ArrayList<Product> getBestSellingProducts() {
-        ArrayList<Product> list = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = null;
-        try {
-            cursor = db.rawQuery("SELECT productId, SUM(quantity) as total_qty FROM invoice_details GROUP BY productId ORDER BY total_qty DESC LIMIT 3", null);
-            if (cursor != null && cursor.moveToFirst()) {
-                do {
-                    Product p = getProductById(cursor.getInt(0));
-                    if (p != null) list.add(p);
-                } while (cursor.moveToNext());
-            }
-        } finally {
-            if (cursor != null) cursor.close();
-        }
-        return list;
-    }
 
     // ==========================================
     // PHẦN 8: METHOD CHO ORDER USER
@@ -1342,32 +1286,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         
-        // Bắt đầu một Transaction: "Cùng sống hoặc cùng chết"
+        // Bắt đầu một Transaction:
+        // Tất cả các lệnh INSERT, UPDATE, DELETE bên trong khối này sẽ được gom thành 1 gói duy nhất.
         db.beginTransaction();
         try {
             // Bước 1: Tính toán tổng số lượng từng sản phẩm để kiểm tra tồn kho
+            // Phải gộp lại vì 1 sản phẩm có thể phân ra làm 2 dòng (Áo đỏ size L, Áo đỏ size XL)
             Map<Integer, Integer> requiredQuantities = aggregateCartQuantities(selectedItems);
             if (!hasSufficientStock(db, requiredQuantities)) {
-                return -1; // Kho không đủ hàng -> Rollback
+                return -1; // Kho không đủ hàng -> Trả về lỗi, Rollback toàn bộ
             }
 
             // Bước 2: Kiểm tra và trừ số lượt dùng của Voucher
             int subtotal = 0;
             for (CartItem item : selectedItems) {
-                subtotal += item.getQuantity() * item.getProduct().getPrice();
+                subtotal += item.getQuantity() * item.getProduct().getPrice(); // Tính tổng tiền gốc
             }
+            
+            // Gọi hàm claimVoucher để kiểm tra tính hợp lệ và trừ lượt dùng (usedCount + 1)
             if (!claimVoucher(db, freeshipVoucherCode, "freeship", subtotal)) {
-                return -1; // Lỗi voucher Freeship -> Rollback
+                return -1; // Lỗi voucher Freeship (hết lượt hoặc sai mã) -> Rollback
             }
             if (!claimVoucher(db, discountVoucherCode, "discount", subtotal)) {
-                return -1; // Lỗi voucher Giảm giá -> Rollback
+                return -1; // Lỗi voucher Giảm giá (hết lượt hoặc sai mã) -> Rollback
             }
 
             // Bước 3: Tạo bản ghi (dòng dữ liệu) cho Đơn Hàng mới vào bảng `orders`
             String createdAt = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(new Date());
 
             ContentValues cv = new ContentValues();
-            cv.put("code", ""); // Tạm để rỗng, sẽ cập nhật mã xịn sau khi có ID
+            cv.put("code", ""); // Tạm để rỗng mã đơn (DH...), sẽ cập nhật sau khi lấy được ID tự tăng
             cv.put("userId", userId);
             cv.put("receiverName", receiverName);
             cv.put("phone", phone);
@@ -1379,10 +1327,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cv.put("freeshipVoucherCode", normalizeOption(freeshipVoucherCode));
             cv.put("discountVoucherCode", normalizeOption(discountVoucherCode));
 
+            // Thực thi INSERT vào bảng orders
             long orderId = db.insert("orders", null, cv);
-            if (orderId == -1) return -1;
+            if (orderId == -1) return -1; // Lỗi tạo đơn -> Rollback
 
-            // Bước 4: Tạo mã đơn hàng đẹp (VD: ID=5 -> Mã=DH005) và cập nhật lại
+            // Bước 4: Tạo mã đơn hàng đẹp (VD: ID=5 -> Mã=DH005) và Cập nhật lại vào DB
             String code = "DH" + String.format(Locale.getDefault(), "%03d", orderId);
             ContentValues cvCode = new ContentValues();
             cvCode.put("code", code);
@@ -1393,32 +1342,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 ContentValues cvDetail = new ContentValues();
                 cvDetail.put("orderId", orderId);
                 cvDetail.put("productId", item.getProduct().getId());
-                cvDetail.put("productName", item.getProduct().getName());
+                cvDetail.put("productName", item.getProduct().getName()); // Lưu cứng tên đề phòng Admin xóa/sửa sau này
                 cvDetail.put("quantity", item.getQuantity());
-                cvDetail.put("unitPrice", item.getProduct().getPrice());
+                cvDetail.put("unitPrice", item.getProduct().getPrice()); // Lưu cứng giá bán tại thời điểm mua
                 cvDetail.put("subtotal", item.getQuantity() * item.getProduct().getPrice());
                 cvDetail.put("selectedColor", normalizeOption(item.getSelectedColor()));
                 cvDetail.put("selectedSize", normalizeOption(item.getSelectedSize()));
+                
+                // Thực thi INSERT vào bảng order_details
                 db.insert("order_details", null, cvDetail);
             }
 
-            // Bước 6: TRỪ SỐ LƯỢNG TỒN KHO THỰC TẾ
+            // Bước 6: TRỪ SỐ LƯỢNG TỒN KHO THỰC TẾ TRONG BẢNG PRODUCTS
             for (Map.Entry<Integer, Integer> entry : requiredQuantities.entrySet()) {
+                // Gọi hàm adjustProductStock với delta là số âm (-entry.getValue())
                 if (!adjustProductStock(db, entry.getKey(), -entry.getValue())) {
-                    return -1; // Lỗi kho -> Rollback toàn bộ các lệnh từ nãy giờ
+                    return -1; // Lỗi kho lúc trừ -> Rollback toàn bộ các lệnh từ nãy giờ
                 }
             }
 
-            // Bước 7: XÓA CÁC MÓN NÀY KHỎI GIỎ HÀNG CỦA USER
+            // Bước 7: XÓA CÁC MÓN HÀNG NÀY KHỎI GIỎ HÀNG (BẢNG CART_ITEMS) CỦA USER
             for (CartItem item : selectedItems) {
                 removeCartItem(db, userId, item.getProduct().getId(), item.getSelectedColor(), item.getSelectedSize());
             }
 
-            // Nếu đến được đây nghĩa là tất cả 7 bước đều hoàn hảo
-            db.setTransactionSuccessful(); // Xác nhận commit (Lưu thẳng vào ổ cứng)
+            // Nếu luồng code chạy đến được đây, nghĩa là TẤT CẢ 7 BƯỚC đều không có lỗi!
+            // Xác nhận Giao dịch thành công (Lưu thẳng vào ổ cứng)
+            db.setTransactionSuccessful(); 
             return (int) orderId;
         } finally {
-            // Đóng Transaction (Nếu chưa gọi setTransactionSuccessful thì nó sẽ tự Hủy Toàn Bộ)
+            // Đóng Transaction
+            // ĐẶC BIỆT LƯU Ý: Nếu trước đó KHÔNG GỌI db.setTransactionSuccessful(),
+            // Hàm endTransaction() này sẽ TỰ ĐỘNG HỦY BỎ (ROLLBACK) mọi thao tác INSERT, UPDATE, DELETE vừa làm!
             db.endTransaction();
         }
     }
@@ -1611,11 +1566,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Order order = getOrderById(orderId);
         if (order == null) return false;
+        
+        // NGHIỆP VỤ: Kiểm tra luồng trạng thái hợp lệ. Không được phép Hủy khi đã Giao hoặc Hoàn thành.
         if (!isValidOrderStatusTransition(order.getStatus(), newStatus)) return false;
 
+        // BẮT ĐẦU TRANSACTION: Đảm bảo mọi thay đổi về số lượng được đồng bộ, tránh rủi ro đứt mạng giữa chừng
         db.beginTransaction();
         try {
+            // KỊCH BẢN ĐẶC BIỆT: HỦY ĐƠN HÀNG
             if (ORDER_STATUS_CANCELLED.equals(newStatus)) {
+                
+                // 1. Gộp số lượng các sản phẩm trùng nhau trong cùng đơn hàng
                 Map<Integer, Integer> restockQuantities = new HashMap<>();
                 for (OrderItem item : order.getItems()) {
                     restockQuantities.put(
@@ -1624,20 +1585,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     );
                 }
 
+                // 2. Vòng lặp: Hoàn trả lại số lượng vào Tồn kho (Stock) của từng sản phẩm
                 for (Map.Entry<Integer, Integer> entry : restockQuantities.entrySet()) {
                     if (!adjustProductStock(db, entry.getKey(), entry.getValue())) {
-                        return false;
+                        return false; // Nếu lỗi DB, Transaction sẽ lập tức tự động Rollback
                     }
                 }
+                
+                // 3. Hoàn trả lại số lượt sử dụng Voucher cho khách hàng
                 releaseOrderVouchers(db, orderId);
             }
 
+            // Cập nhật trạng thái chữ mới vào CSDL
             ContentValues cv = new ContentValues();
             cv.put("status", newStatus);
             int rows = db.update("orders", cv, "id=?", new String[]{String.valueOf(orderId)});
+            
+            // Chốt giao dịch (Xác nhận lưu mọi thay đổi xuống ổ cứng)
             db.setTransactionSuccessful();
             return rows > 0;
         } finally {
+            // Nếu có bất kỳ lỗi nào xảy ra làm gián đoạn trước khi gọi setTransactionSuccessful()
+            // Hàm endTransaction sẽ tự động Rollback toàn bộ (Thu hồi mọi thao tác cập nhật kho ở trên)
             if (db.inTransaction()) {
                 db.endTransaction();
             }

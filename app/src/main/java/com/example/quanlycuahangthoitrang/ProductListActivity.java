@@ -25,6 +25,7 @@ public class ProductListActivity extends AppCompatActivity {
     private List<Product> currentList;
     private DatabaseHelper dbHelper;
     private SessionManager sessionManager;
+    private TextView tvCartBadge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,11 +39,11 @@ public class ProductListActivity extends AppCompatActivity {
         // Khởi tạo trình quản lý phiên đăng nhập
         sessionManager = new SessionManager(this);
 
-        // Lấy tên Danh mục được truyền từ trang chủ sang (Ví dụ: "Áo", "Quần")
         String categoryExtra = getIntent().getStringExtra("category");
         final String category = categoryExtra == null ? "Tất cả" : categoryExtra;
 
         TextView tvCategoryTitle = findViewById(R.id.tvCategoryTitle);
+        tvCartBadge = findViewById(R.id.tvCartBadge);
         
         // Logic lọc sản phẩm:
         // Nếu người dùng chọn "Tất cả" -> Gọi hàm getAllProducts lấy toàn bộ kho
@@ -58,39 +59,68 @@ public class ProductListActivity extends AppCompatActivity {
         // Bắt sự kiện bấm nút quay lại
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
-        // Ánh xạ view từ XML sang Java
+        // Bắt sự kiện bấm vào Giỏ hàng ở góc phải trên cùng
+        findViewById(R.id.btnCartTop).setOnClickListener(v -> {
+            // Chuyển người dùng sang màn hình Giỏ hàng
+            startActivity(new Intent(ProductListActivity.this, CartActivity.class));
+        });
+
+        // Tìm Danh sách cuộn chứa toàn bộ quần áo
         RecyclerView rvProductsList = findViewById(R.id.rvProductsList);
+        
+        // KIẾN TRÚC GIAO DIỆN: Đặt danh sách thành dạng Lưới (Grid) có 2 cột (Như Shopee, Lazada)
         rvProductsList.setLayoutManager(new GridLayoutManager(this, 2));
+        
+        // Khởi tạo Adapter để đổ dữ liệu từ Mảng (currentList) lên Giao diện Lưới
         adapter = new ProductUserAdapter(currentList, new ProductUserAdapter.OnProductClickListener() {
+            
+            // Xử lý sự kiện 1: Khi khách hàng BẤM VÀO HÌNH ẢNH HOẶC TÊN SẢN PHẨM
             @Override
             public void onProductClick(Product product) {
+                // Chuyển sang màn hình Chi tiết sản phẩm (ProductDetailActivity)
                 Intent intent = new Intent(ProductListActivity.this, ProductDetailActivity.class);
+                // Truyền ID sản phẩm sang màn hình kia để màn hình kia biết đường tải thông tin
                 intent.putExtra("product_id", product.getId());
                 startActivity(intent);
             }
 
+            // Xử lý sự kiện 2: Khi khách hàng bấm thẳng vào nút [THÊM VÀO GIỎ] nhỏ xíu ở dưới
             @Override
             public void onAddToCartClick(Product product) {
+                // Bước 1: Lấy ID của người dùng đang đăng nhập
                 int userId = getCurrentUserId();
+                
+                // RÀO CẢN BẢO MẬT: Nếu chưa đăng nhập hoặc lỗi phiên thì không cho thêm giỏ
                 if (userId <= 0) {
-                    // Hiện thông báo (Toast) cho người dùng
                     Toast.makeText(ProductListActivity.this, "Phiên đăng nhập đã hết hạn", Toast.LENGTH_SHORT).show();
-                    return;
+                    return; // Chặn lại, không chạy code bên dưới nữa
                 }
 
+                // Bước 2: Xử lý màu sắc và kích cỡ MẶC ĐỊNH
+                // Do bấm nút thêm nhanh ở ngoài lưới, nên hệ thống sẽ tự động chọn Màu đầu tiên và Size đầu tiên
                 String defaultColor = "";
                 String defaultSize = "";
+                
+                // Nếu sản phẩm này có màu (ví dụ: "Đỏ, Xanh, Vàng")
                 if (product.getColor() != null && !product.getColor().isEmpty()) {
+                    // Dùng hàm split(",") để cắt chuỗi thành mảng ["Đỏ", "Xanh", "Vàng"] 
+                    // Rồi lấy phần tử số [0] là "Đỏ" làm mặc định
                     defaultColor = product.getColor().split(",")[0].trim();
                 }
+                
+                // Nếu sản phẩm này có kích cỡ (ví dụ: "S, M, L, XL")
                 if (product.getSizes() != null && !product.getSizes().isEmpty()) {
+                    // Tương tự, cắt mảng và lấy Size đầu tiên (Ví dụ: "S")
                     defaultSize = product.getSizes().split(",")[0].trim();
                 }
+                
+                // Bước 3: GỌI DATABASE ĐỂ LƯU VÀO GIỎ HÀNG
+                // Số lượng mặc định thêm vào luôn là 1
                 if (dbHelper.addToCart(userId, product.getId(), 1, defaultColor, defaultSize)) {
-                    // Hiện thông báo (Toast) cho người dùng
                     Toast.makeText(ProductListActivity.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+                    // Cập nhật lại cái chấm đỏ hiển thị số lượng trên biểu tượng Giỏ hàng
+                    updateCartBadge();
                 } else {
-                    // Hiện thông báo (Toast) cho người dùng
                     Toast.makeText(ProductListActivity.this, "Lỗi thêm giỏ hàng", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -190,5 +220,32 @@ public class ProductListActivity extends AppCompatActivity {
     private int getCurrentUserId() {
         User currentUser = dbHelper.getUserByEmail(sessionManager.getEmail());
         return currentUser != null ? currentUser.getId() : -1;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateCartBadge();
+    }
+
+    public void updateCartBadge() {
+        if (tvCartBadge != null) {
+            String email = sessionManager.getEmail();
+            if (email != null && !email.isEmpty()) {
+                User u = dbHelper.getUserByEmail(email);
+                if (u != null) {
+                    java.util.List<com.example.quanlycuahangthoitrang.model.CartItem> cartItems = dbHelper.getCartItems(u.getId());
+                    int count = cartItems.size();
+                    if (count > 0) {
+                        tvCartBadge.setText(String.valueOf(count));
+                        tvCartBadge.setVisibility(android.view.View.VISIBLE);
+                    } else {
+                        tvCartBadge.setVisibility(android.view.View.GONE);
+                    }
+                }
+            } else {
+                tvCartBadge.setVisibility(android.view.View.GONE);
+            }
+        }
     }
 }

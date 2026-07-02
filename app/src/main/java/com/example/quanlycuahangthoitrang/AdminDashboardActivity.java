@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 public class AdminDashboardActivity extends AppCompatActivity {
 
     @Override
@@ -23,6 +24,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         setupFunction(R.id.funcUsers, UserManagementActivity.class);
         setupFunction(R.id.funcLowStock, LowStockActivity.class);
         setupFunction(R.id.funcVouchers, VoucherManagementActivity.class);
+        setupFunction(R.id.funcSwitchUser, UserHomeActivity.class);
 
         // Chức năng đăng xuất
         View funcLogout = findViewById(R.id.funcLogout);
@@ -37,13 +39,13 @@ public class AdminDashboardActivity extends AppCompatActivity {
         });
     }
 
-    private void setupFunction(int viewId, Class<?> activityClass) {
+    // Thiết lập chức năng cho từng nút bấm trên giao diện
+    private void setupFunction(int viewId, Class<?> targetActivity) {
+        // Tìm view theo ID
         View view = findViewById(viewId);
         if (view != null) {
-            view.setOnClickListener(v -> {
-                // Chuyển sang màn hình tương ứng
-                startActivity(new Intent(AdminDashboardActivity.this, activityClass));
-            });
+            // Khi click vào view thì chuyển hướng sang màn hình tương ứng
+            view.setOnClickListener(v -> startActivity(new Intent(AdminDashboardActivity.this, targetActivity)));
         }
     }
 

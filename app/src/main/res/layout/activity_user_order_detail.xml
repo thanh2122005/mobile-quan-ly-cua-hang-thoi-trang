@@ -113,20 +113,6 @@
                 android:textStyle="bold"
                 android:visibility="gone" />
 
-            <!-- Đánh giá đơn hàng button -->
-            <TextView
-                android:id="@+id/btnRateOrder"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/bg_button_orange"
-                android:gravity="center"
-                android:text="Đánh giá sản phẩm"
-                android:textColor="@color/surface_white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -47,27 +47,35 @@ public class AddProductActivity extends AppCompatActivity {
         // Ánh xạ view từ XML sang Java
         android.widget.ImageView ivProductImage = findViewById(R.id.ivProductImage);
 
+        // --- ĐỔ DỮ LIỆU DANH MỤC LÊN HỘP THẢ XUỐNG (SPINNER) ---
+        // Lấy danh sách toàn bộ danh mục từ CSDL
         java.util.List<com.example.quanlycuahangthoitrang.model.Category> categoryList = dbHelper.getAllCategories();
         java.util.List<String> categoryNames = new java.util.ArrayList<>();
+        // Vòng lặp rút trích lấy mỗi cái Tên danh mục (Ví dụ: "Áo nam", "Quần nữ") bỏ vào mảng chữ
         for (com.example.quanlycuahangthoitrang.model.Category c : categoryList) {
             categoryNames.add(c.getName());
         }
+        // Tạo Adapter (Bộ chuyển đổi) để gắn mảng chữ lên cái nút thả xuống Spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categoryNames);
         spnCategory.setAdapter(adapter);
 
         final int[] selectedImageResId = {0};
 
-                findViewById(R.id.btnChooseImage).setOnClickListener(v -> {
+        // Bắt sự kiện bấm nút "Chọn Ảnh Sản Phẩm"
+        findViewById(R.id.btnChooseImage).setOnClickListener(v -> {
+            // Mở hộp thoại chọn file của điện thoại (Gallery)
             android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(android.content.Intent.CATEGORY_OPENABLE);
-            intent.setType("image/*");
-            intent.putExtra(android.content.Intent.EXTRA_ALLOW_MULTIPLE, true);
+            intent.setType("image/*"); // Chỉ chọn ảnh
+            intent.putExtra(android.content.Intent.EXTRA_ALLOW_MULTIPLE, true); // Cho phép chọn nhiều ảnh
             startActivityForResult(intent, 100);
         });
 
+        // Bắt sự kiện bấm nút [LƯU LẠI]
         findViewById(R.id.btnSave).setOnClickListener(v -> {
-            // Lấy dữ liệu từ các ô nhập
+            // Lấy dữ liệu từ các ô nhập trên giao diện
             String name = edtProductName.getText().toString().trim();
+            // Lấy Tên danh mục mà Admin đang chọn trong hộp thả xuống
             String category = spnCategory.getSelectedItem() != null ? spnCategory.getSelectedItem().toString() : "";
             String priceStr = edtPrice.getText().toString().trim();
             String stockStr = edtStock.getText().toString().trim();
@@ -75,14 +83,14 @@ public class AddProductActivity extends AppCompatActivity {
             String sizes = edtSizes.getText().toString().trim();
             String desc = edtDescription.getText().toString().trim();
 
-            // Kiểm tra các trường bắt buộc (Tên, Danh mục, Giá, Số lượng)
+            // RÀO CẢN 1: Kiểm tra các trường bắt buộc (Tên, Danh mục, Giá, Số lượng) không được bỏ trống
             if (name.isEmpty() || category.isEmpty() || priceStr.isEmpty() || stockStr.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
-                return;
+                return; // Dừng lại, bắt nhập lại
             }
 
-            // GÁN GIÁ TRỊ MẶC ĐỊNH NẾU QUÊN NHẬP MÀU
-            // Tùy theo loại hàng hóa mà gán màu mặc định khác nhau cho hợp lý
+            // GÁN GIÁ TRỊ MẶC ĐỊNH NẾU QUÊN NHẬP MÀU SẮC
+            // (Nghiệp vụ thông minh: Tùy theo loại hàng hóa mà gán màu mặc định khác nhau cho hợp lý)
             if (color.isEmpty()) {
                 String catStr = category.toLowerCase();
                 if (catStr.contains("áo") || catStr.contains("quần")) color = "Đen,Trắng";

@@ -49,18 +49,24 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         holder.tvUserEmail.setText(user.getEmail());
         holder.tvUserRole.setText("Vai trò: " + user.getRole());
         
-        // Hide buttons for the currently logged in admin to prevent self-demotion/deletion
+        // =========================================================================
+        // THUẬT TOÁN BẢO VỆ ADMIN: Chống việc tự sát quyền (Tự xóa tài khoản chính mình)
+        // =========================================================================
+        // So sánh email của dòng hiện tại với email đang đăng nhập (currentUserEmail)
         if (user.getEmail().equals(currentUserEmail)) {
+            // Nếu là tài khoản đang đăng nhập -> Giấu luôn nút Xóa và nút Đổi quyền
             holder.btnDeleteUser.setVisibility(View.GONE);
             holder.btnToggleRole.setVisibility(View.GONE);
         } else {
+            // Nếu là tài khoản người khác -> Hiện bình thường
             holder.btnDeleteUser.setVisibility(View.VISIBLE);
             holder.btnToggleRole.setVisibility(View.VISIBLE);
             
+            // Xử lý nút Đổi quyền (Thăng chức / Giáng chức)
             if ("admin".equals(user.getRole())) {
-                holder.btnToggleRole.setText("⬇️"); // Demote
+                holder.btnToggleRole.setText("⬇️"); // Nếu đang là admin -> Nút có icon mũi tên xuống (Giáng chức thành User)
             } else {
-                holder.btnToggleRole.setText("⭐"); // Promote
+                holder.btnToggleRole.setText("⭐"); // Nếu đang là user -> Nút có icon ngôi sao (Thăng chức làm Admin)
             }
         }
 

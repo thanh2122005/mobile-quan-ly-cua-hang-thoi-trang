@@ -59,6 +59,10 @@ public class UserOrderDetailActivity extends AppCompatActivity {
         tvReceiverAddress.setText(order.getAddress());
         tvOrderTotal.setText(FormatUtils.formatPrice(order.getTotal()));
 
+        com.example.quanlycuahangthoitrang.utils.SessionManager sm = new com.example.quanlycuahangthoitrang.utils.SessionManager(this);
+        com.example.quanlycuahangthoitrang.model.User currentUser = dbHelper.getUserByEmail(sm.getEmail());
+        int userId = currentUser != null ? currentUser.getId() : -1;
+
         // Vòng lặp: Vẽ danh sách các mặt hàng trong đơn ra màn hình bằng Java code thay vì XML
         // Mục đích: Mỗi đơn hàng có số lượng mặt hàng khác nhau nên phải vẽ động
         for (OrderItem item : order.getItems()) {
@@ -114,6 +118,18 @@ public class UserOrderDetailActivity extends AppCompatActivity {
                 }
             }
 
+            if (order.getStatus().equals("Hoàn thành") && userId != -1) {
+                com.example.quanlycuahangthoitrang.model.Review existingReview = dbHelper.getReviewByUserAndProduct(userId, item.getProductId());
+                TextView btnRateItem = new TextView(this);
+                btnRateItem.setText(existingReview == null ? "⭐ Đánh giá sản phẩm" : "✏️ Sửa đánh giá");
+                btnRateItem.setTextColor(getResources().getColor(R.color.accent_orange));
+                btnRateItem.setTextSize(14);
+                btnRateItem.setPadding(0, 16, 0, 0);
+                btnRateItem.setTypeface(null, android.graphics.Typeface.BOLD);
+                btnRateItem.setOnClickListener(v -> showReviewDialog(item.getProductId(), existingReview));
+                row.addView(btnRateItem);
+            }
+
             llOrderItems.addView(row);
         }
 
@@ -149,110 +165,103 @@ public class UserOrderDetailActivity extends AppCompatActivity {
             // Giấu nút Hủy nếu đơn hàng đang giao hoặc đã hoàn thành
             btnCancelOrder.setVisibility(android.view.View.GONE);
         }
-
-        // Ánh xạ view từ XML sang Java
-        TextView btnRateOrder = findViewById(R.id.btnRateOrder);
-        if (order.getStatus().equals("Hoàn thành")) {
-            com.example.quanlycuahangthoitrang.utils.SessionManager sm = new com.example.quanlycuahangthoitrang.utils.SessionManager(this);
-            com.example.quanlycuahangthoitrang.model.User currentUser = dbHelper.getUserByEmail(sm.getEmail());
-            int userId = currentUser != null ? currentUser.getId() : -1;
-            com.example.quanlycuahangthoitrang.model.Review existingReview = null;
-            
-            if (!order.getItems().isEmpty() && userId != -1) {
-                existingReview = dbHelper.getReviewByUserAndProduct(userId, order.getItems().get(0).getProductId());
-            }
-
-            if (existingReview == null) {
-                btnRateOrder.setVisibility(android.view.View.VISIBLE);
-                btnRateOrder.setText("Đánh giá sản phẩm");
-                btnRateOrder.setOnClickListener(v -> {
-                    if (!order.getItems().isEmpty()) {
-                        showReviewDialog(order.getItems().get(0).getProductId(), null);
-                    }
-                });
-            } else {
-                btnRateOrder.setVisibility(android.view.View.VISIBLE);
-                btnRateOrder.setText("Sửa đánh giá");
-                com.example.quanlycuahangthoitrang.model.Review finalExistingReview = existingReview;
-                btnRateOrder.setOnClickListener(v -> {
-                    if (!order.getItems().isEmpty()) {
-                        showReviewDialog(order.getItems().get(0).getProductId(), finalExistingReview);
-                    }
-                });
-            }
-        } else {
-            btnRateOrder.setVisibility(android.view.View.GONE);
-        }
     }
 
+    // Hàm hiển thị Hộp thoại (Dialog) cho phép Khách hàng Đánh giá (Review) sản phẩm
+    // Tham số productId: ID của sản phẩm đang được đánh giá
+    // Tham số existingReview: Dữ liệu đánh giá cũ (nếu khách hàng chọn Sửa đánh giá)
     private void showReviewDialog(int productId, com.example.quanlycuahangthoitrang.model.Review existingReview) {
+        // Khởi tạo một Dialog (Hộp thoại nổi lơ lửng trên màn hình)
         android.app.Dialog dialog = new android.app.Dialog(this);
-        // Nạp giao diện từ file XML
+        
+        // Gắn giao diện XML (dialog_add_review.xml) vào hộp thoại này
         dialog.setContentView(R.layout.dialog_add_review);
+        
+        // Làm trong suốt nền của hộp thoại (để lộ các viền cong bo góc đẹp hơn)
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        
+        // Đặt kích thước chiều ngang tràn viền, chiều dọc tự động bóp lại vừa với nội dung
         dialog.getWindow().setLayout(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 
+        // Tìm thanh kéo thả số Sao (RatingBar) trong giao diện của Dialog
         android.widget.RatingBar rbReview = dialog.findViewById(R.id.ratingBar);
+        // Tìm ô nhập chữ (EditText) để viết Bình luận
         android.widget.EditText edtComment = dialog.findViewById(R.id.edtReviewComment);
+        // Tìm 2 nút Bấm: Hủy và Gửi
         TextView btnCancel = dialog.findViewById(R.id.btnCancelReview);
         TextView btnSubmit = dialog.findViewById(R.id.btnSubmitReview);
 
+        // Kiểm tra xem khách hàng đang Viết mới hay Sửa bài cũ
         if (existingReview != null) {
+            // Đổ số sao cũ ra thanh kéo
             rbReview.setRating(existingReview.getRating());
+            // Đổ lời bình luận cũ ra ô nhập chữ
             edtComment.setText(existingReview.getComment());
+            // Đổi tên nút thành "Cập nhật" thay vì "Gửi"
             btnSubmit.setText("Cập nhật");
         }
 
-        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        // Bắt sự kiện bấm nút Hủy
+        btnCancel.setOnClickListener(v -> dialog.dismiss()); // Tắt hộp thoại, không làm gì cả
+        
+        // Bắt sự kiện bấm nút Gửi/Cập nhật
         btnSubmit.setOnClickListener(v -> {
+            // Lấy số sao khách vừa chọn (Từ 1 tới 5)
             int rating = (int) rbReview.getRating();
+            // Lấy nội dung chữ khách vừa gõ và xóa khoảng trắng thừa ở 2 đầu
             String comment = edtComment.getText().toString().trim();
+            
+            // Bắt lỗi: Nếu khách chưa kéo sao nào thì báo lỗi
             if (rating == 0) {
-                // Hiện thông báo (Toast) cho người dùng
                 Toast.makeText(this, "Vui lòng chọn số sao đánh giá", Toast.LENGTH_SHORT).show();
                 return;
             }
+            // Bắt lỗi: Nếu khách để trống ô chữ thì báo lỗi
             if (comment.isEmpty()) {
-                // Hiện thông báo (Toast) cho người dùng
                 Toast.makeText(this, "Vui lòng nhập bình luận", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            // Gọi DatabaseHelper để chuẩn bị lưu vào CSDL
             DatabaseHelper db = new DatabaseHelper(this);
-            int userId = -1;
+            int userId = -1; // Biến tạm lưu ID khách hàng
+            
+            // Mở SessionManager để xem ai đang đăng nhập
             com.example.quanlycuahangthoitrang.utils.SessionManager sessionManager = new com.example.quanlycuahangthoitrang.utils.SessionManager(this);
             com.example.quanlycuahangthoitrang.model.User currentUser = db.getUserByEmail(sessionManager.getEmail());
             if (currentUser != null) {
+                // Lấy ID thật
                 userId = currentUser.getId();
             }
 
+            // Tạo chuỗi thời gian hiện tại để ghi nhớ lúc Đánh giá (VD: 30/06/2026 15:30)
             String createdAt = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date());
 
+            // Biến cờ kiểm tra xem quá trình lưu có thành công hay không
             boolean success;
             if (existingReview != null) {
+                // Nếu là Sửa -> Gọi hàm UPDATE trong bảng reviews
                 success = db.updateReview(existingReview.getId(), rating, comment, createdAt);
             } else {
+                // Nếu là Thêm mới -> Gọi hàm INSERT vào bảng reviews
                 success = db.addReview(userId, productId, rating, comment, createdAt);
             }
 
+            // Kiểm tra kết quả
             if (success) {
-                // Hiện thông báo (Toast) cho người dùng
                 Toast.makeText(this, existingReview != null ? "Cập nhật đánh giá thành công!" : "Đánh giá thành công!", Toast.LENGTH_SHORT).show();
-                // Ánh xạ view từ XML sang Java
-                TextView btnRateOrder = findViewById(R.id.btnRateOrder);
-                if (btnRateOrder != null) {
-                    btnRateOrder.setText("Sửa đánh giá");
-                    // Update the click listener to pass the new review
-                    com.example.quanlycuahangthoitrang.model.Review newRev = db.getReviewByUserAndProduct(userId, productId);
-                    btnRateOrder.setOnClickListener(v2 -> showReviewDialog(productId, newRev));
-                }
+                
+                // Tải lại toàn bộ màn hình để cập nhật nút đánh giá thành "Sửa đánh giá"
+                recreate();
+                
+                // Tắt hộp thoại sau khi thành công
                 dialog.dismiss();
             } else {
-                // Hiện thông báo (Toast) cho người dùng
                 Toast.makeText(this, "Lỗi khi đánh giá", Toast.LENGTH_SHORT).show();
             }
         });
 
+        // Lệnh cuối cùng: Hiện hộp thoại lên giữa màn hình
         dialog.show();
     }
 }

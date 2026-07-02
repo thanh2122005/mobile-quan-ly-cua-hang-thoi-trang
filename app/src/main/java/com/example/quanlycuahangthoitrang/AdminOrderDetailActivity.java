@@ -116,79 +116,106 @@ public class AdminOrderDetailActivity extends AppCompatActivity {
             }
         }
 
+        // Làm sạch danh sách trước khi vẽ để tránh bị chồng chéo dữ liệu cũ
         llOrderItems.removeAllViews();
+        
+        // Vòng lặp: Duyệt qua từng sản phẩm (OrderItem) có trong đơn hàng này
         for (OrderItem item : currentOrder.getItems()) {
+            // Tạo một khung chữ nhật nằm ngang (LinearLayout) để chứa 1 mặt hàng
             LinearLayout row = new LinearLayout(this);
             row.setOrientation(LinearLayout.HORIZONTAL);
-            row.setPadding(0, 0, 0, 32);
-            row.setGravity(android.view.Gravity.CENTER_VERTICAL);
+            row.setPadding(0, 0, 0, 32); // Thêm khoảng cách ở dưới đáy cho đỡ dính nhau
+            row.setGravity(android.view.Gravity.CENTER_VERTICAL); // Căn giữa theo chiều dọc
 
+            // Tạo một khung con để chứa toàn bộ chữ (Tên, Giá, Thuộc tính)
             LinearLayout textContainer = new LinearLayout(this);
-            textContainer.setOrientation(LinearLayout.VERTICAL);
+            textContainer.setOrientation(LinearLayout.VERTICAL); // Xếp chữ từ trên xuống dưới
             LinearLayout.LayoutParams textParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
             textParams.setMarginEnd(24);
             textContainer.setLayoutParams(textParams);
 
+            // Tạo một hàng ngang nhỏ để chứa Tên sản phẩm, Giá tiền, và nút Sửa
             LinearLayout topRow = new LinearLayout(this);
             topRow.setOrientation(LinearLayout.HORIZONTAL);
             topRow.setGravity(android.view.Gravity.CENTER_VERTICAL);
             
+            // Cài đặt hiển thị Tên sản phẩm (VD: "2x Áo len cổ tròn")
             TextView tvItemName = new TextView(this);
             tvItemName.setText(item.getQuantity() + "x " + item.getProductName());
-            tvItemName.setTextColor(getResources().getColor(R.color.text_primary));
+            tvItemName.setTextColor(getResources().getColor(R.color.text_primary)); // Tô màu đen
             tvItemName.setTextSize(15);
-            tvItemName.setTypeface(null, android.graphics.Typeface.BOLD);
+            tvItemName.setTypeface(null, android.graphics.Typeface.BOLD); // In đậm
             LinearLayout.LayoutParams nameParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
             nameParams.setMarginEnd(16);
             tvItemName.setLayoutParams(nameParams);
 
+            // Cài đặt hiển thị Giá tiền (VD: "299.000đ")
             TextView tvItemPrice = new TextView(this);
             tvItemPrice.setText(FormatUtils.formatPrice(item.getSubtotal()));
-            tvItemPrice.setTextColor(getResources().getColor(R.color.primary_purple));
+            tvItemPrice.setTextColor(getResources().getColor(R.color.primary_purple)); // Tô màu tím đặc trưng
             tvItemPrice.setTextSize(15);
-            tvItemPrice.setTypeface(null, android.graphics.Typeface.BOLD);
+            tvItemPrice.setTypeface(null, android.graphics.Typeface.BOLD); // In đậm
 
+            // Gắn Tên và Giá vào cái hàng ngang nhỏ
             topRow.addView(tvItemName);
             topRow.addView(tvItemPrice);
 
+            // NGHIỆP VỤ RIÊNG CỦA ADMIN:
+            // Chỉ khi đơn hàng đang ở trạng thái "Chờ xác nhận" thì Admin mới có quyền Sửa thông tin món hàng
+            // (Vì nếu đã giao đi rồi thì không thể sửa được nữa)
             if (currentOrder.getStatus().equals("Chờ xác nhận")) {
+                // Tạo một cái nút giả lập bằng TextView
                 TextView btnEditItem = new TextView(this);
                 btnEditItem.setText("Sửa");
                 btnEditItem.setTextColor(getResources().getColor(R.color.white));
-                btnEditItem.setBackgroundResource(R.drawable.bg_button_orange);
+                btnEditItem.setBackgroundResource(R.drawable.bg_button_orange); // Nền màu cam
                 btnEditItem.setPadding(24, 8, 24, 8);
                 btnEditItem.setTextSize(12);
                 btnEditItem.setTypeface(null, android.graphics.Typeface.BOLD);
                 LinearLayout.LayoutParams btnParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 btnParams.setMarginStart(24);
                 btnEditItem.setLayoutParams(btnParams);
+                
+                // Bắt sự kiện: Bấm vào nút thì mở hộp thoại Sửa mặt hàng
                 btnEditItem.setOnClickListener(v -> showEditItemDialog(item));
+                
+                // Gắn cái nút Sửa này vào hàng ngang nhỏ
                 topRow.addView(btnEditItem);
             }
 
+            // Gắn cái hàng ngang nhỏ (Gồm Tên + Giá + Sửa) vào khung con
             textContainer.addView(topRow);
 
+            // KIỂM TRA PHÂN LOẠI (MÀU SẮC, KÍCH CỠ)
+            // Nếu khách hàng có chọn Màu hoặc Size thì mới in ra
             if (item.getSelectedColor() != null || item.getSelectedSize() != null) {
                 TextView tvVariant = new TextView(this);
                 String variantText = "";
+                // Nếu có Màu thì nối chuỗi "Màu sắc: Xanh"
                 if (item.getSelectedColor() != null && !item.getSelectedColor().isEmpty()) {
                     variantText += "Màu sắc: " + item.getSelectedColor();
                 }
+                // Nếu có Size thì nối chuỗi "Kích cỡ: XL"
                 if (item.getSelectedSize() != null && !item.getSelectedSize().isEmpty()) {
+                    // Thêm dấu gạch đứng để ngăn cách nếu có cả Màu và Size
                     if (!variantText.isEmpty()) variantText += "   |   ";
                     variantText += "Kích cỡ: " + item.getSelectedSize();
                 }
+                
+                // Nếu chuỗi phân loại không rỗng thì gắn vào giao diện
                 if (!variantText.isEmpty()) {
                     tvVariant.setText(variantText);
-                    tvVariant.setTextColor(getResources().getColor(R.color.text_secondary));
+                    tvVariant.setTextColor(getResources().getColor(R.color.text_secondary)); // Chữ màu xám nhạt
                     tvVariant.setTextSize(13);
                     tvVariant.setPadding(0, 8, 0, 0);
                     textContainer.addView(tvVariant);
                 }
             }
 
+            // Gắn khung con vào khung chữ nhật tổng của 1 món hàng
             row.addView(textContainer);
 
+            // Cuối cùng: Gắn cái món hàng hoàn chỉnh này vào danh sách ngoài màn hình
             llOrderItems.addView(row);
         }
     }

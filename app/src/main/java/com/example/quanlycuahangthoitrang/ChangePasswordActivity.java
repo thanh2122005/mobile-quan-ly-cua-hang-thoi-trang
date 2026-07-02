@@ -32,37 +32,44 @@ public class ChangePasswordActivity extends AppCompatActivity {
         // Ánh xạ view từ XML sang Java
         EditText edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
 
+        // Bắt sự kiện bấm nút [CẬP NHẬT MẬT KHẨU]
         findViewById(R.id.btnUpdate).setOnClickListener(v -> {
+            // Lấy dữ liệu mật khẩu cũ và mới từ 3 ô nhập
             String current = edtCurrentPassword.getText().toString().trim();
             String newPass = edtNewPassword.getText().toString().trim();
             String confirm = edtConfirmPassword.getText().toString().trim();
 
+            // RÀO CẢN 1: Bắt buộc điền đủ 3 ô
             if (current.isEmpty() || newPass.isEmpty() || confirm.isEmpty()) {
-                // Hiện thông báo (Toast) cho người dùng
                 Toast.makeText(this, "Vui lòng nhập đầy đủ", Toast.LENGTH_SHORT).show();
-                return;
+                return; // Thoát ra ngay, không chạy tiếp
             }
 
+            // RÀO CẢN 2: Chống gõ nhầm mật khẩu mới
             if (!newPass.equals(confirm)) {
-                // Hiện thông báo (Toast) cho người dùng
                 Toast.makeText(this, "Mật khẩu mới không khớp", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            // RÀO CẢN 3: Quy tắc bảo mật mật khẩu
             if (newPass.length() < 6) {
-                // Hiện thông báo (Toast) cho người dùng
                 Toast.makeText(this, "Mật khẩu mới phải từ 6 ký tự", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            // Móc email của người dùng đang đăng nhập (Tài khoản hiện tại)
             String email = sessionManager.getEmail();
 
+            // GỌI HÀM CỦA DATABASE ĐỂ KIỂM TRA & ĐỔI MẬT KHẨU CÙNG LÚC
+            // Hàm dbHelper.changePassword sẽ làm 2 việc:
+            // 1. Kiểm tra xem mật khẩu "current" gõ vào có đúng với CSDL không.
+            // 2. Nếu đúng thì lưu đè "newPass" vào và trả về true.
             if (dbHelper.changePassword(email, current, newPass)) {
-                // Hiện thông báo (Toast) cho người dùng
                 Toast.makeText(this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                // Đổi thành công thì đóng màn hình lại
                 finish();
             } else {
-                // Hiện thông báo (Toast) cho người dùng
+                // Nếu trả về false nghĩa là khách gõ sai mật khẩu hiện tại
                 Toast.makeText(this, "Mật khẩu hiện tại không đúng hoặc lỗi cập nhật", Toast.LENGTH_SHORT).show();
             }
         });
