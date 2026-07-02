@@ -81,7 +81,6 @@ public class EditProductActivity extends AppCompatActivity {
         final int[] selectedImageResId = {product.getImageResId()};
         ivProductImage.setImageResource(selectedImageResId[0]);
 
-        Toast.makeText(this, "Mẹo: Nhấn giữ ô [Tồn kho] để quản lý kho chi tiết (Màu/Size)", Toast.LENGTH_LONG).show();
         edtStock.setOnLongClickListener(v -> {
             openVariantDialog();
             return true;
