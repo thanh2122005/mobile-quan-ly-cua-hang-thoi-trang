@@ -22,6 +22,7 @@ public class ProductDetailActivity extends AppCompatActivity {
     private DatabaseHelper dbHelper;
     private String selectedColor = "";
     private String selectedSize = "";
+    private int currentStockLimit = 0;
     private android.widget.LinearLayout llColors;
     private android.widget.LinearLayout llSizes;
     private SessionManager sessionManager;
@@ -113,7 +114,9 @@ public class ProductDetailActivity extends AppCompatActivity {
         // Ánh xạ view từ XML sang Java
         TextView btnBuyNow = findViewById(R.id.btnBuyNow);
 
-        if (currentProduct.getStock() <= 0) {
+        currentStockLimit = currentProduct.getStock();
+
+        if (currentStockLimit <= 0) {
             quantity = 0;
             tvQuantity.setText("0");
             btnAddToCart.setText("Sản phẩm hết hàng");
@@ -135,11 +138,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.btnPlus).setOnClickListener(v -> {
-            if (quantity < currentProduct.getStock()) {
+            if (quantity < currentStockLimit) {
                 quantity++;
                 tvQuantity.setText(String.valueOf(quantity));
             } else {
-                // Hiện thông báo (Toast) cho người dùng
                 Toast.makeText(this, "Đã đạt số lượng tồn kho tối đa", Toast.LENGTH_SHORT).show();
             }
         });
@@ -148,7 +150,10 @@ public class ProductDetailActivity extends AppCompatActivity {
         // XỬ LÝ NÚT [THÊM VÀO GIỎ HÀNG]
         // ----------------------------------------------------
         btnAddToCart.setOnClickListener(v -> {
-            if (currentProduct.getStock() <= 0) return; // Hết hàng thì chặn luôn
+            if (currentStockLimit <= 0) {
+                Toast.makeText(this, "Phân loại này đã hết hàng", Toast.LENGTH_SHORT).show();
+                return;
+            }
             
             // Lấy ID người dùng đang đăng nhập
             int userId = getCurrentUserId();
@@ -184,7 +189,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
 
         btnBuyNow.setOnClickListener(v -> {
-            if (currentProduct.getStock() <= 0) return;
+            if (currentStockLimit <= 0) return;
             int userId = getCurrentUserId();
             if (userId <= 0) {
                 // Hiện thông báo (Toast) cho người dùng
@@ -278,6 +283,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             tv.setOnClickListener(v -> {
                 selectedColor = c;
                 updateChips(llColors, tv);
+                updateVariantStockUI();
             });
             llColors.addView(tv);
         }
@@ -293,6 +299,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             tv.setOnClickListener(v -> {
                 selectedSize = s;
                 updateChips(llSizes, tv);
+                updateVariantStockUI();
             });
             llSizes.addView(tv);
         }
@@ -375,6 +382,36 @@ public class ProductDetailActivity extends AppCompatActivity {
                 }
             } else {
                 tvCartBadge.setVisibility(android.view.View.GONE);
+            }
+        }
+    }
+
+    // Cập nhật giao diện tồn kho khi khách chọn màu/size
+    private void updateVariantStockUI() {
+        if (!selectedColor.isEmpty() && !selectedSize.isEmpty()) {
+            int variantStock = dbHelper.getVariantStock(currentProduct.getId(), selectedColor, selectedSize);
+            currentStockLimit = variantStock;
+            
+            TextView btnAddToCart = findViewById(R.id.btnAddToCart);
+            TextView btnBuyNow = findViewById(R.id.btnBuyNow);
+            
+            if (currentStockLimit <= 0) {
+                btnAddToCart.setText("Hết hàng (Màu/Size này)");
+                btnBuyNow.setText("Hết hàng");
+                btnAddToCart.setEnabled(false);
+                btnBuyNow.setEnabled(false);
+                quantity = 0;
+                tvQuantity.setText("0");
+            } else {
+                btnAddToCart.setText("Thêm vào giỏ hàng");
+                btnBuyNow.setText("Mua ngay");
+                btnAddToCart.setEnabled(true);
+                btnBuyNow.setEnabled(true);
+                if (quantity > currentStockLimit) {
+                    quantity = currentStockLimit;
+                }
+                if (quantity <= 0) quantity = 1;
+                tvQuantity.setText(String.valueOf(quantity));
             }
         }
     }

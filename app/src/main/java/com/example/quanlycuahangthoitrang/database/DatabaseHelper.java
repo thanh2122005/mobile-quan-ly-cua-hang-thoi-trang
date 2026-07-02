@@ -47,6 +47,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        // Tự động tạo bảng product_variants để quản lý tồn kho theo màu/size (Không cần tăng DB_VERSION)
+        db.execSQL("CREATE TABLE IF NOT EXISTS product_variants (id INTEGER PRIMARY KEY AUTOINCREMENT, product_id INTEGER, color TEXT, size TEXT, stock INTEGER)");
+    }
+
+    @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("DatabaseHelper", "Bắt đầu tạo database...");
 
@@ -384,9 +391,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    private boolean hasSufficientStock(SQLiteDatabase db, Map<Integer, Integer> requiredQuantities) {
-        for (Map.Entry<Integer, Integer> entry : requiredQuantities.entrySet()) {
-            if (getProductStock(db, entry.getKey()) < entry.getValue()) {
+    // Lấy tồn kho theo màu/size cụ thể (nếu không có bản ghi thì lấy tồn kho tổng)
+    public int getVariantStock(int productId, String color, String size) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int stock = -1;
+        String query = "SELECT stock FROM product_variants WHERE product_id = ? AND color = ? AND size = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(productId), normalizeOption(color), normalizeOption(size)});
+        if (cursor != null && cursor.moveToFirst()) {
+            stock = cursor.getInt(0);
+        }
+        if (cursor != null) cursor.close();
+        
+        if (stock == -1) {
+            return getProductStock(db, productId); // Rơi về tồn kho tổng nếu chưa cấu hình biến thể
+        }
+        return stock;
+    }
+
+    // Cập nhật tồn kho theo màu/size
+    public void updateVariantStock(int productId, String color, String size, int newStock) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("product_id", productId);
+        cv.put("color", normalizeOption(color));
+        cv.put("size", normalizeOption(size));
+        cv.put("stock", newStock);
+        
+        int rows = db.update("product_variants", cv, "product_id = ? AND color = ? AND size = ?", new String[]{String.valueOf(productId), normalizeOption(color), normalizeOption(size)});
+        if (rows == 0) {
+            db.insert("product_variants", null, cv);
+        }
+    }
+
+    // Đã thay đổi logic hasSufficientStock thành check theo biến thể
+    private boolean hasSufficientStock(SQLiteDatabase db, java.util.List<CartItem> items) {
+        // Cộng dồn yêu cầu theo Key: (productId_color_size)
+        java.util.Map<String, Integer> requiredMap = new java.util.HashMap<>();
+        for (CartItem item : items) {
+            String key = item.getProduct().getId() + "_" + normalizeOption(item.getSelectedColor()) + "_" + normalizeOption(item.getSelectedSize());
+            requiredMap.put(key, requiredMap.getOrDefault(key, 0) + item.getQuantity());
+        }
+
+        for (CartItem item : items) {
+            String key = item.getProduct().getId() + "_" + normalizeOption(item.getSelectedColor()) + "_" + normalizeOption(item.getSelectedSize());
+            int required = requiredMap.get(key);
+            int available = getVariantStock(item.getProduct().getId(), item.getSelectedColor(), item.getSelectedSize());
+            if (available < required) {
                 return false;
             }
         }
@@ -1111,12 +1161,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = null;
         try {
-            // Bước 1: Kiểm tra xem sản phẩm đó trong kho còn hàng không
-            int currentStock = getProductStock(db, productId);
+            // Bước 1: Kiểm tra xem sản phẩm đó trong kho còn hàng không (Theo biến thể)
+            int currentStock = getVariantStock(productId, selectedColor, selectedSize);
             if (currentStock < 0) return false;
             
             // Bước 2: Kiểm tra xem số lượng trong Giỏ + Số lượng thêm mới có vượt Tồn kho không
-            if (getCartQuantityForProduct(db, userId, productId, null, null) + quantity > currentStock) {
+            int currentCartQty = 0;
+            Cursor cartCursor = db.rawQuery("SELECT quantity FROM cart_items WHERE userId=? AND productId=? AND selectedColor=? AND selectedSize=?", new String[]{String.valueOf(userId), String.valueOf(productId), normalizeOption(selectedColor), normalizeOption(selectedSize)});
+            if (cartCursor != null && cartCursor.moveToFirst()) {
+                currentCartQty = cartCursor.getInt(0);
+            }
+            if (cartCursor != null) cartCursor.close();
+
+            if (currentCartQty + quantity > currentStock) {
                 return false; // Vượt quá số lượng trong kho -> Thất bại
             }
 
@@ -1223,9 +1280,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         SQLiteDatabase db = this.getWritableDatabase();
-        int currentStock = getProductStock(db, productId);
-        if (currentStock < 0) return false;
-        if (getCartQuantityForProduct(db, userId, productId, selectedColor, selectedSize) + quantity > currentStock) {
+        int currentVariantStock = getVariantStock(productId, selectedColor, selectedSize);
+        if (currentVariantStock < 0) return false;
+        
+        // Không gọi getCartQuantityForProduct(db, userId, productId, selectedColor, selectedSize) cộng thêm quantity 
+        // vì quantity TRUYỀN VÀO LÀ SỐ LƯỢNG MỚI (không phải cộng dồn).
+        // Phải đảm bảo số lượng mới không vượt quá currentVariantStock
+        if (quantity > currentVariantStock) {
             return false;
         }
 
@@ -1290,10 +1351,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Tất cả các lệnh INSERT, UPDATE, DELETE bên trong khối này sẽ được gom thành 1 gói duy nhất.
         db.beginTransaction();
         try {
-            // Bước 1: Tính toán tổng số lượng từng sản phẩm để kiểm tra tồn kho
-            // Phải gộp lại vì 1 sản phẩm có thể phân ra làm 2 dòng (Áo đỏ size L, Áo đỏ size XL)
-            Map<Integer, Integer> requiredQuantities = aggregateCartQuantities(selectedItems);
-            if (!hasSufficientStock(db, requiredQuantities)) {
+            // Bước 1: Kiểm tra tồn kho theo từng biến thể (Màu/Size)
+            if (!hasSufficientStock(db, selectedItems)) {
                 return -1; // Kho không đủ hàng -> Trả về lỗi, Rollback toàn bộ
             }
 
@@ -1353,11 +1412,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 db.insert("order_details", null, cvDetail);
             }
 
-            // Bước 6: TRỪ SỐ LƯỢNG TỒN KHO THỰC TẾ TRONG BẢNG PRODUCTS
-            for (Map.Entry<Integer, Integer> entry : requiredQuantities.entrySet()) {
-                // Gọi hàm adjustProductStock với delta là số âm (-entry.getValue())
-                if (!adjustProductStock(db, entry.getKey(), -entry.getValue())) {
+            // Bước 6: TRỪ SỐ LƯỢNG TỒN KHO THỰC TẾ TRONG BẢNG PRODUCTS VÀ PRODUCT_VARIANTS
+            for (CartItem item : selectedItems) {
+                // Trừ kho tổng (Luôn trừ kho tổng để backward compatible)
+                if (!adjustProductStock(db, item.getProduct().getId(), -item.getQuantity())) {
                     return -1; // Lỗi kho lúc trừ -> Rollback toàn bộ các lệnh từ nãy giờ
+                }
+                
+                // Kiểm tra và trừ kho biến thể (Nếu có tồn kho chi tiết)
+                int variantStock = getVariantStock(item.getProduct().getId(), item.getSelectedColor(), item.getSelectedSize());
+                if (variantStock >= item.getQuantity()) {
+                    updateVariantStock(item.getProduct().getId(), item.getSelectedColor(), item.getSelectedSize(), variantStock - item.getQuantity());
                 }
             }
 
@@ -1576,19 +1641,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // KỊCH BẢN ĐẶC BIỆT: HỦY ĐƠN HÀNG
             if (ORDER_STATUS_CANCELLED.equals(newStatus)) {
                 
-                // 1. Gộp số lượng các sản phẩm trùng nhau trong cùng đơn hàng
-                Map<Integer, Integer> restockQuantities = new HashMap<>();
+                // 1. Hoàn trả lại số lượng vào Tồn kho (Stock) của từng sản phẩm VÀ biến thể
                 for (OrderItem item : order.getItems()) {
-                    restockQuantities.put(
-                            item.getProductId(),
-                            restockQuantities.getOrDefault(item.getProductId(), 0) + item.getQuantity()
-                    );
-                }
-
-                // 2. Vòng lặp: Hoàn trả lại số lượng vào Tồn kho (Stock) của từng sản phẩm
-                for (Map.Entry<Integer, Integer> entry : restockQuantities.entrySet()) {
-                    if (!adjustProductStock(db, entry.getKey(), entry.getValue())) {
+                    // Hoàn lại kho tổng
+                    if (!adjustProductStock(db, item.getProductId(), item.getQuantity())) {
                         return false; // Nếu lỗi DB, Transaction sẽ lập tức tự động Rollback
+                    }
+                    
+                    // Hoàn lại kho biến thể (nếu có cấu hình kho chi tiết)
+                    int variantStock = getVariantStock(item.getProductId(), item.getSelectedColor(), item.getSelectedSize());
+                    if (variantStock != -1) {
+                        updateVariantStock(item.getProductId(), item.getSelectedColor(), item.getSelectedSize(), variantStock + item.getQuantity());
                     }
                 }
                 

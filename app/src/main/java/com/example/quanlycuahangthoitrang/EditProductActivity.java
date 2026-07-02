@@ -81,6 +81,12 @@ public class EditProductActivity extends AppCompatActivity {
         final int[] selectedImageResId = {product.getImageResId()};
         ivProductImage.setImageResource(selectedImageResId[0]);
 
+        Toast.makeText(this, "Mẹo: Nhấn giữ ô [Tồn kho] để quản lý kho chi tiết (Màu/Size)", Toast.LENGTH_LONG).show();
+        edtStock.setOnLongClickListener(v -> {
+            openVariantDialog();
+            return true;
+        });
+
                 findViewById(R.id.btnChooseImage).setOnClickListener(v -> {
             android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(android.content.Intent.CATEGORY_OPENABLE);
@@ -234,5 +240,73 @@ public class EditProductActivity extends AppCompatActivity {
             e.printStackTrace();
             return null; // Báo lỗi nếu copy thất bại
         }
+    }
+
+    private void openVariantDialog() {
+        String colorsStr = ((android.widget.EditText) findViewById(R.id.edtColor)).getText().toString().trim();
+        String sizesStr = ((android.widget.EditText) findViewById(R.id.edtSizes)).getText().toString().trim();
+        
+        if (colorsStr.isEmpty() || sizesStr.isEmpty()) {
+            Toast.makeText(this, "Vui lòng nhập Màu sắc và Kích cỡ trước!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String[] colors = colorsStr.split(",");
+        String[] sizes = sizesStr.split(",");
+        
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("Quản lý tồn kho theo Phân loại");
+
+        android.widget.ScrollView scrollView = new android.widget.ScrollView(this);
+        android.widget.LinearLayout layout = new android.widget.LinearLayout(this);
+        layout.setOrientation(android.widget.LinearLayout.VERTICAL);
+        layout.setPadding(50, 32, 50, 32);
+
+        java.util.List<android.widget.EditText> inputs = new java.util.ArrayList<>();
+        java.util.List<String[]> combos = new java.util.ArrayList<>();
+
+        for (String c : colors) {
+            String color = c.trim();
+            if (color.isEmpty()) continue;
+            for (String s : sizes) {
+                String size = s.trim();
+                if (size.isEmpty()) continue;
+
+                android.widget.TextView tv = new android.widget.TextView(this);
+                tv.setText("Màu: " + color + " - Size: " + size);
+                tv.setTypeface(null, android.graphics.Typeface.BOLD);
+                tv.setPadding(0, 20, 0, 5);
+                layout.addView(tv);
+
+                android.widget.EditText edt = new android.widget.EditText(this);
+                edt.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
+                int existingStock = dbHelper.getVariantStock(product.getId(), color, size);
+                edt.setText(String.valueOf(existingStock == -1 ? 0 : existingStock));
+                layout.addView(edt);
+                
+                inputs.add(edt);
+                combos.add(new String[]{color, size});
+            }
+        }
+
+        scrollView.addView(layout);
+        builder.setView(scrollView);
+
+        builder.setPositiveButton("Lưu", (dialog, which) -> {
+            int totalVariantStock = 0;
+            for (int i = 0; i < inputs.size(); i++) {
+                String val = inputs.get(i).getText().toString();
+                int stock = val.isEmpty() ? 0 : Integer.parseInt(val);
+                totalVariantStock += stock;
+                String[] combo = combos.get(i);
+                dbHelper.updateVariantStock(product.getId(), combo[0], combo[1], stock);
+            }
+            
+            // Cập nhật lại kho tổng hiển thị trên UI
+            ((android.widget.EditText) findViewById(R.id.edtStock)).setText(String.valueOf(totalVariantStock));
+            Toast.makeText(this, "Đã lưu tồn kho chi tiết!", Toast.LENGTH_SHORT).show();
+        });
+        builder.setNegativeButton("Hủy", null);
+        builder.show();
     }
 }
