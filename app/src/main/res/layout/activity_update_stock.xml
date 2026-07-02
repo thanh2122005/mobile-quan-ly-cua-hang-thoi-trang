@@ -30,7 +30,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="24dp">
 
@@ -50,11 +50,24 @@
             android:id="@+id/edtNewStock"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/bg_input"
-            android:hint="Nhập số lượng mới..."
+            android:hint="Nhập số lượng tổng..."
             android:inputType="number"
             android:paddingHorizontal="16dp" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="12dp">
+            <LinearLayout
+                android:id="@+id/llVariantContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" />
+        </ScrollView>
 
         <TextView
             android:id="@+id/btnUpdate"
