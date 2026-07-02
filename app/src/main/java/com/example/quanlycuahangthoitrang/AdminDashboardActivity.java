@@ -76,8 +76,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
         int totalRevenue = dbHelper.getUserOrderRevenue();
         
         // BƯỚC 3: KIỂM TRA SẢN PHẨM SẮP HẾT HÀNG
-        // Tham số '5' nghĩa là: Lấy danh sách các sản phẩm có số lượng Tồn kho <= 5
-        int lowStock = dbHelper.getLowStockProducts(5).size();
+        // Tham số '3' nghĩa là: Lấy danh sách các sản phẩm có số lượng Tồn kho <= 3 (Đồng bộ với LowStockActivity)
+        int lowStock = dbHelper.getLowStockProducts(3).size();
 
         // Gắn số liệu vừa tính được lên màn hình giao diện
         if (tvStatProducts != null) tvStatProducts.setText(String.valueOf(totalProducts));
