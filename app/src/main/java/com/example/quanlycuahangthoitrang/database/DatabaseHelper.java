@@ -393,7 +393,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Lấy tồn kho theo màu/size cụ thể (nếu không có bản ghi thì lấy tồn kho tổng)
     public int getVariantStock(int productId, String color, String size) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        return getVariantStock(this.getReadableDatabase(), productId, color, size);
+    }
+
+    public int getVariantStock(SQLiteDatabase db, int productId, String color, String size) {
         int stock = -1;
         String query = "SELECT stock FROM product_variants WHERE product_id = ? AND color = ? AND size = ?";
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(productId), normalizeOption(color), normalizeOption(size)});
@@ -410,7 +413,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Cập nhật tồn kho theo màu/size
     public void updateVariantStock(int productId, String color, String size, int newStock) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        updateVariantStock(this.getWritableDatabase(), productId, color, size, newStock);
+    }
+
+    public void updateVariantStock(SQLiteDatabase db, int productId, String color, String size, int newStock) {
         ContentValues cv = new ContentValues();
         cv.put("product_id", productId);
         cv.put("color", normalizeOption(color));
@@ -1649,9 +1655,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     }
                     
                     // Hoàn lại kho biến thể (nếu có cấu hình kho chi tiết)
-                    int variantStock = getVariantStock(item.getProductId(), item.getSelectedColor(), item.getSelectedSize());
+                    int variantStock = getVariantStock(db, item.getProductId(), item.getSelectedColor(), item.getSelectedSize());
                     if (variantStock != -1) {
-                        updateVariantStock(item.getProductId(), item.getSelectedColor(), item.getSelectedSize(), variantStock + item.getQuantity());
+                        updateVariantStock(db, item.getProductId(), item.getSelectedColor(), item.getSelectedSize(), variantStock + item.getQuantity());
                     }
                 }
                 
