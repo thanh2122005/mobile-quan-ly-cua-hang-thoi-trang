@@ -48,6 +48,15 @@ public class UserManagementActivity extends AppCompatActivity {
         // Tải toàn bộ danh sách User từ Database lên
         allUsers = dbHelper.getAllUsers();
         
+        // --- TẠO DỮ LIỆU ẢO NẾU DANH SÁCH QUÁ ÍT NGƯỜI DÙNG ---
+        if (allUsers.size() <= 2) {
+            android.database.sqlite.SQLiteDatabase db = dbHelper.getWritableDatabase();
+            db.execSQL("INSERT OR IGNORE INTO users (name, email, password, phone, address, role) VALUES ('Trần Văn Hoàng', 'hoang.tran@gmail.com', '123456', '0912345678', 'Đà Nẵng', 'user')");
+            db.execSQL("INSERT OR IGNORE INTO users (name, email, password, phone, address, role) VALUES ('Nguyễn Thị Lan', 'lan.nguyen@gmail.com', '123456', '0988112233', 'Hồ Chí Minh', 'user')");
+            db.execSQL("INSERT OR IGNORE INTO users (name, email, password, phone, address, role) VALUES ('Lê Hoàng Tuấn', 'user1@gmail.com', '123456', '0909556677', 'Cần Thơ', 'user')");
+            allUsers = dbHelper.getAllUsers(); // Tải lại danh sách sau khi thêm
+        }
+        
         // Khởi tạo Adapter
         // Truyền kèm SessionManager.getEmail() để phân biệt được đâu là "Tài khoản của chính tôi" (Tránh việc Admin tự xóa chính mình)
         adapter = new UserAdapter(allUsers, sessionManager.getEmail(), new UserAdapter.OnUserInteractionListener() {
